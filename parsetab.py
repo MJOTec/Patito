@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'DIVIDE LPAREN MINUS NUMBER PLUS RPAREN TIMESexpression : expression PLUS term\n| expression MINUS termexpression : termterm : term TIMES factor\n| term DIVIDE factorterm : factorfactor : NUMBERfactor : LPAREN expression RPAREN'
+_lr_signature = 'rightUMINUSUPLUSleftMINUSPLUSleftTIMESDIVIDEnonassocGTLTNEQEQASSIGN COLON COMMA CTE_FLOAT CTE_INT CTE_STRING DIVIDE DO ELSE END EQ FLOAT GT ID IF INT LBRACE LBRACKET LPAREN LT MAIN MINUS NEQ PLUS PRINT PROGRAM RBRACE RBRACKET RPAREN SEMI TIMES VAR VOID WHILEprograma : PROGRAM ID SEMI var_or_not funcs_or_not MAIN body ENDvar_or_not : vars\n| emptyvars : VAR dec_vardec_var : list_id COLON type SEMI dec_var_optdec_var_opt : dec_var\n| emptylist_id : ID list_id_optlist_id_opt : COMMA list_id\n| emptytype : INT\n| FLOATfuncs : void_or_type ID LPAREN ids RPAREN LBRACE vars_or_not body RBRACE SEMIvoid_or_type : VOID\n| type\nfuncs_or_not : funcs funcs_or_not\n| emptyids : ID COLON type ids_loop\n| emptyids_loop : COMMA ids\n| emptyvars_or_not : vars\n| emptybody : LBRACE statement_loop RBRACEstatement_loop : statement statement_loop\n| emptystatement : assign\n| condition\n| cycle\n| llamada COMMA\n| print\n| LBRACKET statement_loop RBRACKET\nassign : ID ASSIGN expresion SEMIexpresion : exp relations_or_notrelations_or_not : GT exp\n| LT exp\n| NEQ exp\n| EQ exp\n| emptyexp : term more_termsmore_terms : PLUS exp\n| MINUS exp\n| emptyterm : factor more_factorsmore_factors : TIMES term\n| DIVIDE term\n| emptyfactor_type : LPAREN expresion RPAREN\n| PLUS id_or_cte %prec UPLUS\n| MINUS id_or_cte %prec UMINUS\n| id_or_cte\n| llamadafactor : factor_type\n    id_or_cte : ID\n| ctellamada : ID LPAREN expresion_or_not RPARENexpresion_or_not : expresion expresion_loop\n| empty\nexpresion_loop : COMMA expresion expresion_loop\n| empty\ncte : CTE_INT\n| CTE_FLOATcondition : IF LPAREN expresion RPAREN body else_or_not SEMIelse_or_not : ELSE body\n| emptycycle : WHILE LPAREN expresion RPAREN DO body SEMIprint : PRINT LPAREN expresion_or_string RPAREN SEMIexpresion_or_string : expresion list_objs\n| CTE_STRING list_objslist_objs : COMMA expresion_or_string\n| emptyempty :'
     
-_lr_action_items = {'NUMBER':([0,5,6,7,8,9,],[4,4,4,4,4,4,]),'LPAREN':([0,5,6,7,8,9,],[5,5,5,5,5,5,]),'$end':([1,2,3,4,11,12,13,14,15,],[0,-3,-6,-7,-1,-2,-4,-5,-8,]),'PLUS':([1,2,3,4,10,11,12,13,14,15,],[6,-3,-6,-7,6,-1,-2,-4,-5,-8,]),'MINUS':([1,2,3,4,10,11,12,13,14,15,],[7,-3,-6,-7,7,-1,-2,-4,-5,-8,]),'RPAREN':([2,3,4,10,11,12,13,14,15,],[-3,-6,-7,15,-1,-2,-4,-5,-8,]),'TIMES':([2,3,4,11,12,13,14,15,],[8,-6,-7,8,8,-4,-5,-8,]),'DIVIDE':([2,3,4,11,12,13,14,15,],[9,-6,-7,9,9,-4,-5,-8,]),}
+_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,32,],[0,-1,]),'ID':([2,8,12,13,14,15,16,25,28,29,34,36,37,38,40,41,49,52,54,55,56,57,58,64,71,72,74,89,91,92,93,94,97,98,101,102,110,116,120,137,147,149,],[3,19,22,-14,-15,-11,-12,19,42,46,42,-27,-28,-29,-31,42,19,-30,65,65,65,65,65,-32,65,106,106,-33,65,65,65,65,65,65,65,65,65,65,46,-67,-63,-66,]),'SEMI':([3,15,16,30,50,65,66,67,68,69,70,73,75,76,77,78,90,95,96,99,100,103,105,106,107,108,114,125,126,127,128,129,130,131,132,133,135,142,144,145,146,148,],[4,-11,-12,49,-24,-54,89,-72,-72,-72,-53,-51,-52,-55,-61,-62,-34,-39,-40,-43,-44,-47,-49,-54,-50,-56,137,-35,-36,-37,-38,-41,-42,-45,-46,-48,-72,147,-65,149,150,-64,]),'VAR':([4,88,],[8,8,]),'VOID':([4,5,6,7,10,17,49,61,62,63,150,],[-72,13,-2,-3,13,-4,-72,-5,-6,-7,-13,]),'INT':([4,5,6,7,10,17,23,49,59,61,62,63,150,],[-72,15,-2,-3,15,-4,15,-72,15,-5,-6,-7,-13,]),'FLOAT':([4,5,6,7,10,17,23,49,59,61,62,63,150,],[-72,16,-2,-3,16,-4,16,-72,16,-5,-6,-7,-13,]),'MAIN':([4,5,6,7,9,10,11,17,21,49,61,62,63,150,],[-72,-72,-2,-3,20,-72,-17,-4,-16,-72,-5,-6,-7,-13,]),'COMMA':([15,16,19,39,65,67,68,69,70,73,75,76,77,78,80,85,86,87,90,95,96,99,100,103,105,106,107,108,125,126,127,128,129,130,131,132,133,134,],[-11,-12,25,52,-54,-72,-72,-72,-53,-51,-52,-55,-61,-62,110,116,116,120,-34,-39,-40,-43,-44,-47,-49,-54,-50,-56,-35,-36,-37,-38,-41,-42,-45,-46,-48,110,]),'RPAREN':([15,16,29,47,48,55,65,67,68,69,70,73,75,76,77,78,79,80,81,82,83,84,85,86,87,90,95,96,99,100,103,104,105,106,107,108,109,111,115,117,118,119,120,121,125,126,127,128,129,130,131,132,133,134,138,139,141,],[-11,-12,-72,60,-19,-72,-54,-72,-72,-72,-53,-51,-52,-55,-61,-62,108,-72,-58,112,113,114,-72,-72,-72,-34,-39,-40,-43,-44,-47,133,-49,-54,-50,-56,-57,-60,-68,-71,-69,-18,-72,-21,-35,-36,-37,-38,-41,-42,-45,-46,-48,-72,-70,-20,-59,]),'LBRACE':([17,20,49,60,61,62,63,88,112,122,123,124,136,143,],[-4,28,-72,88,-5,-6,-7,-72,28,28,-22,-23,28,28,]),'COLON':([18,19,24,26,31,46,],[23,-72,-8,-10,-9,59,]),'LPAREN':([22,42,43,44,45,54,55,56,57,58,65,71,91,92,93,94,97,98,101,102,110,116,],[29,55,56,57,58,71,71,71,71,71,55,71,71,71,71,71,71,71,71,71,71,71,]),'END':([27,50,],[32,-24,]),'LBRACKET':([28,34,36,37,38,40,41,52,64,89,137,147,149,],[41,41,-27,-28,-29,-31,41,-30,-32,-33,-67,-63,-66,]),'RBRACE':([28,33,34,35,36,37,38,40,50,51,52,64,89,137,140,147,149,],[-72,50,-72,-26,-27,-28,-29,-31,-24,-25,-30,-32,-33,-67,146,-63,-66,]),'IF':([28,34,36,37,38,40,41,52,64,89,137,147,149,],[43,43,-27,-28,-29,-31,43,-30,-32,-33,-67,-63,-66,]),'WHILE':([28,34,36,37,38,40,41,52,64,89,137,147,149,],[44,44,-27,-28,-29,-31,44,-30,-32,-33,-67,-63,-66,]),'PRINT':([28,34,36,37,38,40,41,52,64,89,137,147,149,],[45,45,-27,-28,-29,-31,45,-30,-32,-33,-67,-63,-66,]),'RBRACKET':([34,35,36,37,38,40,41,51,52,53,64,89,137,147,149,],[-72,-26,-27,-28,-29,-31,-72,-25,-30,64,-32,-33,-67,-63,-66,]),'ASSIGN':([42,],[54,]),'ELSE':([50,135,],[-24,143,]),'PLUS':([54,55,56,57,58,65,68,69,70,71,73,75,76,77,78,91,92,93,94,97,98,100,101,102,103,105,106,107,108,110,116,131,132,133,],[72,72,72,72,72,-54,97,-72,-53,72,-51,-52,-55,-61,-62,72,72,72,72,72,72,-44,72,72,-47,-49,-54,-50,-56,72,72,-45,-46,-48,]),'MINUS':([54,55,56,57,58,65,68,69,70,71,73,75,76,77,78,91,92,93,94,97,98,100,101,102,103,105,106,107,108,110,116,131,132,133,],[74,74,74,74,74,-54,98,-72,-53,74,-51,-52,-55,-61,-62,74,74,74,74,74,74,-44,74,74,-47,-49,-54,-50,-56,74,74,-45,-46,-48,]),'CTE_INT':([54,55,56,57,58,71,72,74,91,92,93,94,97,98,101,102,110,116,],[77,77,77,77,77,77,77,77,77,77,77,77,77,77,77,77,77,77,]),'CTE_FLOAT':([54,55,56,57,58,71,72,74,91,92,93,94,97,98,101,102,110,116,],[78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,]),'CTE_STRING':([58,116,],[86,86,]),'TIMES':([65,69,70,73,75,76,77,78,105,106,107,108,133,],[-54,101,-53,-51,-52,-55,-61,-62,-49,-54,-50,-56,-48,]),'DIVIDE':([65,69,70,73,75,76,77,78,105,106,107,108,133,],[-54,102,-53,-51,-52,-55,-61,-62,-49,-54,-50,-56,-48,]),'GT':([65,67,68,69,70,73,75,76,77,78,96,99,100,103,105,106,107,108,129,130,131,132,133,],[-54,91,-72,-72,-53,-51,-52,-55,-61,-62,-40,-43,-44,-47,-49,-54,-50,-56,-41,-42,-45,-46,-48,]),'LT':([65,67,68,69,70,73,75,76,77,78,96,99,100,103,105,106,107,108,129,130,131,132,133,],[-54,92,-72,-72,-53,-51,-52,-55,-61,-62,-40,-43,-44,-47,-49,-54,-50,-56,-41,-42,-45,-46,-48,]),'NEQ':([65,67,68,69,70,73,75,76,77,78,96,99,100,103,105,106,107,108,129,130,131,132,133,],[-54,93,-72,-72,-53,-51,-52,-55,-61,-62,-40,-43,-44,-47,-49,-54,-50,-56,-41,-42,-45,-46,-48,]),'EQ':([65,67,68,69,70,73,75,76,77,78,96,99,100,103,105,106,107,108,129,130,131,132,133,],[-54,94,-72,-72,-53,-51,-52,-55,-61,-62,-40,-43,-44,-47,-49,-54,-50,-56,-41,-42,-45,-46,-48,]),'DO':([113,],[136,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'expression':([0,5,],[1,10,]),'term':([0,5,6,7,],[2,2,11,12,]),'factor':([0,5,6,7,8,9,],[3,3,3,3,13,14,]),}
+_lr_goto_items = {'programa':([0,],[1,]),'var_or_not':([4,],[5,]),'vars':([4,88,],[6,123,]),'empty':([4,5,10,19,28,29,34,41,49,55,67,68,69,80,85,86,87,88,120,134,135,],[7,11,11,26,35,48,35,35,63,81,95,99,103,111,117,117,121,124,48,111,144,]),'funcs_or_not':([5,10,],[9,21,]),'funcs':([5,10,],[10,10,]),'void_or_type':([5,10,],[12,12,]),'type':([5,10,23,59,],[14,14,30,87,]),'dec_var':([8,49,],[17,62,]),'list_id':([8,25,49,],[18,31,18,]),'list_id_opt':([19,],[24,]),'body':([20,112,122,136,143,],[27,135,140,145,148,]),'statement_loop':([28,34,41,],[33,51,53,]),'statement':([28,34,41,],[34,34,34,]),'assign':([28,34,41,],[36,36,36,]),'condition':([28,34,41,],[37,37,37,]),'cycle':([28,34,41,],[38,38,38,]),'llamada':([28,34,41,54,55,56,57,58,71,91,92,93,94,97,98,101,102,110,116,],[39,39,39,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,]),'print':([28,34,41,],[40,40,40,]),'ids':([29,120,],[47,139,]),'dec_var_opt':([49,],[61,]),'expresion':([54,55,56,57,58,71,110,116,],[66,80,82,83,85,104,134,85,]),'exp':([54,55,56,57,58,71,91,92,93,94,97,98,110,116,],[67,67,67,67,67,67,125,126,127,128,129,130,67,67,]),'term':([54,55,56,57,58,71,91,92,93,94,97,98,101,102,110,116,],[68,68,68,68,68,68,68,68,68,68,68,68,131,132,68,68,]),'factor':([54,55,56,57,58,71,91,92,93,94,97,98,101,102,110,116,],[69,69,69,69,69,69,69,69,69,69,69,69,69,69,69,69,]),'factor_type':([54,55,56,57,58,71,91,92,93,94,97,98,101,102,110,116,],[70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,]),'id_or_cte':([54,55,56,57,58,71,72,74,91,92,93,94,97,98,101,102,110,116,],[73,73,73,73,73,73,105,107,73,73,73,73,73,73,73,73,73,73,]),'cte':([54,55,56,57,58,71,72,74,91,92,93,94,97,98,101,102,110,116,],[76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,]),'expresion_or_not':([55,],[79,]),'expresion_or_string':([58,116,],[84,138,]),'relations_or_not':([67,],[90,]),'more_terms':([68,],[96,]),'more_factors':([69,],[100,]),'expresion_loop':([80,134,],[109,141,]),'list_objs':([85,86,],[115,118,]),'ids_loop':([87,],[119,]),'vars_or_not':([88,],[122,]),'else_or_not':([135,],[142,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,13 +26,77 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> expression","S'",1,None,None,None),
-  ('expression -> expression PLUS term','expression',3,'p_expression_binop','ejPLY.py',28),
-  ('expression -> expression MINUS term','expression',3,'p_expression_binop','ejPLY.py',29),
-  ('expression -> term','expression',1,'p_expression_term','ejPLY.py',34),
-  ('term -> term TIMES factor','term',3,'p_term_binop','ejPLY.py',38),
-  ('term -> term DIVIDE factor','term',3,'p_term_binop','ejPLY.py',39),
-  ('term -> factor','term',1,'p_term_factor','ejPLY.py',44),
-  ('factor -> NUMBER','factor',1,'p_factor_num','ejPLY.py',48),
-  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_expr','ejPLY.py',52),
+  ("S' -> programa","S'",1,None,None,None),
+  ('programa -> PROGRAM ID SEMI var_or_not funcs_or_not MAIN body END','programa',8,'p_programa','parser.py',16),
+  ('var_or_not -> vars','var_or_not',1,'p_var_or_not','parser.py',20),
+  ('var_or_not -> empty','var_or_not',1,'p_var_or_not','parser.py',21),
+  ('vars -> VAR dec_var','vars',2,'p_vars','parser.py',25),
+  ('dec_var -> list_id COLON type SEMI dec_var_opt','dec_var',5,'p_dec_var','parser.py',29),
+  ('dec_var_opt -> dec_var','dec_var_opt',1,'p_dec_var_opt','parser.py',33),
+  ('dec_var_opt -> empty','dec_var_opt',1,'p_dec_var_opt','parser.py',34),
+  ('list_id -> ID list_id_opt','list_id',2,'p_list_id','parser.py',39),
+  ('list_id_opt -> COMMA list_id','list_id_opt',2,'p_list_id_opt','parser.py',43),
+  ('list_id_opt -> empty','list_id_opt',1,'p_list_id_opt','parser.py',44),
+  ('type -> INT','type',1,'p_type','parser.py',48),
+  ('type -> FLOAT','type',1,'p_type','parser.py',49),
+  ('funcs -> void_or_type ID LPAREN ids RPAREN LBRACE vars_or_not body RBRACE SEMI','funcs',10,'p_funcs','parser.py',53),
+  ('void_or_type -> VOID','void_or_type',1,'p_void_or_type','parser.py',57),
+  ('void_or_type -> type','void_or_type',1,'p_void_or_type','parser.py',58),
+  ('funcs_or_not -> funcs funcs_or_not','funcs_or_not',2,'p_funcs_or_not','parser.py',63),
+  ('funcs_or_not -> empty','funcs_or_not',1,'p_funcs_or_not','parser.py',64),
+  ('ids -> ID COLON type ids_loop','ids',4,'p_ids','parser.py',69),
+  ('ids -> empty','ids',1,'p_ids','parser.py',70),
+  ('ids_loop -> COMMA ids','ids_loop',2,'p_ids_loop','parser.py',74),
+  ('ids_loop -> empty','ids_loop',1,'p_ids_loop','parser.py',75),
+  ('vars_or_not -> vars','vars_or_not',1,'p_vars_or_not','parser.py',79),
+  ('vars_or_not -> empty','vars_or_not',1,'p_vars_or_not','parser.py',80),
+  ('body -> LBRACE statement_loop RBRACE','body',3,'p_body','parser.py',84),
+  ('statement_loop -> statement statement_loop','statement_loop',2,'p_statement_loop','parser.py',88),
+  ('statement_loop -> empty','statement_loop',1,'p_statement_loop','parser.py',89),
+  ('statement -> assign','statement',1,'p_statement','parser.py',93),
+  ('statement -> condition','statement',1,'p_statement','parser.py',94),
+  ('statement -> cycle','statement',1,'p_statement','parser.py',95),
+  ('statement -> llamada COMMA','statement',2,'p_statement','parser.py',96),
+  ('statement -> print','statement',1,'p_statement','parser.py',97),
+  ('statement -> LBRACKET statement_loop RBRACKET','statement',3,'p_statement','parser.py',98),
+  ('assign -> ID ASSIGN expresion SEMI','assign',4,'p_assign','parser.py',103),
+  ('expresion -> exp relations_or_not','expresion',2,'p_expresion','parser.py',107),
+  ('relations_or_not -> GT exp','relations_or_not',2,'p_relations_or_not','parser.py',111),
+  ('relations_or_not -> LT exp','relations_or_not',2,'p_relations_or_not','parser.py',112),
+  ('relations_or_not -> NEQ exp','relations_or_not',2,'p_relations_or_not','parser.py',113),
+  ('relations_or_not -> EQ exp','relations_or_not',2,'p_relations_or_not','parser.py',114),
+  ('relations_or_not -> empty','relations_or_not',1,'p_relations_or_not','parser.py',115),
+  ('exp -> term more_terms','exp',2,'p_exp','parser.py',119),
+  ('more_terms -> PLUS exp','more_terms',2,'p_more_terms','parser.py',123),
+  ('more_terms -> MINUS exp','more_terms',2,'p_more_terms','parser.py',124),
+  ('more_terms -> empty','more_terms',1,'p_more_terms','parser.py',125),
+  ('term -> factor more_factors','term',2,'p_term','parser.py',129),
+  ('more_factors -> TIMES term','more_factors',2,'p_more_factors','parser.py',133),
+  ('more_factors -> DIVIDE term','more_factors',2,'p_more_factors','parser.py',134),
+  ('more_factors -> empty','more_factors',1,'p_more_factors','parser.py',135),
+  ('factor_type -> LPAREN expresion RPAREN','factor_type',3,'p_factor_type','parser.py',139),
+  ('factor_type -> PLUS id_or_cte','factor_type',2,'p_factor_type','parser.py',140),
+  ('factor_type -> MINUS id_or_cte','factor_type',2,'p_factor_type','parser.py',141),
+  ('factor_type -> id_or_cte','factor_type',1,'p_factor_type','parser.py',142),
+  ('factor_type -> llamada','factor_type',1,'p_factor_type','parser.py',143),
+  ('factor -> factor_type','factor',1,'p_factor','parser.py',147),
+  ('id_or_cte -> ID','id_or_cte',1,'p_id_or_cte','parser.py',152),
+  ('id_or_cte -> cte','id_or_cte',1,'p_id_or_cte','parser.py',153),
+  ('llamada -> ID LPAREN expresion_or_not RPAREN','llamada',4,'p_llamada','parser.py',157),
+  ('expresion_or_not -> expresion expresion_loop','expresion_or_not',2,'p_expresion_or_not','parser.py',161),
+  ('expresion_or_not -> empty','expresion_or_not',1,'p_expresion_or_not','parser.py',162),
+  ('expresion_loop -> COMMA expresion expresion_loop','expresion_loop',3,'p_expresion_loop','parser.py',167),
+  ('expresion_loop -> empty','expresion_loop',1,'p_expresion_loop','parser.py',168),
+  ('cte -> CTE_INT','cte',1,'p_cte','parser.py',173),
+  ('cte -> CTE_FLOAT','cte',1,'p_cte','parser.py',174),
+  ('condition -> IF LPAREN expresion RPAREN body else_or_not SEMI','condition',7,'p_condition','parser.py',178),
+  ('else_or_not -> ELSE body','else_or_not',2,'p_else_or_not','parser.py',182),
+  ('else_or_not -> empty','else_or_not',1,'p_else_or_not','parser.py',183),
+  ('cycle -> WHILE LPAREN expresion RPAREN DO body SEMI','cycle',7,'p_cycle','parser.py',187),
+  ('print -> PRINT LPAREN expresion_or_string RPAREN SEMI','print',5,'p_print','parser.py',191),
+  ('expresion_or_string -> expresion list_objs','expresion_or_string',2,'p_expresion_or_string','parser.py',195),
+  ('expresion_or_string -> CTE_STRING list_objs','expresion_or_string',2,'p_expresion_or_string','parser.py',196),
+  ('list_objs -> COMMA expresion_or_string','list_objs',2,'p_list_objs','parser.py',200),
+  ('list_objs -> empty','list_objs',1,'p_list_objs','parser.py',201),
+  ('empty -> <empty>','empty',0,'p_empty','parser.py',205),
 ]

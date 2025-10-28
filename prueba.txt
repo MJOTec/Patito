@@ -1,0 +1,11 @@
+program miPrograma;
+var
+    int x, y;
+    float z;
+main {
+    x = 10;
+    y = 20;
+    z = 3.14;
+    print(x, y, z);
+}
+end
