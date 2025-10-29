@@ -5,9 +5,7 @@ import parser
 lexer = lexer.lexer
 parser = parser.parser
 
-# ==========================================================
 # Función para probar código fuente
-# ==========================================================
 def probar_codigo(codigo):
     print("\n==============================")
     print("Probando código:\n")
@@ -17,9 +15,8 @@ def probar_codigo(codigo):
     print(" Resultado:", result)
     print("==============================\n")
 
-# ==========================================================
-# Códigos de prueba
-# ==========================================================
+
+# Casos de prueba válidos
 
 codigo1 = """
 Program prueba;
@@ -57,17 +54,17 @@ main {
     } ;
     [
         n = 3;
-    acc = 0; 
-    while (n) do {
-        acc = acc + 1;
-        print("iter", acc, "n=", n);
-        n = n - 1;
-    } ;
-    if (acc) {
-        print("done", acc, "iters");
-    } else {
-        print("never");
-    } ;
+        acc = 0; 
+        while (n) do {
+            acc = acc + 1;
+            print("iter", acc, "n=", n);
+            n = n - 1;
+        } ;
+        if (acc) {
+            print("done", acc, "iters");
+        } else {
+            print("never");
+        } ;
     ]
 } end
 """
@@ -83,12 +80,11 @@ main {
     ]
 }
 end
-
 """
 
 codigo5 = """
 Program expresiones;
-var float x, y;
+var x,y : float ;
 main {
     x = 3.5 + 2 * (4 - 1) / 2;
     y = -x + +5.5 * 2;
@@ -101,8 +97,27 @@ main {
 end
 """
 
-# ==========================================================
+
+# Casos de prueba inválidos
+
+# Error léxico: carácter '@' no reconocido
+codigo_err_lex = """
+program test;
+main {
+    x = 10 @ 5;
+}
+end
+"""
+
+# Error sintáctico: falta de llaves en if
+codigo_err_sint = """
+program test;
+main {
+    if (x == 3)
+        print("error");
+end
+"""
+
 # Ejecutar todas las pruebas
-# ==========================================================
-for codigo in [ codigo1, codigo2, codigo3, codigo4, codigo5]:
+for codigo in [ codigo1, codigo2, codigo3, codigo4, codigo5, codigo_err_lex, codigo_err_sint]:
     probar_codigo(codigo)
