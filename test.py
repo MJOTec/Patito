@@ -37,6 +37,35 @@ main {
 """
 
 codigo3 = """
+Program bloques;
+main {
+    [ 
+        print("bloque 1");
+        [ 
+            print("bloque 2");
+        ]
+    ]
+}
+end
+"""
+
+codigo4 = """
+Program expresiones;
+var x,y : float ;
+main {
+    x = 3.5 + 2 * (4 - 1) / 2;
+    y = -x + +5.5 * 2;
+    if (x == y) {
+        print("iguales");
+    } else {
+        print("diferentes");
+    };
+}
+end
+"""
+
+
+codigo5 = """
 program flow;
 var n: int; acc: int;
 main {
@@ -67,34 +96,6 @@ main {
         } ;
     ]
 } end
-"""
-
-codigo4 = """
-Program bloques;
-main {
-    [ 
-        print("bloque 1");
-        [ 
-            print("bloque 2");
-        ]
-    ]
-}
-end
-"""
-
-codigo5 = """
-Program expresiones;
-var x,y : float ;
-main {
-    x = 3.5 + 2 * (4 - 1) / 2;
-    y = -x + +5.5 * 2;
-    if (x == y) {
-        print("iguales");
-    } else {
-        print("diferentes");
-    };
-}
-end
 """
 
 
