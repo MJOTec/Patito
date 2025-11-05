@@ -1,6 +1,6 @@
 import ply.yacc as yacc
 from lexer import tokens
-
+from semantics import DirectorioFunciones
 
 precedence = (
     ('right','UMINUS','UPLUS'),
@@ -8,13 +8,43 @@ precedence = (
     ('left','TIMES','DIVIDE'),
     ('nonassoc','GT','LT', 'NEQ', 'EQ')
 )
+
+current_type = None
+current_var_table = None
+dir_func = None
+nombre_programa = None
+id_list = []  # lista temporal para almacenar IDs antes de conocer su tipo
+
 # ----------------------------
 # REGLAS GRAMATICALES
 # ----------------------------
 
 def p_programa(p):
-    'programa : PROGRAM ID SEMI var_or_not funcs_or_not MAIN body END'
+    'programa : PROGRAM create_dir ID fill_dir SEMI var_or_not funcs_or_not MAIN body END clean_memory'
     pass
+
+def p_create_dir(p):
+    "create_dir : "
+    global dir_func
+    dir_func = DirectorioFunciones()
+
+def p_fill_dir(p):
+    "fill_dir : "
+    global dir_func, nombre_programa
+    nombre_programa = p[-1]
+    dir_func.agregar_funcion(nombre_programa,"VOID")
+
+def p_clean_memory(p):
+    "clean_memory :"
+    global dir_func, current_var_table, current_type, id_list, nombre_programa
+    print("Limpiar memoria")
+    # Borrar referencias globales
+    dir_func = None
+    current_var_table = None
+    current_type = None
+    nombre_programa = None
+    id_list.clear()
+
 
 def p_var_or_not(p):
     '''var_or_not : vars
@@ -36,8 +66,15 @@ def p_dec_var_opt(p):
 
 
 def p_list_id(p):
-    '''list_id : ID list_id_opt'''
+    '''list_id : ID capture_id list_id_opt'''
     pass
+
+def p_capture_id(p):
+    "capture_id :"
+    global id_list
+    nombre_id = p[-1]
+    id_list.append(nombre_id)
+    print(f"ID capturado: {nombre_id}")
 
 def p_list_id_opt(p):
     '''list_id_opt : COMMA list_id
@@ -45,9 +82,24 @@ def p_list_id_opt(p):
     pass
 
 def p_type(p):
-    '''type : INT
-            | FLOAT'''
+    '''type : INT capture_type
+            | FLOAT capture_type'''
     pass
+
+def p_capture_type(p):
+    "capture_type :"
+    global current_type, id_list, dir_func, nombre_programa
+
+    current_type = p[-1]
+    print(f"Tipo actual: {current_type}")
+
+    # Ahora agregar todas las variables que estaban en espera
+    for nombre_var in id_list:
+        dir_func.funciones[nombre_programa]["tabla_variables"].agregar_variable(nombre_var, current_type)
+        print(f"Variable '{nombre_var}' agregada como {current_type}")
+
+    # Limpiar la lista para la próxima declaración
+    id_list.clear()
 
 def p_funcs(p):
     'funcs : void_or_type ID LPAREN ids RPAREN LBRACE vars_or_not body RBRACE SEMI'
