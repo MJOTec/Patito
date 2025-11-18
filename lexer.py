@@ -30,17 +30,20 @@ t_PLUS      = r'\+'
 t_MINUS     = r'-'
 t_TIMES     = r'\*'
 t_DIVIDE    = r'/'
-t_ASSIGN    = r'='
-t_GT        = r'>'
-t_LT        = r'<'
+
 t_NEQ       = r'!='
 t_EQ        = r'=='
+t_GT        = r'>'
+t_LT        = r'<'
+
+t_ASSIGN    = r'='
 t_LPAREN    = r'\('
 t_RPAREN    = r'\)'
 t_LBRACE    = r'\{'
 t_RBRACE    = r'\}'
 t_LBRACKET  = r'\['   
 t_RBRACKET  = r'\]'   
+
 t_SEMI      = r';'
 t_COMMA     = r','
 t_COLON     = r':'
@@ -51,18 +54,17 @@ def t_ID(t):
     return t
 
 def t_CTE_FLOAT(t):
-    r'[+-]?(?:\d+(?:\.\d+)?)(?:[eE][+-]?\d+)?'
+    r'\d+\.\d+([eE][+-]?\d+)?'
     t.value = float(t.value)
     return t
 
-
 def t_CTE_INT(t):
-    r'[+-]?\d+'
+    r'\d+'
     t.value = int(t.value)
     return t
 
 def t_CTE_STRING(t):
-    r'\"([^\\\n]|(\\.))*?\"'
+    r'"([^\\\n]|(\\.))*?"'
     return t
 
 t_ignore = ' \t'

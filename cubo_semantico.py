@@ -50,15 +50,3 @@ cubo_semantico = {
         'bool':  {'int': 'error', 'float': 'error', 'bool': 'bool'}
     }
 }
-
-# Ejemplo 1: int + float
-print(cubo_semantico['+']['int']['float'])  # → float
-
-# Ejemplo 2: float > int
-print(cubo_semantico['>']['float']['int'])  # → bool
-
-# Ejemplo 3: bool == bool
-print(cubo_semantico['==']['bool']['bool'])  # → bool
-
-# Ejemplo 4: int == float
-print(cubo_semantico['==']['int']['float'])  # → error

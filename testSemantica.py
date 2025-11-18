@@ -1,43 +1,60 @@
-import lexer
-import parser as little_duck_parser
 import io
 import sys
+import importlib
+import lexer as lexer_module
+import parser as parser_module
+from semantics import Avail, QuadManager
 
 
-# Inicializar lexer y parser
-lexer = lexer.lexer
-parser = little_duck_parser.parser
+def crear_parser_nuevo():
+    """Reimporta e inicializa un parser completamente nuevo."""
+    importlib.reload(lexer_module)
+    importlib.reload(parser_module)
 
-    
+    lexer = lexer_module.lexer
+    parser = parser_module.parser
+
+    # Reinciar atributos personalizados del parser
+    parser.current_type = None
+    parser.current_var_table = None
+    parser.dir_func = None
+    parser.nombre_funcion = None
+    parser.id_list = []
+
+    parser.PilaO = []
+    parser.PTypes = []
+    parser.Poper = []
+    parser.temp_list = Avail()
+    parser.Quad = QuadManager()
+
+    return lexer, parser
+
+
 def probar_codigo(codigo):
     print("\n==============================")
     print("Probando código: \n")
     print(codigo.strip())
     print("==============================")
 
-    # Redirigir la salida estándar (para capturar prints del parser o lexer)
+    # Crear lexer y parser limpios para este código
+    lexer, parser = crear_parser_nuevo()
+
     buffer = io.StringIO()
     sys_stdout_original = sys.stdout
     sys.stdout = buffer
 
     try:
-        little_duck_parser.reset_parser_state()
         result = parser.parse(codigo, lexer=lexer)
     except Exception as e:
-        # Si ocurre una excepción inesperada se registra
         buffer.write(f"\nExcepción durante el análisis: {e}\n")
     finally:
-        # Restaurar salida estándar
         sys.stdout = sys_stdout_original
 
-    # Obtener todo lo que se imprimió durante el análisis
     salida_parser = buffer.getvalue()
 
-    # Mostrar lo que el parser imprimió
     if salida_parser.strip():
         print(salida_parser.strip())
 
-    # Si existe la palabra error, detectarlo
     if "Error" in salida_parser or "error" in salida_parser:
         print("Resultado: Error detectado durante el análisis.")
     else:
@@ -46,8 +63,7 @@ def probar_codigo(codigo):
     print("==============================\n")
 
 
-# Casos de prueba válidos
-
+# Casos de prueba
 codigo1 = """
 Program prueba;
 var n,j,t: int;
@@ -61,8 +77,8 @@ end
 codigo2 = """
 Program prueba;
 var n: int;
-void hola (){{}};
-int papa (){{}};
+void hola (){{}}; 
+int papa (){{}}; 
 main { 
     print(n);
 }
@@ -72,7 +88,7 @@ end
 codigo3 = """
 Program prueba;
 var n: int;
-void hola (x:int, j:int){{}};
+void hola (x:int, j:int){{}}; 
 main { 
     print(n);
 }
@@ -82,7 +98,7 @@ end
 codigo4 = """
 Program prueba;
 var n: int;
-void hola (x:int, x:int){{}};
+void hola (x:int, x:int){{}}; 
 main { 
     print(n);
 }
@@ -104,11 +120,11 @@ end
 """
 
 codigo6 = """
-Program prueba;
+Program papa;
 var n,z: int ;
-float Division (z:float, y:float){
+float Division (z:int, y:float){
     {
-    resultado = z/y;
+    resultado = z+y;
     }
 };
 float Mate (){
@@ -117,11 +133,54 @@ float Mate (){
     }
 };
 main { 
-    print(n);
+    print(2);
 }
 end
 """
 
-# Ejecutar todas las pruebas
-for codigo in [ codigo1,codigo2, codigo3, codigo4, codigo5, codigo6]:
+codigo7 = """
+Program prueba;
+var n,j,t: int;
+main { 
+    print((t*j/(t+n))*j);
+}
+end
+"""
+
+codigo8 = """
+Program prueba;
+var x,y: int;
+main { 
+    x = 5*y;
+    print(x);
+    print("hello world",y);
+}
+end
+"""
+
+codigo9 = """
+Program prueba;
+var x,y: int;
+main { 
+    x = (5*y*6+y)>y;
+}
+end
+"""
+
+codigo_if_else = """
+Program prueba;
+var A,B,C,D: int;
+main { 
+    if (A+B>D){
+        if(A<B){
+            A=0;
+            B=B+D;
+        }
+    }
+}
+end
+"""
+
+# Ejecutar pruebas
+for codigo in [codigo_if_else]:
     probar_codigo(codigo)

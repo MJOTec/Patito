@@ -1,12 +1,12 @@
 import lexer
-import parser
+import parser as little_duck_parser
 import io
 import sys
 
 
 # Inicializar lexer y parser
 lexer = lexer.lexer
-parser = parser.parser
+parser = little_duck_parser.parser
 
 
 def probar_codigo(codigo):
@@ -21,6 +21,7 @@ def probar_codigo(codigo):
     sys.stdout = buffer
 
     try:
+        little_duck_parser.reset_parser_state()
         result = parser.parse(codigo, lexer=lexer)
     except Exception as e:
         # Si ocurre una excepción inesperada se registra
