@@ -167,6 +167,18 @@ main {
 end
 """
 
+codigoif = """
+Program prueba;
+var x,y: int;
+main { 
+    if (x > y){
+        print("x es mayor que y");
+    };
+    print(x);
+}
+end
+"""
+
 codigo_if_else = """
 Program prueba;
 var A,B,C,D: int;
@@ -181,6 +193,90 @@ main {
 end
 """
 
+codelse= """
+Program prueba;
+var x : int;
+main {
+    if(x>1){
+        print("X es mayor que 1");
+    }
+    else{
+        print("X es menor que 1");
+    };
+    print("Se acabo el programa");
+}
+end
+"""
+
+codewhile= """
+Program prueba;
+var x : int;
+main {
+    while(x>1)
+    do{
+        x = x + 1;
+    };
+}
+end
+"""
+
+codeLoopIf = """
+Program prueba;
+var a,b,c,d : int;
+main {
+    if(a+b>d){
+        if(a<b){
+            a = 0;
+            b = b+d;
+        }
+        else{
+            c = a+b;
+        };
+    }
+    else{
+        a = b+c;
+    };
+    d = b+a*c;
+}
+end
+"""
+
+codigo10 = '''
+program test;
+var a,b,c,d : int;
+    f, e : float;
+
+    void suma(a: float, y: int){
+        var res : float;
+        {
+            res = a + y;
+        }
+    }; 
+
+    void resta(uno: int, dos: int){
+        var res : int;
+        {
+            res = uno - dos;
+        }
+    }; 
+main
+{
+    if(a < b){
+        a = b;
+        a = 2;
+        while (a > b) do {
+        print(c);
+        };
+        print("hola");
+    } else {
+        b = 1;
+    };
+    print(a);
+    suma(a,b);
+}
+end
+'''
+
 # Ejecutar pruebas
-for codigo in [codigo_if_else]:
+for codigo in [codigo10]:
     probar_codigo(codigo)

@@ -36,6 +36,7 @@ def p_fill_dir(p):
 
 def p_clean_memory(p):
     "clean_memory :"
+    p.parser.Quad.show()
     # Borrar referencias globales
     p.parser.dir_func = None
     p.parser.current_var_table = None
@@ -152,7 +153,7 @@ def p_statement(p):
     '''statement : assign
                  | condition
                  | cycle
-                 | llamada COMMA
+                 | llamada SEMI
                  | print
                  | LBRACKET statement_loop RBRACKET
                  '''
@@ -353,17 +354,79 @@ def p_capture_cte_float(p):
     p.parser.PTypes.append(tipo)
 
 def p_condition(p):
-    'condition : IF LPAREN expresion RPAREN body else_or_not SEMI'
+    'condition : IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if'
     pass
 
+
+def p_mark_if(p):
+    'mark_if :'
+    exp_type = p.parser.PTypes.pop()
+    print("El tipo es: " + exp_type)
+    if exp_type != "bool":
+        raise TypeError("Type mismatch: IF condition must be bool")
+
+    # 2. Sacar el resultado de la expresión
+    result = p.parser.PilaO.pop()
+
+    # 3. Crear GotoF <expr>, _, ?
+    p.parser.Quad.generate("GotoF", result, None, None)
+
+    # 4. Guardar el índice del cuádruplo pendiente
+    p.parser.PJumps.append(p.parser.Quad.counter - 1)
+
+
+def p_mark_end_if(p):
+    'mark_end_if :'
+    # Sacar el salto pendiente
+    pending_jump = p.parser.PJumps.pop()
+
+    # Rellenar el destino con el índice del siguiente cuádruplo
+    end = p.parser.Quad.counter
+
+    op, left, right, _ = p.parser.Quad.quads[pending_jump]
+    p.parser.Quad.quads[pending_jump] = (op, left, right, end)
+    print(p.parser.Quad.quads[pending_jump])
+
 def p_else_or_not(p):
-    '''else_or_not : ELSE body
+    '''else_or_not : mark_else ELSE body
                    | empty'''
     pass
 
+
+def p_mark_else(p):
+    'mark_else : '
+    p.parser.Quad.generate("Goto", None, None, None)
+    false = p.parser.PJumps.pop()
+    p.parser.PJumps.append(p.parser.Quad.counter - 1)
+    op, left, right, _ = p.parser.Quad.quads[false]
+    p.parser.Quad.quads[false] = [op, left, right, p.parser.Quad.counter]
+
+
 def p_cycle(p):
-    'cycle : WHILE LPAREN expresion RPAREN DO body SEMI'
+    'cycle : WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while'
     pass
+
+def p_mark_while(p):
+    'mark_while : '
+    p.parser.PJumps.append(p.parser.Quad.counter)
+
+def p_skip_while(p):
+    'skip_while : '
+    exp_type = p.parser.PTypes.pop()
+    if exp_type != "bool":
+        raise TypeError("Type mismatch: while condition must be bool")
+    result = p.parser.PilaO.pop()
+    p.parser.Quad.generate("GotoF", result, None, None)
+    p.parser.PJumps.append(p.parser.Quad.counter-1)
+
+def p_return_while(p):
+    'return_while :'
+    end = p.parser.PJumps.pop()
+    return_while = p.parser.PJumps.pop()
+    p.parser.Quad.generate("GoTo", None, None, return_while)
+    op, left, right, _ = p.parser.Quad.quads[end]
+    p.parser.Quad.quads[end] = (op, left, right, p.parser.Quad.counter)
+
 
 def p_print(p):
     'print : PRINT LPAREN expresion_or_string RPAREN SEMI'
@@ -415,6 +478,7 @@ parser.id_list = []
 parser.PilaO = []
 parser.PTypes = []
 parser.Poper = []
+parser.PJumps = []
 
 parser.temp_list = Avail()
 parser.Quad = QuadManager()

@@ -42,7 +42,7 @@ Rule 36    statement_loop -> empty
 Rule 37    statement -> assign
 Rule 38    statement -> condition
 Rule 39    statement -> cycle
-Rule 40    statement -> llamada COMMA
+Rule 40    statement -> llamada SEMI
 Rule 41    statement -> print
 Rule 42    statement -> LBRACKET statement_loop RBRACKET
 Rule 43    assign -> ID ASSIGN expresion SEMI
@@ -85,30 +85,36 @@ Rule 79    cte -> CTE_INT capture_cte_int
 Rule 80    cte -> CTE_FLOAT capture_cte_float
 Rule 81    capture_cte_int -> <empty>
 Rule 82    capture_cte_float -> <empty>
-Rule 83    condition -> IF LPAREN expresion RPAREN body else_or_not SEMI
-Rule 84    else_or_not -> ELSE body
-Rule 85    else_or_not -> empty
-Rule 86    cycle -> WHILE LPAREN expresion RPAREN DO body SEMI
-Rule 87    print -> PRINT LPAREN expresion_or_string RPAREN SEMI
-Rule 88    expresion_or_string -> expresion print_expr list_objs
-Rule 89    expresion_or_string -> CTE_STRING print_str list_objs
-Rule 90    print_expr -> <empty>
-Rule 91    print_str -> <empty>
-Rule 92    list_objs -> COMMA expresion_or_string
-Rule 93    list_objs -> empty
-Rule 94    empty -> <empty>
+Rule 83    condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
+Rule 84    mark_if -> <empty>
+Rule 85    mark_end_if -> <empty>
+Rule 86    else_or_not -> mark_else ELSE body
+Rule 87    else_or_not -> empty
+Rule 88    mark_else -> <empty>
+Rule 89    cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
+Rule 90    mark_while -> <empty>
+Rule 91    skip_while -> <empty>
+Rule 92    return_while -> <empty>
+Rule 93    print -> PRINT LPAREN expresion_or_string RPAREN SEMI
+Rule 94    expresion_or_string -> expresion print_expr list_objs
+Rule 95    expresion_or_string -> CTE_STRING print_str list_objs
+Rule 96    print_expr -> <empty>
+Rule 97    print_str -> <empty>
+Rule 98    list_objs -> COMMA expresion_or_string
+Rule 99    list_objs -> empty
+Rule 100   empty -> <empty>
 
 Terminals, with rules where they appear
 
 ASSIGN               : 43
 COLON                : 10 28
-COMMA                : 15 30 40 77 92
+COMMA                : 15 30 77 98
 CTE_FLOAT            : 80
 CTE_INT              : 79
-CTE_STRING           : 89
+CTE_STRING           : 95
 DIVIDE               : 61
-DO                   : 86
-ELSE                 : 84
+DO                   : 89
+ELSE                 : 86
 END                  : 1
 EQ                   : 48
 FLOAT                : 18
@@ -118,29 +124,29 @@ IF                   : 83
 INT                  : 17
 LBRACE               : 20 34
 LBRACKET             : 42
-LPAREN               : 20 63 74 83 86 87
+LPAREN               : 20 63 74 83 89 93
 LT                   : 46
 MAIN                 : 2
 MINUS                : 55 65
 NEQ                  : 47
 PLUS                 : 54 64
-PRINT                : 87
+PRINT                : 93
 PROGRAM              : 1
 RBRACE               : 20 34
 RBRACKET             : 42
-RPAREN               : 20 63 74 83 86 87
-SEMI                 : 1 10 20 43 83 86 87
+RPAREN               : 20 63 74 83 89 93
+SEMI                 : 1 10 20 40 43 83 89 93
 TIMES                : 60
 VAR                  : 9
 VOID                 : 23
-WHILE                : 86
+WHILE                : 89
 error                : 
 
 Nonterminals, with rules where they appear
 
 assign               : 37
 begin_paren          : 63
-body                 : 2 20 83 84 86
+body                 : 2 20 83 86 89
 capture_Oper         : 54 55 60 61
 capture_cte_float    : 80
 capture_cte_int      : 79
@@ -160,14 +166,14 @@ cycle                : 39
 dec_var              : 9 11
 dec_var_opt          : 10
 else_or_not          : 83
-empty                : 8 12 16 27 29 31 33 36 49 56 62 76 78 85 93
+empty                : 8 12 16 27 29 31 33 36 49 56 62 76 78 87 99
 end_func             : 20
 end_paren            : 63
 exp                  : 44 45 46 47 48 54 55
-expresion            : 43 63 75 77 83 86 88
+expresion            : 43 63 75 77 83 89 94
 expresion_loop       : 75 77
 expresion_or_not     : 74
-expresion_or_string  : 87 92
+expresion_or_string  : 93 98
 factor               : 58
 factor_type          : 70
 fill_dir             : 1
@@ -179,17 +185,23 @@ ids                  : 20 30
 ids_loop             : 28
 list_id              : 10 15
 list_id_opt          : 13
-list_objs            : 88 89
+list_objs            : 94 95
 llamada              : 40 67
 main_block           : 1
+mark_else            : 86
+mark_end_if          : 83
+mark_if              : 83
+mark_while           : 89
 more_factors         : 58
 more_terms           : 52
 print                : 41
-print_expr           : 88
-print_str            : 89
+print_expr           : 94
+print_str            : 95
 programa             : 0
 relations_or_not     : 44
+return_while         : 89
 set_global_scope     : 2
+skip_while           : 89
 statement            : 35
 statement_loop       : 34 35 42
 term                 : 52 60 61
@@ -254,13 +266,13 @@ state 6
     (7) var_or_not -> . vars
     (8) var_or_not -> . empty
     (9) vars -> . VAR dec_var
-    (94) empty -> .
+    (100) empty -> .
 
     VAR             shift and go to state 10
-    VOID            reduce using rule 94 (empty -> .)
-    INT             reduce using rule 94 (empty -> .)
-    FLOAT           reduce using rule 94 (empty -> .)
-    MAIN            reduce using rule 94 (empty -> .)
+    VOID            reduce using rule 100 (empty -> .)
+    INT             reduce using rule 100 (empty -> .)
+    FLOAT           reduce using rule 100 (empty -> .)
+    MAIN            reduce using rule 100 (empty -> .)
 
     var_or_not                     shift and go to state 7
     vars                           shift and go to state 8
@@ -272,13 +284,13 @@ state 7
     (26) funcs_or_not -> . funcs funcs_or_not
     (27) funcs_or_not -> . empty
     (20) funcs -> . void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI
-    (94) empty -> .
+    (100) empty -> .
     (23) void_or_type -> . VOID func_type
     (24) void_or_type -> . type
     (17) type -> . INT capture_type
     (18) type -> . FLOAT capture_type
 
-    MAIN            reduce using rule 94 (empty -> .)
+    MAIN            reduce using rule 100 (empty -> .)
     VOID            shift and go to state 15
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
@@ -335,13 +347,13 @@ state 12
     (26) funcs_or_not -> . funcs funcs_or_not
     (27) funcs_or_not -> . empty
     (20) funcs -> . void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI
-    (94) empty -> .
+    (100) empty -> .
     (23) void_or_type -> . VOID func_type
     (24) void_or_type -> . type
     (17) type -> . INT capture_type
     (18) type -> . FLOAT capture_type
 
-    MAIN            reduce using rule 94 (empty -> .)
+    MAIN            reduce using rule 100 (empty -> .)
     VOID            shift and go to state 15
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
@@ -509,10 +521,10 @@ state 30
     (13) list_id -> ID capture_id . list_id_opt
     (15) list_id_opt -> . COMMA list_id
     (16) list_id_opt -> . empty
-    (94) empty -> .
+    (100) empty -> .
 
     COMMA           shift and go to state 36
-    COLON           reduce using rule 94 (empty -> .)
+    COLON           reduce using rule 100 (empty -> .)
 
     list_id_opt                    shift and go to state 35
     empty                          shift and go to state 37
@@ -594,18 +606,18 @@ state 40
     (37) statement -> . assign
     (38) statement -> . condition
     (39) statement -> . cycle
-    (40) statement -> . llamada COMMA
+    (40) statement -> . llamada SEMI
     (41) statement -> . print
     (42) statement -> . LBRACKET statement_loop RBRACKET
-    (94) empty -> .
+    (100) empty -> .
     (43) assign -> . ID ASSIGN expresion SEMI
-    (83) condition -> . IF LPAREN expresion RPAREN body else_or_not SEMI
-    (86) cycle -> . WHILE LPAREN expresion RPAREN DO body SEMI
+    (83) condition -> . IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
+    (89) cycle -> . WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
     (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (87) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
+    (93) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
 
     LBRACKET        shift and go to state 52
-    RBRACE          reduce using rule 94 (empty -> .)
+    RBRACE          reduce using rule 100 (empty -> .)
     ID              shift and go to state 53
     IF              shift and go to state 54
     WHILE           shift and go to state 55
@@ -625,10 +637,10 @@ state 41
     (20) funcs -> void_or_type ID create_func LPAREN . ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI
     (28) ids -> . ID capture_id COLON type capture_type ids_loop
     (29) ids -> . empty
-    (94) empty -> .
+    (100) empty -> .
 
     ID              shift and go to state 57
-    RPAREN          reduce using rule 94 (empty -> .)
+    RPAREN          reduce using rule 100 (empty -> .)
 
     ids                            shift and go to state 58
     empty                          shift and go to state 59
@@ -639,14 +651,14 @@ state 42
     (11) dec_var_opt -> . dec_var
     (12) dec_var_opt -> . empty
     (10) dec_var -> . list_id COLON type SEMI dec_var_opt
-    (94) empty -> .
+    (100) empty -> .
     (13) list_id -> . ID capture_id list_id_opt
 
-    VOID            reduce using rule 94 (empty -> .)
-    INT             reduce using rule 94 (empty -> .)
-    FLOAT           reduce using rule 94 (empty -> .)
-    MAIN            reduce using rule 94 (empty -> .)
-    LBRACE          reduce using rule 94 (empty -> .)
+    VOID            reduce using rule 100 (empty -> .)
+    INT             reduce using rule 100 (empty -> .)
+    FLOAT           reduce using rule 100 (empty -> .)
+    MAIN            reduce using rule 100 (empty -> .)
+    LBRACE          reduce using rule 100 (empty -> .)
     ID              shift and go to state 21
 
     list_id                        shift and go to state 20
@@ -676,19 +688,19 @@ state 45
     (37) statement -> . assign
     (38) statement -> . condition
     (39) statement -> . cycle
-    (40) statement -> . llamada COMMA
+    (40) statement -> . llamada SEMI
     (41) statement -> . print
     (42) statement -> . LBRACKET statement_loop RBRACKET
-    (94) empty -> .
+    (100) empty -> .
     (43) assign -> . ID ASSIGN expresion SEMI
-    (83) condition -> . IF LPAREN expresion RPAREN body else_or_not SEMI
-    (86) cycle -> . WHILE LPAREN expresion RPAREN DO body SEMI
+    (83) condition -> . IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
+    (89) cycle -> . WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
     (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (87) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
+    (93) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
 
     LBRACKET        shift and go to state 52
-    RBRACE          reduce using rule 94 (empty -> .)
-    RBRACKET        reduce using rule 94 (empty -> .)
+    RBRACE          reduce using rule 100 (empty -> .)
+    RBRACKET        reduce using rule 100 (empty -> .)
     ID              shift and go to state 53
     IF              shift and go to state 54
     WHILE           shift and go to state 55
@@ -752,9 +764,9 @@ state 49
 
 state 50
 
-    (40) statement -> llamada . COMMA
+    (40) statement -> llamada . SEMI
 
-    COMMA           shift and go to state 65
+    SEMI            shift and go to state 65
 
 
 state 51
@@ -778,18 +790,18 @@ state 52
     (37) statement -> . assign
     (38) statement -> . condition
     (39) statement -> . cycle
-    (40) statement -> . llamada COMMA
+    (40) statement -> . llamada SEMI
     (41) statement -> . print
     (42) statement -> . LBRACKET statement_loop RBRACKET
-    (94) empty -> .
+    (100) empty -> .
     (43) assign -> . ID ASSIGN expresion SEMI
-    (83) condition -> . IF LPAREN expresion RPAREN body else_or_not SEMI
-    (86) cycle -> . WHILE LPAREN expresion RPAREN DO body SEMI
+    (83) condition -> . IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
+    (89) cycle -> . WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
     (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (87) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
+    (93) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
 
     LBRACKET        shift and go to state 52
-    RBRACKET        reduce using rule 94 (empty -> .)
+    RBRACKET        reduce using rule 100 (empty -> .)
     ID              shift and go to state 53
     IF              shift and go to state 54
     WHILE           shift and go to state 55
@@ -815,21 +827,23 @@ state 53
 
 state 54
 
-    (83) condition -> IF . LPAREN expresion RPAREN body else_or_not SEMI
+    (83) condition -> IF . LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
 
     LPAREN          shift and go to state 69
 
 
 state 55
 
-    (86) cycle -> WHILE . LPAREN expresion RPAREN DO body SEMI
+    (89) cycle -> WHILE . mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
+    (90) mark_while -> .
 
-    LPAREN          shift and go to state 70
+    LPAREN          reduce using rule 90 (mark_while -> .)
 
+    mark_while                     shift and go to state 70
 
 state 56
 
-    (87) print -> PRINT . LPAREN expresion_or_string RPAREN SEMI
+    (93) print -> PRINT . LPAREN expresion_or_string RPAREN SEMI
 
     LPAREN          shift and go to state 71
 
@@ -895,9 +909,9 @@ state 63
     (34) body -> LBRACE statement_loop RBRACE .
 
     END             reduce using rule 34 (body -> LBRACE statement_loop RBRACE .)
-    ELSE            reduce using rule 34 (body -> LBRACE statement_loop RBRACE .)
-    SEMI            reduce using rule 34 (body -> LBRACE statement_loop RBRACE .)
     RBRACE          reduce using rule 34 (body -> LBRACE statement_loop RBRACE .)
+    SEMI            reduce using rule 34 (body -> LBRACE statement_loop RBRACE .)
+    ELSE            reduce using rule 34 (body -> LBRACE statement_loop RBRACE .)
 
 
 state 64
@@ -910,15 +924,15 @@ state 64
 
 state 65
 
-    (40) statement -> llamada COMMA .
+    (40) statement -> llamada SEMI .
 
-    LBRACKET        reduce using rule 40 (statement -> llamada COMMA .)
-    ID              reduce using rule 40 (statement -> llamada COMMA .)
-    IF              reduce using rule 40 (statement -> llamada COMMA .)
-    WHILE           reduce using rule 40 (statement -> llamada COMMA .)
-    PRINT           reduce using rule 40 (statement -> llamada COMMA .)
-    RBRACE          reduce using rule 40 (statement -> llamada COMMA .)
-    RBRACKET        reduce using rule 40 (statement -> llamada COMMA .)
+    LBRACKET        reduce using rule 40 (statement -> llamada SEMI .)
+    ID              reduce using rule 40 (statement -> llamada SEMI .)
+    IF              reduce using rule 40 (statement -> llamada SEMI .)
+    WHILE           reduce using rule 40 (statement -> llamada SEMI .)
+    PRINT           reduce using rule 40 (statement -> llamada SEMI .)
+    RBRACE          reduce using rule 40 (statement -> llamada SEMI .)
+    RBRACKET        reduce using rule 40 (statement -> llamada SEMI .)
 
 
 state 66
@@ -968,7 +982,7 @@ state 68
     (75) expresion_or_not -> . expresion expresion_loop
     (76) expresion_or_not -> . empty
     (44) expresion -> . exp relations_or_not
-    (94) empty -> .
+    (100) empty -> .
     (52) exp -> . term check_plus_minus more_terms
     (58) term -> . factor check_mult_div more_factors
     (70) factor -> . factor_type
@@ -983,7 +997,7 @@ state 68
     (79) cte -> . CTE_INT capture_cte_int
     (80) cte -> . CTE_FLOAT capture_cte_float
 
-    RPAREN          reduce using rule 94 (empty -> .)
+    RPAREN          reduce using rule 100 (empty -> .)
     LPAREN          shift and go to state 81
     PLUS            shift and go to state 82
     MINUS           shift and go to state 84
@@ -1004,7 +1018,7 @@ state 68
 
 state 69
 
-    (83) condition -> IF LPAREN . expresion RPAREN body else_or_not SEMI
+    (83) condition -> IF LPAREN . expresion RPAREN mark_if body else_or_not SEMI mark_end_if
     (44) expresion -> . exp relations_or_not
     (52) exp -> . term check_plus_minus more_terms
     (58) term -> . factor check_mult_div more_factors
@@ -1038,43 +1052,16 @@ state 69
 
 state 70
 
-    (86) cycle -> WHILE LPAREN . expresion RPAREN DO body SEMI
-    (44) expresion -> . exp relations_or_not
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (89) cycle -> WHILE mark_while . LPAREN expresion RPAREN skip_while DO body SEMI return_while
 
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    LPAREN          shift and go to state 93
 
-    expresion                      shift and go to state 93
-    exp                            shift and go to state 77
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
 
 state 71
 
-    (87) print -> PRINT LPAREN . expresion_or_string RPAREN SEMI
-    (88) expresion_or_string -> . expresion print_expr list_objs
-    (89) expresion_or_string -> . CTE_STRING print_str list_objs
+    (93) print -> PRINT LPAREN . expresion_or_string RPAREN SEMI
+    (94) expresion_or_string -> . expresion print_expr list_objs
+    (95) expresion_or_string -> . CTE_STRING print_str list_objs
     (44) expresion -> . exp relations_or_not
     (52) exp -> . term check_plus_minus more_terms
     (58) term -> . factor check_mult_div more_factors
@@ -1171,15 +1158,15 @@ state 77
     (47) relations_or_not -> . NEQ capture_relation exp check_relation
     (48) relations_or_not -> . EQ capture_relation exp check_relation
     (49) relations_or_not -> . empty
-    (94) empty -> .
+    (100) empty -> .
 
     GT              shift and go to state 102
     LT              shift and go to state 103
     NEQ             shift and go to state 104
     EQ              shift and go to state 105
-    SEMI            reduce using rule 94 (empty -> .)
-    COMMA           reduce using rule 94 (empty -> .)
-    RPAREN          reduce using rule 94 (empty -> .)
+    SEMI            reduce using rule 100 (empty -> .)
+    COMMA           reduce using rule 100 (empty -> .)
+    RPAREN          reduce using rule 100 (empty -> .)
 
     relations_or_not               shift and go to state 101
     empty                          shift and go to state 106
@@ -1382,10 +1369,10 @@ state 90
     (75) expresion_or_not -> expresion . expresion_loop
     (77) expresion_loop -> . COMMA expresion expresion_loop
     (78) expresion_loop -> . empty
-    (94) empty -> .
+    (100) empty -> .
 
     COMMA           shift and go to state 117
-    RPAREN          reduce using rule 94 (empty -> .)
+    RPAREN          reduce using rule 100 (empty -> .)
 
     expresion_loop                 shift and go to state 116
     empty                          shift and go to state 118
@@ -1399,42 +1386,69 @@ state 91
 
 state 92
 
-    (83) condition -> IF LPAREN expresion . RPAREN body else_or_not SEMI
+    (83) condition -> IF LPAREN expresion . RPAREN mark_if body else_or_not SEMI mark_end_if
 
     RPAREN          shift and go to state 119
 
 
 state 93
 
-    (86) cycle -> WHILE LPAREN expresion . RPAREN DO body SEMI
+    (89) cycle -> WHILE mark_while LPAREN . expresion RPAREN skip_while DO body SEMI return_while
+    (44) expresion -> . exp relations_or_not
+    (52) exp -> . term check_plus_minus more_terms
+    (58) term -> . factor check_mult_div more_factors
+    (70) factor -> . factor_type
+    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (64) factor_type -> . PLUS id_or_cte
+    (65) factor_type -> . MINUS id_or_cte
+    (66) factor_type -> . id_or_cte
+    (67) factor_type -> . llamada
+    (71) id_or_cte -> . ID capture_id_oper
+    (72) id_or_cte -> . cte
+    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (79) cte -> . CTE_INT capture_cte_int
+    (80) cte -> . CTE_FLOAT capture_cte_float
 
-    RPAREN          shift and go to state 120
+    LPAREN          shift and go to state 81
+    PLUS            shift and go to state 82
+    MINUS           shift and go to state 84
+    ID              shift and go to state 75
+    CTE_INT         shift and go to state 87
+    CTE_FLOAT       shift and go to state 88
 
+    expresion                      shift and go to state 120
+    exp                            shift and go to state 77
+    term                           shift and go to state 78
+    factor                         shift and go to state 79
+    factor_type                    shift and go to state 80
+    id_or_cte                      shift and go to state 83
+    llamada                        shift and go to state 85
+    cte                            shift and go to state 86
 
 state 94
 
-    (87) print -> PRINT LPAREN expresion_or_string . RPAREN SEMI
+    (93) print -> PRINT LPAREN expresion_or_string . RPAREN SEMI
 
     RPAREN          shift and go to state 121
 
 
 state 95
 
-    (88) expresion_or_string -> expresion . print_expr list_objs
-    (90) print_expr -> .
+    (94) expresion_or_string -> expresion . print_expr list_objs
+    (96) print_expr -> .
 
-    COMMA           reduce using rule 90 (print_expr -> .)
-    RPAREN          reduce using rule 90 (print_expr -> .)
+    COMMA           reduce using rule 96 (print_expr -> .)
+    RPAREN          reduce using rule 96 (print_expr -> .)
 
     print_expr                     shift and go to state 122
 
 state 96
 
-    (89) expresion_or_string -> CTE_STRING . print_str list_objs
-    (91) print_str -> .
+    (95) expresion_or_string -> CTE_STRING . print_str list_objs
+    (97) print_str -> .
 
-    COMMA           reduce using rule 91 (print_str -> .)
-    RPAREN          reduce using rule 91 (print_str -> .)
+    COMMA           reduce using rule 97 (print_str -> .)
+    RPAREN          reduce using rule 97 (print_str -> .)
 
     print_str                      shift and go to state 123
 
@@ -1455,10 +1469,10 @@ state 98
     (32) vars_or_not -> . vars
     (33) vars_or_not -> . empty
     (9) vars -> . VAR dec_var
-    (94) empty -> .
+    (100) empty -> .
 
     VAR             shift and go to state 10
-    LBRACE          reduce using rule 94 (empty -> .)
+    LBRACE          reduce using rule 100 (empty -> .)
 
     vars_or_not                    shift and go to state 125
     vars                           shift and go to state 126
@@ -1574,17 +1588,17 @@ state 107
     (54) more_terms -> . PLUS capture_Oper exp
     (55) more_terms -> . MINUS capture_Oper exp
     (56) more_terms -> . empty
-    (94) empty -> .
+    (100) empty -> .
 
     PLUS            shift and go to state 133
     MINUS           shift and go to state 134
-    GT              reduce using rule 94 (empty -> .)
-    LT              reduce using rule 94 (empty -> .)
-    NEQ             reduce using rule 94 (empty -> .)
-    EQ              reduce using rule 94 (empty -> .)
-    SEMI            reduce using rule 94 (empty -> .)
-    COMMA           reduce using rule 94 (empty -> .)
-    RPAREN          reduce using rule 94 (empty -> .)
+    GT              reduce using rule 100 (empty -> .)
+    LT              reduce using rule 100 (empty -> .)
+    NEQ             reduce using rule 100 (empty -> .)
+    EQ              reduce using rule 100 (empty -> .)
+    SEMI            reduce using rule 100 (empty -> .)
+    COMMA           reduce using rule 100 (empty -> .)
+    RPAREN          reduce using rule 100 (empty -> .)
 
     more_terms                     shift and go to state 132
     empty                          shift and go to state 135
@@ -1595,19 +1609,19 @@ state 108
     (60) more_factors -> . TIMES capture_Oper term
     (61) more_factors -> . DIVIDE capture_Oper term
     (62) more_factors -> . empty
-    (94) empty -> .
+    (100) empty -> .
 
     TIMES           shift and go to state 137
     DIVIDE          shift and go to state 138
-    PLUS            reduce using rule 94 (empty -> .)
-    MINUS           reduce using rule 94 (empty -> .)
-    GT              reduce using rule 94 (empty -> .)
-    LT              reduce using rule 94 (empty -> .)
-    NEQ             reduce using rule 94 (empty -> .)
-    EQ              reduce using rule 94 (empty -> .)
-    SEMI            reduce using rule 94 (empty -> .)
-    COMMA           reduce using rule 94 (empty -> .)
-    RPAREN          reduce using rule 94 (empty -> .)
+    PLUS            reduce using rule 100 (empty -> .)
+    MINUS           reduce using rule 100 (empty -> .)
+    GT              reduce using rule 100 (empty -> .)
+    LT              reduce using rule 100 (empty -> .)
+    NEQ             reduce using rule 100 (empty -> .)
+    EQ              reduce using rule 100 (empty -> .)
+    SEMI            reduce using rule 100 (empty -> .)
+    COMMA           reduce using rule 100 (empty -> .)
+    RPAREN          reduce using rule 100 (empty -> .)
 
     more_factors                   shift and go to state 136
     empty                          shift and go to state 139
@@ -1737,7 +1751,7 @@ state 115
 
     (74) llamada -> ID LPAREN expresion_or_not RPAREN .
 
-    COMMA           reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    SEMI            reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
     TIMES           reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
     DIVIDE          reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
     PLUS            reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
@@ -1746,7 +1760,7 @@ state 115
     LT              reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
     NEQ             reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
     EQ              reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-    SEMI            reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    COMMA           reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
     RPAREN          reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
 
 
@@ -1800,49 +1814,49 @@ state 118
 
 state 119
 
-    (83) condition -> IF LPAREN expresion RPAREN . body else_or_not SEMI
-    (34) body -> . LBRACE statement_loop RBRACE
+    (83) condition -> IF LPAREN expresion RPAREN . mark_if body else_or_not SEMI mark_end_if
+    (84) mark_if -> .
 
-    LBRACE          shift and go to state 40
+    LBRACE          reduce using rule 84 (mark_if -> .)
 
-    body                           shift and go to state 142
+    mark_if                        shift and go to state 142
 
 state 120
 
-    (86) cycle -> WHILE LPAREN expresion RPAREN . DO body SEMI
+    (89) cycle -> WHILE mark_while LPAREN expresion . RPAREN skip_while DO body SEMI return_while
 
-    DO              shift and go to state 143
+    RPAREN          shift and go to state 143
 
 
 state 121
 
-    (87) print -> PRINT LPAREN expresion_or_string RPAREN . SEMI
+    (93) print -> PRINT LPAREN expresion_or_string RPAREN . SEMI
 
     SEMI            shift and go to state 144
 
 
 state 122
 
-    (88) expresion_or_string -> expresion print_expr . list_objs
-    (92) list_objs -> . COMMA expresion_or_string
-    (93) list_objs -> . empty
-    (94) empty -> .
+    (94) expresion_or_string -> expresion print_expr . list_objs
+    (98) list_objs -> . COMMA expresion_or_string
+    (99) list_objs -> . empty
+    (100) empty -> .
 
     COMMA           shift and go to state 146
-    RPAREN          reduce using rule 94 (empty -> .)
+    RPAREN          reduce using rule 100 (empty -> .)
 
     list_objs                      shift and go to state 145
     empty                          shift and go to state 147
 
 state 123
 
-    (89) expresion_or_string -> CTE_STRING print_str . list_objs
-    (92) list_objs -> . COMMA expresion_or_string
-    (93) list_objs -> . empty
-    (94) empty -> .
+    (95) expresion_or_string -> CTE_STRING print_str . list_objs
+    (98) list_objs -> . COMMA expresion_or_string
+    (99) list_objs -> . empty
+    (100) empty -> .
 
     COMMA           shift and go to state 146
-    RPAREN          reduce using rule 94 (empty -> .)
+    RPAREN          reduce using rule 100 (empty -> .)
 
     list_objs                      shift and go to state 148
     empty                          shift and go to state 147
@@ -2132,61 +2146,57 @@ state 141
     (77) expresion_loop -> COMMA expresion . expresion_loop
     (77) expresion_loop -> . COMMA expresion expresion_loop
     (78) expresion_loop -> . empty
-    (94) empty -> .
+    (100) empty -> .
 
     COMMA           shift and go to state 117
-    RPAREN          reduce using rule 94 (empty -> .)
+    RPAREN          reduce using rule 100 (empty -> .)
 
     expresion_loop                 shift and go to state 160
     empty                          shift and go to state 118
 
 state 142
 
-    (83) condition -> IF LPAREN expresion RPAREN body . else_or_not SEMI
-    (84) else_or_not -> . ELSE body
-    (85) else_or_not -> . empty
-    (94) empty -> .
-
-    ELSE            shift and go to state 162
-    SEMI            reduce using rule 94 (empty -> .)
-
-    else_or_not                    shift and go to state 161
-    empty                          shift and go to state 163
-
-state 143
-
-    (86) cycle -> WHILE LPAREN expresion RPAREN DO . body SEMI
+    (83) condition -> IF LPAREN expresion RPAREN mark_if . body else_or_not SEMI mark_end_if
     (34) body -> . LBRACE statement_loop RBRACE
 
     LBRACE          shift and go to state 40
 
-    body                           shift and go to state 164
+    body                           shift and go to state 161
+
+state 143
+
+    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN . skip_while DO body SEMI return_while
+    (91) skip_while -> .
+
+    DO              reduce using rule 91 (skip_while -> .)
+
+    skip_while                     shift and go to state 162
 
 state 144
 
-    (87) print -> PRINT LPAREN expresion_or_string RPAREN SEMI .
+    (93) print -> PRINT LPAREN expresion_or_string RPAREN SEMI .
 
-    LBRACKET        reduce using rule 87 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    ID              reduce using rule 87 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    IF              reduce using rule 87 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    WHILE           reduce using rule 87 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    PRINT           reduce using rule 87 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    RBRACE          reduce using rule 87 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    RBRACKET        reduce using rule 87 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    LBRACKET        reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    ID              reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    IF              reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    WHILE           reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    PRINT           reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    RBRACE          reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    RBRACKET        reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
 
 
 state 145
 
-    (88) expresion_or_string -> expresion print_expr list_objs .
+    (94) expresion_or_string -> expresion print_expr list_objs .
 
-    RPAREN          reduce using rule 88 (expresion_or_string -> expresion print_expr list_objs .)
+    RPAREN          reduce using rule 94 (expresion_or_string -> expresion print_expr list_objs .)
 
 
 state 146
 
-    (92) list_objs -> COMMA . expresion_or_string
-    (88) expresion_or_string -> . expresion print_expr list_objs
-    (89) expresion_or_string -> . CTE_STRING print_str list_objs
+    (98) list_objs -> COMMA . expresion_or_string
+    (94) expresion_or_string -> . expresion print_expr list_objs
+    (95) expresion_or_string -> . CTE_STRING print_str list_objs
     (44) expresion -> . exp relations_or_not
     (52) exp -> . term check_plus_minus more_terms
     (58) term -> . factor check_mult_div more_factors
@@ -2210,7 +2220,7 @@ state 146
     CTE_INT         shift and go to state 87
     CTE_FLOAT       shift and go to state 88
 
-    expresion_or_string            shift and go to state 165
+    expresion_or_string            shift and go to state 163
     expresion                      shift and go to state 95
     exp                            shift and go to state 77
     term                           shift and go to state 78
@@ -2222,16 +2232,16 @@ state 146
 
 state 147
 
-    (93) list_objs -> empty .
+    (99) list_objs -> empty .
 
-    RPAREN          reduce using rule 93 (list_objs -> empty .)
+    RPAREN          reduce using rule 99 (list_objs -> empty .)
 
 
 state 148
 
-    (89) expresion_or_string -> CTE_STRING print_str list_objs .
+    (95) expresion_or_string -> CTE_STRING print_str list_objs .
 
-    RPAREN          reduce using rule 89 (expresion_or_string -> CTE_STRING print_str list_objs .)
+    RPAREN          reduce using rule 95 (expresion_or_string -> CTE_STRING print_str list_objs .)
 
 
 state 149
@@ -2239,19 +2249,19 @@ state 149
     (28) ids -> ID capture_id COLON type capture_type . ids_loop
     (30) ids_loop -> . COMMA ids
     (31) ids_loop -> . empty
-    (94) empty -> .
+    (100) empty -> .
 
-    COMMA           shift and go to state 167
-    RPAREN          reduce using rule 94 (empty -> .)
+    COMMA           shift and go to state 165
+    RPAREN          reduce using rule 100 (empty -> .)
 
-    ids_loop                       shift and go to state 166
-    empty                          shift and go to state 168
+    ids_loop                       shift and go to state 164
+    empty                          shift and go to state 166
 
 state 150
 
     (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body . RBRACE end_func SEMI
 
-    RBRACE          shift and go to state 169
+    RBRACE          shift and go to state 167
 
 
 state 151
@@ -2263,7 +2273,7 @@ state 151
     COMMA           reduce using rule 51 (check_relation -> .)
     RPAREN          reduce using rule 51 (check_relation -> .)
 
-    check_relation                 shift and go to state 170
+    check_relation                 shift and go to state 168
 
 state 152
 
@@ -2274,7 +2284,7 @@ state 152
     COMMA           reduce using rule 51 (check_relation -> .)
     RPAREN          reduce using rule 51 (check_relation -> .)
 
-    check_relation                 shift and go to state 171
+    check_relation                 shift and go to state 169
 
 state 153
 
@@ -2285,7 +2295,7 @@ state 153
     COMMA           reduce using rule 51 (check_relation -> .)
     RPAREN          reduce using rule 51 (check_relation -> .)
 
-    check_relation                 shift and go to state 172
+    check_relation                 shift and go to state 170
 
 state 154
 
@@ -2296,7 +2306,7 @@ state 154
     COMMA           reduce using rule 51 (check_relation -> .)
     RPAREN          reduce using rule 51 (check_relation -> .)
 
-    check_relation                 shift and go to state 173
+    check_relation                 shift and go to state 171
 
 state 155
 
@@ -2322,7 +2332,7 @@ state 155
     CTE_INT         shift and go to state 87
     CTE_FLOAT       shift and go to state 88
 
-    exp                            shift and go to state 174
+    exp                            shift and go to state 172
     term                           shift and go to state 78
     factor                         shift and go to state 79
     factor_type                    shift and go to state 80
@@ -2354,7 +2364,7 @@ state 156
     CTE_INT         shift and go to state 87
     CTE_FLOAT       shift and go to state 88
 
-    exp                            shift and go to state 175
+    exp                            shift and go to state 173
     term                           shift and go to state 78
     factor                         shift and go to state 79
     factor_type                    shift and go to state 80
@@ -2385,7 +2395,7 @@ state 157
     CTE_INT         shift and go to state 87
     CTE_FLOAT       shift and go to state 88
 
-    term                           shift and go to state 176
+    term                           shift and go to state 174
     factor                         shift and go to state 79
     factor_type                    shift and go to state 80
     id_or_cte                      shift and go to state 83
@@ -2415,7 +2425,7 @@ state 158
     CTE_INT         shift and go to state 87
     CTE_FLOAT       shift and go to state 88
 
-    term                           shift and go to state 177
+    term                           shift and go to state 175
     factor                         shift and go to state 79
     factor_type                    shift and go to state 80
     id_or_cte                      shift and go to state 83
@@ -2439,7 +2449,7 @@ state 159
     COMMA           reduce using rule 69 (end_paren -> .)
     RPAREN          reduce using rule 69 (end_paren -> .)
 
-    end_paren                      shift and go to state 178
+    end_paren                      shift and go to state 176
 
 state 160
 
@@ -2450,78 +2460,70 @@ state 160
 
 state 161
 
-    (83) condition -> IF LPAREN expresion RPAREN body else_or_not . SEMI
+    (83) condition -> IF LPAREN expresion RPAREN mark_if body . else_or_not SEMI mark_end_if
+    (86) else_or_not -> . mark_else ELSE body
+    (87) else_or_not -> . empty
+    (88) mark_else -> .
+    (100) empty -> .
 
-    SEMI            shift and go to state 179
+    ELSE            reduce using rule 88 (mark_else -> .)
+    SEMI            reduce using rule 100 (empty -> .)
 
+    else_or_not                    shift and go to state 177
+    mark_else                      shift and go to state 178
+    empty                          shift and go to state 179
 
 state 162
 
-    (84) else_or_not -> ELSE . body
-    (34) body -> . LBRACE statement_loop RBRACE
+    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while . DO body SEMI return_while
 
-    LBRACE          shift and go to state 40
+    DO              shift and go to state 180
 
-    body                           shift and go to state 180
 
 state 163
 
-    (85) else_or_not -> empty .
+    (98) list_objs -> COMMA expresion_or_string .
 
-    SEMI            reduce using rule 85 (else_or_not -> empty .)
+    RPAREN          reduce using rule 98 (list_objs -> COMMA expresion_or_string .)
 
 
 state 164
-
-    (86) cycle -> WHILE LPAREN expresion RPAREN DO body . SEMI
-
-    SEMI            shift and go to state 181
-
-
-state 165
-
-    (92) list_objs -> COMMA expresion_or_string .
-
-    RPAREN          reduce using rule 92 (list_objs -> COMMA expresion_or_string .)
-
-
-state 166
 
     (28) ids -> ID capture_id COLON type capture_type ids_loop .
 
     RPAREN          reduce using rule 28 (ids -> ID capture_id COLON type capture_type ids_loop .)
 
 
-state 167
+state 165
 
     (30) ids_loop -> COMMA . ids
     (28) ids -> . ID capture_id COLON type capture_type ids_loop
     (29) ids -> . empty
-    (94) empty -> .
+    (100) empty -> .
 
     ID              shift and go to state 57
-    RPAREN          reduce using rule 94 (empty -> .)
+    RPAREN          reduce using rule 100 (empty -> .)
 
-    ids                            shift and go to state 182
+    ids                            shift and go to state 181
     empty                          shift and go to state 59
 
-state 168
+state 166
 
     (31) ids_loop -> empty .
 
     RPAREN          reduce using rule 31 (ids_loop -> empty .)
 
 
-state 169
+state 167
 
     (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE . end_func SEMI
     (21) end_func -> .
 
     SEMI            reduce using rule 21 (end_func -> .)
 
-    end_func                       shift and go to state 183
+    end_func                       shift and go to state 182
 
-state 170
+state 168
 
     (45) relations_or_not -> GT capture_relation exp check_relation .
 
@@ -2530,7 +2532,7 @@ state 170
     RPAREN          reduce using rule 45 (relations_or_not -> GT capture_relation exp check_relation .)
 
 
-state 171
+state 169
 
     (46) relations_or_not -> LT capture_relation exp check_relation .
 
@@ -2539,7 +2541,7 @@ state 171
     RPAREN          reduce using rule 46 (relations_or_not -> LT capture_relation exp check_relation .)
 
 
-state 172
+state 170
 
     (47) relations_or_not -> NEQ capture_relation exp check_relation .
 
@@ -2548,7 +2550,7 @@ state 172
     RPAREN          reduce using rule 47 (relations_or_not -> NEQ capture_relation exp check_relation .)
 
 
-state 173
+state 171
 
     (48) relations_or_not -> EQ capture_relation exp check_relation .
 
@@ -2557,7 +2559,7 @@ state 173
     RPAREN          reduce using rule 48 (relations_or_not -> EQ capture_relation exp check_relation .)
 
 
-state 174
+state 172
 
     (54) more_terms -> PLUS capture_Oper exp .
 
@@ -2570,7 +2572,7 @@ state 174
     RPAREN          reduce using rule 54 (more_terms -> PLUS capture_Oper exp .)
 
 
-state 175
+state 173
 
     (55) more_terms -> MINUS capture_Oper exp .
 
@@ -2583,7 +2585,7 @@ state 175
     RPAREN          reduce using rule 55 (more_terms -> MINUS capture_Oper exp .)
 
 
-state 176
+state 174
 
     (60) more_factors -> TIMES capture_Oper term .
 
@@ -2598,7 +2600,7 @@ state 176
     RPAREN          reduce using rule 60 (more_factors -> TIMES capture_Oper term .)
 
 
-state 177
+state 175
 
     (61) more_factors -> DIVIDE capture_Oper term .
 
@@ -2613,7 +2615,7 @@ state 177
     RPAREN          reduce using rule 61 (more_factors -> DIVIDE capture_Oper term .)
 
 
-state 178
+state 176
 
     (63) factor_type -> LPAREN begin_paren expresion RPAREN end_paren .
 
@@ -2630,54 +2632,82 @@ state 178
     RPAREN          reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
 
 
+state 177
+
+    (83) condition -> IF LPAREN expresion RPAREN mark_if body else_or_not . SEMI mark_end_if
+
+    SEMI            shift and go to state 183
+
+
+state 178
+
+    (86) else_or_not -> mark_else . ELSE body
+
+    ELSE            shift and go to state 184
+
+
 state 179
 
-    (83) condition -> IF LPAREN expresion RPAREN body else_or_not SEMI .
+    (87) else_or_not -> empty .
 
-    LBRACKET        reduce using rule 83 (condition -> IF LPAREN expresion RPAREN body else_or_not SEMI .)
-    ID              reduce using rule 83 (condition -> IF LPAREN expresion RPAREN body else_or_not SEMI .)
-    IF              reduce using rule 83 (condition -> IF LPAREN expresion RPAREN body else_or_not SEMI .)
-    WHILE           reduce using rule 83 (condition -> IF LPAREN expresion RPAREN body else_or_not SEMI .)
-    PRINT           reduce using rule 83 (condition -> IF LPAREN expresion RPAREN body else_or_not SEMI .)
-    RBRACE          reduce using rule 83 (condition -> IF LPAREN expresion RPAREN body else_or_not SEMI .)
-    RBRACKET        reduce using rule 83 (condition -> IF LPAREN expresion RPAREN body else_or_not SEMI .)
+    SEMI            reduce using rule 87 (else_or_not -> empty .)
 
 
 state 180
 
-    (84) else_or_not -> ELSE body .
+    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO . body SEMI return_while
+    (34) body -> . LBRACE statement_loop RBRACE
 
-    SEMI            reduce using rule 84 (else_or_not -> ELSE body .)
+    LBRACE          shift and go to state 40
 
+    body                           shift and go to state 185
 
 state 181
-
-    (86) cycle -> WHILE LPAREN expresion RPAREN DO body SEMI .
-
-    LBRACKET        reduce using rule 86 (cycle -> WHILE LPAREN expresion RPAREN DO body SEMI .)
-    ID              reduce using rule 86 (cycle -> WHILE LPAREN expresion RPAREN DO body SEMI .)
-    IF              reduce using rule 86 (cycle -> WHILE LPAREN expresion RPAREN DO body SEMI .)
-    WHILE           reduce using rule 86 (cycle -> WHILE LPAREN expresion RPAREN DO body SEMI .)
-    PRINT           reduce using rule 86 (cycle -> WHILE LPAREN expresion RPAREN DO body SEMI .)
-    RBRACE          reduce using rule 86 (cycle -> WHILE LPAREN expresion RPAREN DO body SEMI .)
-    RBRACKET        reduce using rule 86 (cycle -> WHILE LPAREN expresion RPAREN DO body SEMI .)
-
-
-state 182
 
     (30) ids_loop -> COMMA ids .
 
     RPAREN          reduce using rule 30 (ids_loop -> COMMA ids .)
 
 
-state 183
+state 182
 
     (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func . SEMI
 
-    SEMI            shift and go to state 184
+    SEMI            shift and go to state 186
 
+
+state 183
+
+    (83) condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI . mark_end_if
+    (85) mark_end_if -> .
+
+    LBRACKET        reduce using rule 85 (mark_end_if -> .)
+    ID              reduce using rule 85 (mark_end_if -> .)
+    IF              reduce using rule 85 (mark_end_if -> .)
+    WHILE           reduce using rule 85 (mark_end_if -> .)
+    PRINT           reduce using rule 85 (mark_end_if -> .)
+    RBRACE          reduce using rule 85 (mark_end_if -> .)
+    RBRACKET        reduce using rule 85 (mark_end_if -> .)
+
+    mark_end_if                    shift and go to state 187
 
 state 184
+
+    (86) else_or_not -> mark_else ELSE . body
+    (34) body -> . LBRACE statement_loop RBRACE
+
+    LBRACE          shift and go to state 40
+
+    body                           shift and go to state 188
+
+state 185
+
+    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body . SEMI return_while
+
+    SEMI            shift and go to state 189
+
+
+state 186
 
     (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI .
 
@@ -2685,4 +2715,52 @@ state 184
     INT             reduce using rule 20 (funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI .)
     FLOAT           reduce using rule 20 (funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI .)
     MAIN            reduce using rule 20 (funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI .)
+
+
+state 187
+
+    (83) condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .
+
+    LBRACKET        reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    ID              reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    IF              reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    WHILE           reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    PRINT           reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    RBRACE          reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    RBRACKET        reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+
+
+state 188
+
+    (86) else_or_not -> mark_else ELSE body .
+
+    SEMI            reduce using rule 86 (else_or_not -> mark_else ELSE body .)
+
+
+state 189
+
+    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI . return_while
+    (92) return_while -> .
+
+    LBRACKET        reduce using rule 92 (return_while -> .)
+    ID              reduce using rule 92 (return_while -> .)
+    IF              reduce using rule 92 (return_while -> .)
+    WHILE           reduce using rule 92 (return_while -> .)
+    PRINT           reduce using rule 92 (return_while -> .)
+    RBRACE          reduce using rule 92 (return_while -> .)
+    RBRACKET        reduce using rule 92 (return_while -> .)
+
+    return_while                   shift and go to state 190
+
+state 190
+
+    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .
+
+    LBRACKET        reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    ID              reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    IF              reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    WHILE           reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    PRINT           reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    RBRACE          reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    RBRACKET        reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
 
