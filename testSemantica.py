@@ -3,31 +3,23 @@ import sys
 import importlib
 import lexer as lexer_module
 import parser as parser_module
-from semantics import Avail, QuadManager
+from semantics import Avail, QuadManager, TablaConstantes
+from dirVirtual import MemoryManager
 
 
 def crear_parser_nuevo():
-    """Reimporta e inicializa un parser completamente nuevo."""
     importlib.reload(lexer_module)
     importlib.reload(parser_module)
 
+    memoria = MemoryManager()
+
     lexer = lexer_module.lexer
-    parser = parser_module.parser
 
-    # Reinciar atributos personalizados del parser
-    parser.current_type = None
-    parser.current_var_table = None
-    parser.dir_func = None
-    parser.nombre_funcion = None
-    parser.id_list = []
-
-    parser.PilaO = []
-    parser.PTypes = []
-    parser.Poper = []
-    parser.temp_list = Avail()
-    parser.Quad = QuadManager()
+    # Llamar a una función que construya un parser nuevo con memoria nueva
+    parser = parser_module.create_parser(memoria)
 
     return lexer, parser
+
 
 
 def probar_codigo(codigo):
@@ -267,7 +259,7 @@ main
         while (a > b) do {
         print(c);
         };
-        print("hola");
+        print("hola", "papa", 1 + 2);
     } else {
         b = 1;
     };
@@ -277,6 +269,27 @@ main
 end
 '''
 
+codigo11 = '''
+program test;
+var a,b: int;
+
+    int suma(a: int, y: int){
+        var res : int;
+        {
+            res = a + y;
+            return res;
+        }
+    }; 
+
+main
+{
+    a = 1;
+    b = 2;
+    print(suma(a,b));
+}
+end
+'''
+
 # Ejecutar pruebas
-for codigo in [codigo10]:
+for codigo in [codigo11]:
     probar_codigo(codigo)

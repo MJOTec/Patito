@@ -1,6 +1,6 @@
 import ply.yacc as yacc
 from lexer import tokens
-from semantics import DirectorioFunciones, Avail, QuadManager
+from semantics import DirectorioFunciones, Avail, QuadManager, TablaConstantes
 from cubo_semantico import cubo_semantico
 
 # ----------------------------
@@ -21,18 +21,16 @@ def p_set_global_scope(p):
     global_name = list(p.parser.dir_func.funciones.keys())[0]
     p.parser.nombre_funcion = global_name
     p.parser.current_var_table = p.parser.dir_func.funciones[global_name]["tabla_variables"]
-    print(f"[DEBUG] Entrando a main, usando contexto global: {global_name}")
 
 
 def p_create_dir(p):
     "create_dir : "
-    p.parser.dir_func = DirectorioFunciones()
-    print("Entre al programa")
+    p.parser.dir_func = DirectorioFunciones(p.parser.memoria)
 
 def p_fill_dir(p):
     "fill_dir : "
     p.parser.nombre_funcion = p[-1]
-    p.parser.dir_func.agregar_funcion(p.parser.nombre_funcion,"VOID")
+    p.parser.dir_func.agregar_funcion(p.parser.nombre_funcion,"PROGRAM","global")
 
 def p_clean_memory(p):
     "clean_memory :"
@@ -90,6 +88,7 @@ def p_capture_type(p):
     # Agregar todas las variables que estaban en espera
     for nombre_var in p.parser.id_list:
         p.parser.dir_func.funciones[p.parser.nombre_funcion]["tabla_variables"].agregar_variable(nombre_var, p.parser.current_type)
+        
 
     # Limpiar la lista para la próxima declaración
     p.parser.id_list.clear()
@@ -102,11 +101,12 @@ def p_end_func(p):
     'end_func :'
     p.parser.dir_func.funciones[p.parser.nombre_funcion]["tabla_variables"] = None
     p.parser.current_var_table = None
+    p.parser.Quad.generate("EndFunc", None, None, None)
 
 def p_create_func(p):
     'create_func :'
     p.parser.nombre_funcion = p[-1]
-    p.parser.dir_func.agregar_funcion(p.parser.nombre_funcion,p.parser.current_type)
+    p.parser.dir_func.agregar_funcion(p.parser.nombre_funcion,p.parser.current_type,"local")
 
 def p_void_or_type(p):
     '''void_or_type : VOID func_type
@@ -156,8 +156,27 @@ def p_statement(p):
                  | llamada SEMI
                  | print
                  | LBRACKET statement_loop RBRACKET
+                 | RETURN expresion SEMI end_return 
                  '''
     pass
+
+def p_end_return(p):
+    'end_return :'
+    func = p.parser.nombre_funcion
+    tipo_funcion = p.parser.dir_func.funciones[func]["tipo_retorno"]
+    #dir_retorno = p.parser.dir_func.funciones[func]["dir_retorno"]
+
+    result = p.parser.PilaO.pop()
+    result_type = p.parser.PTypes.pop()
+
+    if tipo_funcion == "void":
+        raise TypeError("Una función void no puede retornar un valor.")
+
+    if result_type != tipo_funcion:
+        raise TypeError(f"Tipo de retorno incorrecto: se esperaba {tipo_funcion}, se obtuvo {result_type}")
+
+    # Generar el cuádruplo
+    p.parser.Quad.generate("RETURN", result, None, None)
 
 def p_assign(p):
     'assign : ID ASSIGN expresion SEMI'
@@ -168,13 +187,14 @@ def p_assign(p):
 
     # obtener tipo de la variable
     var_type = p.parser.dir_func.obtener_funcion(p.parser.nombre_funcion)["tabla_variables"].get_type(var_name)
+    # get address
+    var_dir = p.parser.dir_func.obtener_funcion(p.parser.nombre_funcion)["tabla_variables"].get_address(var_name)
 
     if result_type == var_type or (result_type == "int" and var_type == "float"):
         # generar el cuádruplo de asignación
-        p.parser.Quad.generate("=", result, None, var_name)
-        print(f"[QUAD] =, {result}, None, {var_name}")
+        p.parser.Quad.generate("=", result, None, var_dir)
     else:
-        print(f"Error: Tipo incompatible en asignación {var_type} = {result_type}")
+        raise TypeError(f"Tipo incompatible en asignación: {var_type} = {result_type}")
 
 def p_expresion(p):
     '''expresion : exp relations_or_not'''
@@ -191,26 +211,24 @@ def p_relations_or_not(p):
 def p_capture_relation(p):
     'capture_relation :'
     p.parser.Poper.append(p[-1])
-    print("Se agrego " + p[-1] + " a los operadores")
 
 def p_check_relation(p):
     'check_relation :'
     if p.parser.Poper and p.parser.Poper[-1] in ['>', '<', '==', '!=']:
-            print("Entre al check types")
             right_operand = p.parser.PilaO.pop()
             right_type = p.parser.PTypes.pop()
             left_operand = p.parser.PilaO.pop()
             left_type = p.parser.PTypes.pop()
             operator = p.parser.Poper.pop()
             result_type = cubo_semantico[operator][left_type][right_type]
-            print("El tipo final es: " + result_type)
             if result_type != 'error':
-                result = p.parser.temp_list.next()
+                result = p.parser.temp_list.next(result_type)
                 p.parser.Quad.generate(operator,left_operand,right_operand,result)
                 p.parser.PilaO.append(result)
                 p.parser.PTypes.append(result_type)
             else:
-                print("Error: Tipo no valido")
+                raise TypeError("Tipo no válido")
+
 
 def p_exp(p):
     'exp : term check_plus_minus more_terms'
@@ -220,21 +238,19 @@ def p_check_plus_minus(p):
     'check_plus_minus :'
 
     if p.parser.Poper and p.parser.Poper[-1] in ['+', '-']:
-        print("Entre al check types")
         right_operand = p.parser.PilaO.pop()
         right_type = p.parser.PTypes.pop()
         left_operand = p.parser.PilaO.pop()
         left_type = p.parser.PTypes.pop()
         operator = p.parser.Poper.pop()
         result_type = cubo_semantico[operator][left_type][right_type]
-        print("El tipo final es: " + result_type)
         if result_type != 'error':
-            result = p.parser.temp_list.next()
+            result = p.parser.temp_list.next(result_type)
             p.parser.Quad.generate(operator,left_operand,right_operand,result)
             p.parser.PilaO.append(result)
             p.parser.PTypes.append(result_type)
         else:
-            print("Error: Tipo no valido")
+            raise TypeError("Tipo no válido")
 
 
 def p_more_terms(p):
@@ -246,7 +262,6 @@ def p_more_terms(p):
 def p_capture_Oper(p):
     'capture_Oper :'
     p.parser.Poper.append(p[-1])
-    print("Se agrego " + p[-1] + " a los operadores")
 
 def p_term(p):
     'term : factor check_mult_div more_factors'
@@ -255,21 +270,20 @@ def p_term(p):
 def p_check_mult_div(p):
     'check_mult_div :'
     if p.parser.Poper and p.parser.Poper[-1] in ['*', '/']:
-        print("Entre al check types")
         right_operand = p.parser.PilaO.pop()
         right_type = p.parser.PTypes.pop()
         left_operand = p.parser.PilaO.pop()
         left_type = p.parser.PTypes.pop()
         operator = p.parser.Poper.pop()
         result_type = cubo_semantico[operator][left_type][right_type]
-        print("El tipo final es: " + result_type)
         if result_type != 'error':
-            result = p.parser.temp_list.next()
+            result = p.parser.temp_list.next(result_type)
             p.parser.Quad.generate(operator,left_operand,right_operand,result)
             p.parser.PilaO.append(result)
             p.parser.PTypes.append(result_type)
         else:
-            print("Error: Tipo no valido")
+            raise TypeError("Tipo no válido")
+
 
 def p_more_factors(p):
     '''more_factors : TIMES capture_Oper term
@@ -288,12 +302,10 @@ def p_factor_type(p):
 def p_begin_paren(p):
     'begin_paren :'
     p.parser.Poper.append("(")
-    print("Entro en ()")
 
 def p_end_paren(p):
     'end_paren :'
     p.parser.Poper.pop()
-    print("Saliendo del ()")
 
 def p_factor(p):
     '''factor : factor_type
@@ -307,12 +319,17 @@ def p_id_or_cte(p):
 
 def p_capture_id_oper(p):
     'capture_id_oper :'
-    p.parser.nombre_id = p[-1]
-    p.parser.PilaO.append(p.parser.nombre_id)
-    print("Se agrego a la pilaO: " + p.parser.nombre_id)
-    tipo_var = p.parser.dir_func.obtener_funcion(p.parser.nombre_funcion)["tabla_variables"].get_type(p.parser.nombre_id)
-    print("El tipo de la variable es: " + tipo_var)
-    p.parser.PTypes.append(tipo_var)
+    nombre = p[-1]
+
+    # Obtener dirección y tipo desde la tabla
+    tabla = p.parser.dir_func.obtener_funcion(p.parser.nombre_funcion)["tabla_variables"]
+    direccion = tabla.get_address(nombre)
+    tipo = tabla.get_type(nombre)
+
+    # Push dirección
+    p.parser.PilaO.append(direccion)
+    p.parser.PTypes.append(tipo)
+
 
 def p_llamada(p):
     'llamada : ID LPAREN expresion_or_not RPAREN'
@@ -339,19 +356,23 @@ def p_capture_cte_int(p):
     'capture_cte_int :'
     valor = p[-1]
     tipo = "int"
-    p.parser.PilaO.append(valor)
-    print("Se agrego a la pilaO: " + str(valor))
-    print("El tipo de la variable es: " + tipo)
+
+    direccion = p.parser.constantes.agregar_constante(valor, tipo)
+
+    p.parser.PilaO.append(direccion)
     p.parser.PTypes.append(tipo)
+
 
 def p_capture_cte_float(p):
     'capture_cte_float :'
     valor = p[-1]
     tipo = "float"
-    p.parser.PilaO.append(valor)
-    print("Se agrego a la pilaO: " + str(valor))
-    print("El tipo de la variable es: " + tipo)
+
+    direccion = p.parser.constantes.agregar_constante(valor, tipo)
+
+    p.parser.PilaO.append(direccion)
     p.parser.PTypes.append(tipo)
+
 
 def p_condition(p):
     'condition : IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if'
@@ -361,7 +382,6 @@ def p_condition(p):
 def p_mark_if(p):
     'mark_if :'
     exp_type = p.parser.PTypes.pop()
-    print("El tipo es: " + exp_type)
     if exp_type != "bool":
         raise TypeError("Type mismatch: IF condition must be bool")
 
@@ -385,7 +405,6 @@ def p_mark_end_if(p):
 
     op, left, right, _ = p.parser.Quad.quads[pending_jump]
     p.parser.Quad.quads[pending_jump] = (op, left, right, end)
-    print(p.parser.Quad.quads[pending_jump])
 
 def p_else_or_not(p):
     '''else_or_not : mark_else ELSE body
@@ -442,12 +461,13 @@ def p_print_expr(p):
     expr = p.parser.PilaO.pop()
     p.parser.PTypes.pop()
     p.parser.Quad.generate("PRINT", None, None, expr)
-    print(f"[QUAD] PRINT, None, None, {expr}")
 
 def p_print_str(p):
     'print_str :'
-    p.parser.Quad.generate("PRINT", None, None, p[-1])
-    print(f"[QUAD] PRINT, None, None, {p[-1]}")
+    valor = p[-1][1:-1]   # Quitar comillas
+    direccion = p.parser.constantes.agregar_constante(valor, "string")
+    p.parser.Quad.generate("PRINT", None, None, direccion)
+
 
 def p_list_objs(p):
     '''list_objs : COMMA expresion_or_string
@@ -465,20 +485,24 @@ def p_error(p):
         raise SyntaxError("Error de sintaxis al final del archivo")
 
 
-parser = yacc.yacc()
+def create_parser(memoria):
+    parser = yacc.yacc()
 
+    # Inicialización de estructuras del parser
+    parser.memoria = memoria
+    parser.temp_list = Avail(memoria)
+    parser.constantes = TablaConstantes(memoria)
+    parser.Quad = QuadManager()
 
-# Inicializar los atributos del parser
-parser.current_type = None
-parser.current_var_table = None
-parser.dir_func = None
-parser.nombre_funcion = None
-parser.id_list = []
+    parser.current_type = None
+    parser.current_var_table = None
+    parser.dir_func = None
+    parser.nombre_funcion = None
+    parser.id_list = []
 
-parser.PilaO = []
-parser.PTypes = []
-parser.Poper = []
-parser.PJumps = []
+    parser.PilaO = []
+    parser.PTypes = []
+    parser.Poper = []
+    parser.PJumps = []
 
-parser.temp_list = Avail()
-parser.Quad = QuadManager()
+    return parser

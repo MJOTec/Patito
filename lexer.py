@@ -21,7 +21,8 @@ reserved = {
     'else': 'ELSE',
     'while': 'WHILE',
     'do': 'DO',
-    'print': 'PRINT'
+    'print': 'PRINT',
+    'return': 'RETURN',
 }
 
 tokens += list(reserved.values())

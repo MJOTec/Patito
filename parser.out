@@ -45,166 +45,170 @@ Rule 39    statement -> cycle
 Rule 40    statement -> llamada SEMI
 Rule 41    statement -> print
 Rule 42    statement -> LBRACKET statement_loop RBRACKET
-Rule 43    assign -> ID ASSIGN expresion SEMI
-Rule 44    expresion -> exp relations_or_not
-Rule 45    relations_or_not -> GT capture_relation exp check_relation
-Rule 46    relations_or_not -> LT capture_relation exp check_relation
-Rule 47    relations_or_not -> NEQ capture_relation exp check_relation
-Rule 48    relations_or_not -> EQ capture_relation exp check_relation
-Rule 49    relations_or_not -> empty
-Rule 50    capture_relation -> <empty>
-Rule 51    check_relation -> <empty>
-Rule 52    exp -> term check_plus_minus more_terms
-Rule 53    check_plus_minus -> <empty>
-Rule 54    more_terms -> PLUS capture_Oper exp
-Rule 55    more_terms -> MINUS capture_Oper exp
-Rule 56    more_terms -> empty
-Rule 57    capture_Oper -> <empty>
-Rule 58    term -> factor check_mult_div more_factors
-Rule 59    check_mult_div -> <empty>
-Rule 60    more_factors -> TIMES capture_Oper term
-Rule 61    more_factors -> DIVIDE capture_Oper term
-Rule 62    more_factors -> empty
-Rule 63    factor_type -> LPAREN begin_paren expresion RPAREN end_paren
-Rule 64    factor_type -> PLUS id_or_cte
-Rule 65    factor_type -> MINUS id_or_cte
-Rule 66    factor_type -> id_or_cte
-Rule 67    factor_type -> llamada
-Rule 68    begin_paren -> <empty>
-Rule 69    end_paren -> <empty>
-Rule 70    factor -> factor_type
-Rule 71    id_or_cte -> ID capture_id_oper
-Rule 72    id_or_cte -> cte
-Rule 73    capture_id_oper -> <empty>
-Rule 74    llamada -> ID LPAREN expresion_or_not RPAREN
-Rule 75    expresion_or_not -> expresion expresion_loop
-Rule 76    expresion_or_not -> empty
-Rule 77    expresion_loop -> COMMA expresion expresion_loop
-Rule 78    expresion_loop -> empty
-Rule 79    cte -> CTE_INT capture_cte_int
-Rule 80    cte -> CTE_FLOAT capture_cte_float
-Rule 81    capture_cte_int -> <empty>
-Rule 82    capture_cte_float -> <empty>
-Rule 83    condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
-Rule 84    mark_if -> <empty>
-Rule 85    mark_end_if -> <empty>
-Rule 86    else_or_not -> mark_else ELSE body
-Rule 87    else_or_not -> empty
-Rule 88    mark_else -> <empty>
-Rule 89    cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
-Rule 90    mark_while -> <empty>
-Rule 91    skip_while -> <empty>
-Rule 92    return_while -> <empty>
-Rule 93    print -> PRINT LPAREN expresion_or_string RPAREN SEMI
-Rule 94    expresion_or_string -> expresion print_expr list_objs
-Rule 95    expresion_or_string -> CTE_STRING print_str list_objs
-Rule 96    print_expr -> <empty>
-Rule 97    print_str -> <empty>
-Rule 98    list_objs -> COMMA expresion_or_string
-Rule 99    list_objs -> empty
-Rule 100   empty -> <empty>
+Rule 43    statement -> RETURN expresion SEMI end_return
+Rule 44    end_return -> <empty>
+Rule 45    assign -> ID ASSIGN expresion SEMI
+Rule 46    expresion -> exp relations_or_not
+Rule 47    relations_or_not -> GT capture_relation exp check_relation
+Rule 48    relations_or_not -> LT capture_relation exp check_relation
+Rule 49    relations_or_not -> NEQ capture_relation exp check_relation
+Rule 50    relations_or_not -> EQ capture_relation exp check_relation
+Rule 51    relations_or_not -> empty
+Rule 52    capture_relation -> <empty>
+Rule 53    check_relation -> <empty>
+Rule 54    exp -> term check_plus_minus more_terms
+Rule 55    check_plus_minus -> <empty>
+Rule 56    more_terms -> PLUS capture_Oper exp
+Rule 57    more_terms -> MINUS capture_Oper exp
+Rule 58    more_terms -> empty
+Rule 59    capture_Oper -> <empty>
+Rule 60    term -> factor check_mult_div more_factors
+Rule 61    check_mult_div -> <empty>
+Rule 62    more_factors -> TIMES capture_Oper term
+Rule 63    more_factors -> DIVIDE capture_Oper term
+Rule 64    more_factors -> empty
+Rule 65    factor_type -> LPAREN begin_paren expresion RPAREN end_paren
+Rule 66    factor_type -> PLUS id_or_cte
+Rule 67    factor_type -> MINUS id_or_cte
+Rule 68    factor_type -> id_or_cte
+Rule 69    factor_type -> llamada
+Rule 70    begin_paren -> <empty>
+Rule 71    end_paren -> <empty>
+Rule 72    factor -> factor_type
+Rule 73    id_or_cte -> ID capture_id_oper
+Rule 74    id_or_cte -> cte
+Rule 75    capture_id_oper -> <empty>
+Rule 76    llamada -> ID LPAREN expresion_or_not RPAREN
+Rule 77    expresion_or_not -> expresion expresion_loop
+Rule 78    expresion_or_not -> empty
+Rule 79    expresion_loop -> COMMA expresion expresion_loop
+Rule 80    expresion_loop -> empty
+Rule 81    cte -> CTE_INT capture_cte_int
+Rule 82    cte -> CTE_FLOAT capture_cte_float
+Rule 83    capture_cte_int -> <empty>
+Rule 84    capture_cte_float -> <empty>
+Rule 85    condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
+Rule 86    mark_if -> <empty>
+Rule 87    mark_end_if -> <empty>
+Rule 88    else_or_not -> mark_else ELSE body
+Rule 89    else_or_not -> empty
+Rule 90    mark_else -> <empty>
+Rule 91    cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
+Rule 92    mark_while -> <empty>
+Rule 93    skip_while -> <empty>
+Rule 94    return_while -> <empty>
+Rule 95    print -> PRINT LPAREN expresion_or_string RPAREN SEMI
+Rule 96    expresion_or_string -> expresion print_expr list_objs
+Rule 97    expresion_or_string -> CTE_STRING print_str list_objs
+Rule 98    print_expr -> <empty>
+Rule 99    print_str -> <empty>
+Rule 100   list_objs -> COMMA expresion_or_string
+Rule 101   list_objs -> empty
+Rule 102   empty -> <empty>
 
 Terminals, with rules where they appear
 
-ASSIGN               : 43
+ASSIGN               : 45
 COLON                : 10 28
-COMMA                : 15 30 77 98
-CTE_FLOAT            : 80
-CTE_INT              : 79
-CTE_STRING           : 95
-DIVIDE               : 61
-DO                   : 89
-ELSE                 : 86
+COMMA                : 15 30 79 100
+CTE_FLOAT            : 82
+CTE_INT              : 81
+CTE_STRING           : 97
+DIVIDE               : 63
+DO                   : 91
+ELSE                 : 88
 END                  : 1
-EQ                   : 48
+EQ                   : 50
 FLOAT                : 18
-GT                   : 45
-ID                   : 1 13 20 28 43 71 74
-IF                   : 83
+GT                   : 47
+ID                   : 1 13 20 28 45 73 76
+IF                   : 85
 INT                  : 17
 LBRACE               : 20 34
 LBRACKET             : 42
-LPAREN               : 20 63 74 83 89 93
-LT                   : 46
+LPAREN               : 20 65 76 85 91 95
+LT                   : 48
 MAIN                 : 2
-MINUS                : 55 65
-NEQ                  : 47
-PLUS                 : 54 64
-PRINT                : 93
+MINUS                : 57 67
+NEQ                  : 49
+PLUS                 : 56 66
+PRINT                : 95
 PROGRAM              : 1
 RBRACE               : 20 34
 RBRACKET             : 42
-RPAREN               : 20 63 74 83 89 93
-SEMI                 : 1 10 20 40 43 83 89 93
-TIMES                : 60
+RETURN               : 43
+RPAREN               : 20 65 76 85 91 95
+SEMI                 : 1 10 20 40 43 45 85 91 95
+TIMES                : 62
 VAR                  : 9
 VOID                 : 23
-WHILE                : 89
+WHILE                : 91
 error                : 
 
 Nonterminals, with rules where they appear
 
 assign               : 37
-begin_paren          : 63
-body                 : 2 20 83 86 89
-capture_Oper         : 54 55 60 61
-capture_cte_float    : 80
-capture_cte_int      : 79
+begin_paren          : 65
+body                 : 2 20 85 88 91
+capture_Oper         : 56 57 62 63
+capture_cte_float    : 82
+capture_cte_int      : 81
 capture_id           : 13 28
-capture_id_oper      : 71
-capture_relation     : 45 46 47 48
+capture_id_oper      : 73
+capture_relation     : 47 48 49 50
 capture_type         : 17 18 28
-check_mult_div       : 58
-check_plus_minus     : 52
-check_relation       : 45 46 47 48
+check_mult_div       : 60
+check_plus_minus     : 54
+check_relation       : 47 48 49 50
 clean_memory         : 1
 condition            : 38
 create_dir           : 1
 create_func          : 20
-cte                  : 72
+cte                  : 74
 cycle                : 39
 dec_var              : 9 11
 dec_var_opt          : 10
-else_or_not          : 83
-empty                : 8 12 16 27 29 31 33 36 49 56 62 76 78 87 99
+else_or_not          : 85
+empty                : 8 12 16 27 29 31 33 36 51 58 64 78 80 89 101
 end_func             : 20
-end_paren            : 63
-exp                  : 44 45 46 47 48 54 55
-expresion            : 43 63 75 77 83 89 94
-expresion_loop       : 75 77
-expresion_or_not     : 74
-expresion_or_string  : 93 98
-factor               : 58
-factor_type          : 70
+end_paren            : 65
+end_return           : 43
+exp                  : 46 47 48 49 50 56 57
+expresion            : 43 45 65 77 79 85 91 96
+expresion_loop       : 77 79
+expresion_or_not     : 76
+expresion_or_string  : 95 100
+factor               : 60
+factor_type          : 72
 fill_dir             : 1
 func_type            : 23
 funcs                : 26
 funcs_or_not         : 1 26
-id_or_cte            : 64 65 66
+id_or_cte            : 66 67 68
 ids                  : 20 30
 ids_loop             : 28
 list_id              : 10 15
 list_id_opt          : 13
-list_objs            : 94 95
-llamada              : 40 67
+list_objs            : 96 97
+llamada              : 40 69
 main_block           : 1
-mark_else            : 86
-mark_end_if          : 83
-mark_if              : 83
-mark_while           : 89
-more_factors         : 58
-more_terms           : 52
+mark_else            : 88
+mark_end_if          : 85
+mark_if              : 85
+mark_while           : 91
+more_factors         : 60
+more_terms           : 54
 print                : 41
-print_expr           : 94
-print_str            : 95
+print_expr           : 96
+print_str            : 97
 programa             : 0
-relations_or_not     : 44
-return_while         : 89
+relations_or_not     : 46
+return_while         : 91
 set_global_scope     : 2
-skip_while           : 89
+skip_while           : 91
 statement            : 35
 statement_loop       : 34 35 42
-term                 : 52 60 61
+term                 : 54 62 63
 type                 : 10 24 28
 var_or_not           : 1
 vars                 : 7 32
@@ -266,13 +270,13 @@ state 6
     (7) var_or_not -> . vars
     (8) var_or_not -> . empty
     (9) vars -> . VAR dec_var
-    (100) empty -> .
+    (102) empty -> .
 
     VAR             shift and go to state 10
-    VOID            reduce using rule 100 (empty -> .)
-    INT             reduce using rule 100 (empty -> .)
-    FLOAT           reduce using rule 100 (empty -> .)
-    MAIN            reduce using rule 100 (empty -> .)
+    VOID            reduce using rule 102 (empty -> .)
+    INT             reduce using rule 102 (empty -> .)
+    FLOAT           reduce using rule 102 (empty -> .)
+    MAIN            reduce using rule 102 (empty -> .)
 
     var_or_not                     shift and go to state 7
     vars                           shift and go to state 8
@@ -284,13 +288,13 @@ state 7
     (26) funcs_or_not -> . funcs funcs_or_not
     (27) funcs_or_not -> . empty
     (20) funcs -> . void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI
-    (100) empty -> .
+    (102) empty -> .
     (23) void_or_type -> . VOID func_type
     (24) void_or_type -> . type
     (17) type -> . INT capture_type
     (18) type -> . FLOAT capture_type
 
-    MAIN            reduce using rule 100 (empty -> .)
+    MAIN            reduce using rule 102 (empty -> .)
     VOID            shift and go to state 15
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
@@ -347,13 +351,13 @@ state 12
     (26) funcs_or_not -> . funcs funcs_or_not
     (27) funcs_or_not -> . empty
     (20) funcs -> . void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI
-    (100) empty -> .
+    (102) empty -> .
     (23) void_or_type -> . VOID func_type
     (24) void_or_type -> . type
     (17) type -> . INT capture_type
     (18) type -> . FLOAT capture_type
 
-    MAIN            reduce using rule 100 (empty -> .)
+    MAIN            reduce using rule 102 (empty -> .)
     VOID            shift and go to state 15
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
@@ -521,10 +525,10 @@ state 30
     (13) list_id -> ID capture_id . list_id_opt
     (15) list_id_opt -> . COMMA list_id
     (16) list_id_opt -> . empty
-    (100) empty -> .
+    (102) empty -> .
 
     COMMA           shift and go to state 36
-    COLON           reduce using rule 100 (empty -> .)
+    COLON           reduce using rule 102 (empty -> .)
 
     list_id_opt                    shift and go to state 35
     empty                          shift and go to state 37
@@ -609,19 +613,21 @@ state 40
     (40) statement -> . llamada SEMI
     (41) statement -> . print
     (42) statement -> . LBRACKET statement_loop RBRACKET
-    (100) empty -> .
-    (43) assign -> . ID ASSIGN expresion SEMI
-    (83) condition -> . IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
-    (89) cycle -> . WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (93) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
+    (43) statement -> . RETURN expresion SEMI end_return
+    (102) empty -> .
+    (45) assign -> . ID ASSIGN expresion SEMI
+    (85) condition -> . IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
+    (91) cycle -> . WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (95) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
 
     LBRACKET        shift and go to state 52
-    RBRACE          reduce using rule 100 (empty -> .)
-    ID              shift and go to state 53
-    IF              shift and go to state 54
-    WHILE           shift and go to state 55
-    PRINT           shift and go to state 56
+    RETURN          shift and go to state 53
+    RBRACE          reduce using rule 102 (empty -> .)
+    ID              shift and go to state 54
+    IF              shift and go to state 55
+    WHILE           shift and go to state 56
+    PRINT           shift and go to state 57
 
     statement_loop                 shift and go to state 44
     statement                      shift and go to state 45
@@ -637,13 +643,13 @@ state 41
     (20) funcs -> void_or_type ID create_func LPAREN . ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI
     (28) ids -> . ID capture_id COLON type capture_type ids_loop
     (29) ids -> . empty
-    (100) empty -> .
+    (102) empty -> .
 
-    ID              shift and go to state 57
-    RPAREN          reduce using rule 100 (empty -> .)
+    ID              shift and go to state 58
+    RPAREN          reduce using rule 102 (empty -> .)
 
-    ids                            shift and go to state 58
-    empty                          shift and go to state 59
+    ids                            shift and go to state 59
+    empty                          shift and go to state 60
 
 state 42
 
@@ -651,20 +657,20 @@ state 42
     (11) dec_var_opt -> . dec_var
     (12) dec_var_opt -> . empty
     (10) dec_var -> . list_id COLON type SEMI dec_var_opt
-    (100) empty -> .
+    (102) empty -> .
     (13) list_id -> . ID capture_id list_id_opt
 
-    VOID            reduce using rule 100 (empty -> .)
-    INT             reduce using rule 100 (empty -> .)
-    FLOAT           reduce using rule 100 (empty -> .)
-    MAIN            reduce using rule 100 (empty -> .)
-    LBRACE          reduce using rule 100 (empty -> .)
+    VOID            reduce using rule 102 (empty -> .)
+    INT             reduce using rule 102 (empty -> .)
+    FLOAT           reduce using rule 102 (empty -> .)
+    MAIN            reduce using rule 102 (empty -> .)
+    LBRACE          reduce using rule 102 (empty -> .)
     ID              shift and go to state 21
 
     list_id                        shift and go to state 20
-    dec_var_opt                    shift and go to state 60
-    dec_var                        shift and go to state 61
-    empty                          shift and go to state 62
+    dec_var_opt                    shift and go to state 61
+    dec_var                        shift and go to state 62
+    empty                          shift and go to state 63
 
 state 43
 
@@ -677,7 +683,7 @@ state 44
 
     (34) body -> LBRACE statement_loop . RBRACE
 
-    RBRACE          shift and go to state 63
+    RBRACE          shift and go to state 64
 
 
 state 45
@@ -691,23 +697,25 @@ state 45
     (40) statement -> . llamada SEMI
     (41) statement -> . print
     (42) statement -> . LBRACKET statement_loop RBRACKET
-    (100) empty -> .
-    (43) assign -> . ID ASSIGN expresion SEMI
-    (83) condition -> . IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
-    (89) cycle -> . WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (93) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
+    (43) statement -> . RETURN expresion SEMI end_return
+    (102) empty -> .
+    (45) assign -> . ID ASSIGN expresion SEMI
+    (85) condition -> . IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
+    (91) cycle -> . WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (95) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
 
     LBRACKET        shift and go to state 52
-    RBRACE          reduce using rule 100 (empty -> .)
-    RBRACKET        reduce using rule 100 (empty -> .)
-    ID              shift and go to state 53
-    IF              shift and go to state 54
-    WHILE           shift and go to state 55
-    PRINT           shift and go to state 56
+    RETURN          shift and go to state 53
+    RBRACE          reduce using rule 102 (empty -> .)
+    RBRACKET        reduce using rule 102 (empty -> .)
+    ID              shift and go to state 54
+    IF              shift and go to state 55
+    WHILE           shift and go to state 56
+    PRINT           shift and go to state 57
 
     statement                      shift and go to state 45
-    statement_loop                 shift and go to state 64
+    statement_loop                 shift and go to state 65
     empty                          shift and go to state 46
     assign                         shift and go to state 47
     condition                      shift and go to state 48
@@ -728,6 +736,7 @@ state 47
     (37) statement -> assign .
 
     LBRACKET        reduce using rule 37 (statement -> assign .)
+    RETURN          reduce using rule 37 (statement -> assign .)
     ID              reduce using rule 37 (statement -> assign .)
     IF              reduce using rule 37 (statement -> assign .)
     WHILE           reduce using rule 37 (statement -> assign .)
@@ -741,6 +750,7 @@ state 48
     (38) statement -> condition .
 
     LBRACKET        reduce using rule 38 (statement -> condition .)
+    RETURN          reduce using rule 38 (statement -> condition .)
     ID              reduce using rule 38 (statement -> condition .)
     IF              reduce using rule 38 (statement -> condition .)
     WHILE           reduce using rule 38 (statement -> condition .)
@@ -754,6 +764,7 @@ state 49
     (39) statement -> cycle .
 
     LBRACKET        reduce using rule 39 (statement -> cycle .)
+    RETURN          reduce using rule 39 (statement -> cycle .)
     ID              reduce using rule 39 (statement -> cycle .)
     IF              reduce using rule 39 (statement -> cycle .)
     WHILE           reduce using rule 39 (statement -> cycle .)
@@ -766,7 +777,7 @@ state 50
 
     (40) statement -> llamada . SEMI
 
-    SEMI            shift and go to state 65
+    SEMI            shift and go to state 66
 
 
 state 51
@@ -774,6 +785,7 @@ state 51
     (41) statement -> print .
 
     LBRACKET        reduce using rule 41 (statement -> print .)
+    RETURN          reduce using rule 41 (statement -> print .)
     ID              reduce using rule 41 (statement -> print .)
     IF              reduce using rule 41 (statement -> print .)
     WHILE           reduce using rule 41 (statement -> print .)
@@ -793,21 +805,23 @@ state 52
     (40) statement -> . llamada SEMI
     (41) statement -> . print
     (42) statement -> . LBRACKET statement_loop RBRACKET
-    (100) empty -> .
-    (43) assign -> . ID ASSIGN expresion SEMI
-    (83) condition -> . IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
-    (89) cycle -> . WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (93) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
+    (43) statement -> . RETURN expresion SEMI end_return
+    (102) empty -> .
+    (45) assign -> . ID ASSIGN expresion SEMI
+    (85) condition -> . IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
+    (91) cycle -> . WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (95) print -> . PRINT LPAREN expresion_or_string RPAREN SEMI
 
     LBRACKET        shift and go to state 52
-    RBRACKET        reduce using rule 100 (empty -> .)
-    ID              shift and go to state 53
-    IF              shift and go to state 54
-    WHILE           shift and go to state 55
-    PRINT           shift and go to state 56
+    RETURN          shift and go to state 53
+    RBRACKET        reduce using rule 102 (empty -> .)
+    ID              shift and go to state 54
+    IF              shift and go to state 55
+    WHILE           shift and go to state 56
+    PRINT           shift and go to state 57
 
-    statement_loop                 shift and go to state 66
+    statement_loop                 shift and go to state 67
     statement                      shift and go to state 45
     empty                          shift and go to state 46
     assign                         shift and go to state 47
@@ -818,60 +832,94 @@ state 52
 
 state 53
 
-    (43) assign -> ID . ASSIGN expresion SEMI
-    (74) llamada -> ID . LPAREN expresion_or_not RPAREN
+    (43) statement -> RETURN . expresion SEMI end_return
+    (46) expresion -> . exp relations_or_not
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
 
-    ASSIGN          shift and go to state 67
-    LPAREN          shift and go to state 68
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
 
+    expresion                      shift and go to state 68
+    exp                            shift and go to state 69
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
 
 state 54
 
-    (83) condition -> IF . LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
+    (45) assign -> ID . ASSIGN expresion SEMI
+    (76) llamada -> ID . LPAREN expresion_or_not RPAREN
 
-    LPAREN          shift and go to state 69
+    ASSIGN          shift and go to state 82
+    LPAREN          shift and go to state 83
 
 
 state 55
 
-    (89) cycle -> WHILE . mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
-    (90) mark_while -> .
+    (85) condition -> IF . LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if
 
-    LPAREN          reduce using rule 90 (mark_while -> .)
+    LPAREN          shift and go to state 84
 
-    mark_while                     shift and go to state 70
 
 state 56
 
-    (93) print -> PRINT . LPAREN expresion_or_string RPAREN SEMI
+    (91) cycle -> WHILE . mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while
+    (92) mark_while -> .
 
-    LPAREN          shift and go to state 71
+    LPAREN          reduce using rule 92 (mark_while -> .)
 
+    mark_while                     shift and go to state 85
 
 state 57
+
+    (95) print -> PRINT . LPAREN expresion_or_string RPAREN SEMI
+
+    LPAREN          shift and go to state 86
+
+
+state 58
 
     (28) ids -> ID . capture_id COLON type capture_type ids_loop
     (14) capture_id -> .
 
     COLON           reduce using rule 14 (capture_id -> .)
 
-    capture_id                     shift and go to state 72
+    capture_id                     shift and go to state 87
 
-state 58
+state 59
 
     (20) funcs -> void_or_type ID create_func LPAREN ids . RPAREN LBRACE vars_or_not body RBRACE end_func SEMI
 
-    RPAREN          shift and go to state 73
+    RPAREN          shift and go to state 88
 
 
-state 59
+state 60
 
     (29) ids -> empty .
 
     RPAREN          reduce using rule 29 (ids -> empty .)
 
 
-state 60
+state 61
 
     (10) dec_var -> list_id COLON type SEMI dec_var_opt .
 
@@ -882,7 +930,7 @@ state 60
     LBRACE          reduce using rule 10 (dec_var -> list_id COLON type SEMI dec_var_opt .)
 
 
-state 61
+state 62
 
     (11) dec_var_opt -> dec_var .
 
@@ -893,7 +941,7 @@ state 61
     LBRACE          reduce using rule 11 (dec_var_opt -> dec_var .)
 
 
-state 62
+state 63
 
     (12) dec_var_opt -> empty .
 
@@ -904,7 +952,7 @@ state 62
     LBRACE          reduce using rule 12 (dec_var_opt -> empty .)
 
 
-state 63
+state 64
 
     (34) body -> LBRACE statement_loop RBRACE .
 
@@ -914,7 +962,7 @@ state 63
     ELSE            reduce using rule 34 (body -> LBRACE statement_loop RBRACE .)
 
 
-state 64
+state 65
 
     (35) statement_loop -> statement statement_loop .
 
@@ -922,11 +970,12 @@ state 64
     RBRACKET        reduce using rule 35 (statement_loop -> statement statement_loop .)
 
 
-state 65
+state 66
 
     (40) statement -> llamada SEMI .
 
     LBRACKET        reduce using rule 40 (statement -> llamada SEMI .)
+    RETURN          reduce using rule 40 (statement -> llamada SEMI .)
     ID              reduce using rule 40 (statement -> llamada SEMI .)
     IF              reduce using rule 40 (statement -> llamada SEMI .)
     WHILE           reduce using rule 40 (statement -> llamada SEMI .)
@@ -935,185 +984,421 @@ state 65
     RBRACKET        reduce using rule 40 (statement -> llamada SEMI .)
 
 
-state 66
+state 67
 
     (42) statement -> LBRACKET statement_loop . RBRACKET
 
-    RBRACKET        shift and go to state 74
+    RBRACKET        shift and go to state 89
 
-
-state 67
-
-    (43) assign -> ID ASSIGN . expresion SEMI
-    (44) expresion -> . exp relations_or_not
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
-
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
-
-    expresion                      shift and go to state 76
-    exp                            shift and go to state 77
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
 
 state 68
 
-    (74) llamada -> ID LPAREN . expresion_or_not RPAREN
-    (75) expresion_or_not -> . expresion expresion_loop
-    (76) expresion_or_not -> . empty
-    (44) expresion -> . exp relations_or_not
-    (100) empty -> .
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (43) statement -> RETURN expresion . SEMI end_return
 
-    RPAREN          reduce using rule 100 (empty -> .)
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    SEMI            shift and go to state 90
 
-    expresion_or_not               shift and go to state 89
-    expresion                      shift and go to state 90
-    empty                          shift and go to state 91
-    exp                            shift and go to state 77
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
 
 state 69
 
-    (83) condition -> IF LPAREN . expresion RPAREN mark_if body else_or_not SEMI mark_end_if
-    (44) expresion -> . exp relations_or_not
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (46) expresion -> exp . relations_or_not
+    (47) relations_or_not -> . GT capture_relation exp check_relation
+    (48) relations_or_not -> . LT capture_relation exp check_relation
+    (49) relations_or_not -> . NEQ capture_relation exp check_relation
+    (50) relations_or_not -> . EQ capture_relation exp check_relation
+    (51) relations_or_not -> . empty
+    (102) empty -> .
 
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    GT              shift and go to state 92
+    LT              shift and go to state 93
+    NEQ             shift and go to state 94
+    EQ              shift and go to state 95
+    SEMI            reduce using rule 102 (empty -> .)
+    COMMA           reduce using rule 102 (empty -> .)
+    RPAREN          reduce using rule 102 (empty -> .)
 
-    expresion                      shift and go to state 92
-    exp                            shift and go to state 77
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
+    relations_or_not               shift and go to state 91
+    empty                          shift and go to state 96
 
 state 70
 
-    (89) cycle -> WHILE mark_while . LPAREN expresion RPAREN skip_while DO body SEMI return_while
+    (54) exp -> term . check_plus_minus more_terms
+    (55) check_plus_minus -> .
 
-    LPAREN          shift and go to state 93
+    PLUS            reduce using rule 55 (check_plus_minus -> .)
+    MINUS           reduce using rule 55 (check_plus_minus -> .)
+    GT              reduce using rule 55 (check_plus_minus -> .)
+    LT              reduce using rule 55 (check_plus_minus -> .)
+    NEQ             reduce using rule 55 (check_plus_minus -> .)
+    EQ              reduce using rule 55 (check_plus_minus -> .)
+    SEMI            reduce using rule 55 (check_plus_minus -> .)
+    COMMA           reduce using rule 55 (check_plus_minus -> .)
+    RPAREN          reduce using rule 55 (check_plus_minus -> .)
 
+    check_plus_minus               shift and go to state 97
 
 state 71
 
-    (93) print -> PRINT LPAREN . expresion_or_string RPAREN SEMI
-    (94) expresion_or_string -> . expresion print_expr list_objs
-    (95) expresion_or_string -> . CTE_STRING print_str list_objs
-    (44) expresion -> . exp relations_or_not
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (60) term -> factor . check_mult_div more_factors
+    (61) check_mult_div -> .
 
-    CTE_STRING      shift and go to state 96
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    TIMES           reduce using rule 61 (check_mult_div -> .)
+    DIVIDE          reduce using rule 61 (check_mult_div -> .)
+    PLUS            reduce using rule 61 (check_mult_div -> .)
+    MINUS           reduce using rule 61 (check_mult_div -> .)
+    GT              reduce using rule 61 (check_mult_div -> .)
+    LT              reduce using rule 61 (check_mult_div -> .)
+    NEQ             reduce using rule 61 (check_mult_div -> .)
+    EQ              reduce using rule 61 (check_mult_div -> .)
+    SEMI            reduce using rule 61 (check_mult_div -> .)
+    COMMA           reduce using rule 61 (check_mult_div -> .)
+    RPAREN          reduce using rule 61 (check_mult_div -> .)
 
-    expresion_or_string            shift and go to state 94
-    expresion                      shift and go to state 95
-    exp                            shift and go to state 77
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
+    check_mult_div                 shift and go to state 98
 
 state 72
 
-    (28) ids -> ID capture_id . COLON type capture_type ids_loop
+    (72) factor -> factor_type .
 
-    COLON           shift and go to state 97
+    TIMES           reduce using rule 72 (factor -> factor_type .)
+    DIVIDE          reduce using rule 72 (factor -> factor_type .)
+    PLUS            reduce using rule 72 (factor -> factor_type .)
+    MINUS           reduce using rule 72 (factor -> factor_type .)
+    GT              reduce using rule 72 (factor -> factor_type .)
+    LT              reduce using rule 72 (factor -> factor_type .)
+    NEQ             reduce using rule 72 (factor -> factor_type .)
+    EQ              reduce using rule 72 (factor -> factor_type .)
+    SEMI            reduce using rule 72 (factor -> factor_type .)
+    COMMA           reduce using rule 72 (factor -> factor_type .)
+    RPAREN          reduce using rule 72 (factor -> factor_type .)
 
 
 state 73
 
-    (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN . LBRACE vars_or_not body RBRACE end_func SEMI
+    (65) factor_type -> LPAREN . begin_paren expresion RPAREN end_paren
+    (70) begin_paren -> .
 
-    LBRACE          shift and go to state 98
+    LPAREN          reduce using rule 70 (begin_paren -> .)
+    PLUS            reduce using rule 70 (begin_paren -> .)
+    MINUS           reduce using rule 70 (begin_paren -> .)
+    ID              reduce using rule 70 (begin_paren -> .)
+    CTE_INT         reduce using rule 70 (begin_paren -> .)
+    CTE_FLOAT       reduce using rule 70 (begin_paren -> .)
 
+    begin_paren                    shift and go to state 99
 
 state 74
+
+    (66) factor_type -> PLUS . id_or_cte
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
+
+    ID              shift and go to state 101
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
+
+    id_or_cte                      shift and go to state 100
+    cte                            shift and go to state 79
+
+state 75
+
+    (68) factor_type -> id_or_cte .
+
+    TIMES           reduce using rule 68 (factor_type -> id_or_cte .)
+    DIVIDE          reduce using rule 68 (factor_type -> id_or_cte .)
+    PLUS            reduce using rule 68 (factor_type -> id_or_cte .)
+    MINUS           reduce using rule 68 (factor_type -> id_or_cte .)
+    GT              reduce using rule 68 (factor_type -> id_or_cte .)
+    LT              reduce using rule 68 (factor_type -> id_or_cte .)
+    NEQ             reduce using rule 68 (factor_type -> id_or_cte .)
+    EQ              reduce using rule 68 (factor_type -> id_or_cte .)
+    SEMI            reduce using rule 68 (factor_type -> id_or_cte .)
+    COMMA           reduce using rule 68 (factor_type -> id_or_cte .)
+    RPAREN          reduce using rule 68 (factor_type -> id_or_cte .)
+
+
+state 76
+
+    (67) factor_type -> MINUS . id_or_cte
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
+
+    ID              shift and go to state 101
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
+
+    id_or_cte                      shift and go to state 102
+    cte                            shift and go to state 79
+
+state 77
+
+    (69) factor_type -> llamada .
+
+    TIMES           reduce using rule 69 (factor_type -> llamada .)
+    DIVIDE          reduce using rule 69 (factor_type -> llamada .)
+    PLUS            reduce using rule 69 (factor_type -> llamada .)
+    MINUS           reduce using rule 69 (factor_type -> llamada .)
+    GT              reduce using rule 69 (factor_type -> llamada .)
+    LT              reduce using rule 69 (factor_type -> llamada .)
+    NEQ             reduce using rule 69 (factor_type -> llamada .)
+    EQ              reduce using rule 69 (factor_type -> llamada .)
+    SEMI            reduce using rule 69 (factor_type -> llamada .)
+    COMMA           reduce using rule 69 (factor_type -> llamada .)
+    RPAREN          reduce using rule 69 (factor_type -> llamada .)
+
+
+state 78
+
+    (73) id_or_cte -> ID . capture_id_oper
+    (76) llamada -> ID . LPAREN expresion_or_not RPAREN
+    (75) capture_id_oper -> .
+
+    LPAREN          shift and go to state 83
+    TIMES           reduce using rule 75 (capture_id_oper -> .)
+    DIVIDE          reduce using rule 75 (capture_id_oper -> .)
+    PLUS            reduce using rule 75 (capture_id_oper -> .)
+    MINUS           reduce using rule 75 (capture_id_oper -> .)
+    GT              reduce using rule 75 (capture_id_oper -> .)
+    LT              reduce using rule 75 (capture_id_oper -> .)
+    NEQ             reduce using rule 75 (capture_id_oper -> .)
+    EQ              reduce using rule 75 (capture_id_oper -> .)
+    SEMI            reduce using rule 75 (capture_id_oper -> .)
+    COMMA           reduce using rule 75 (capture_id_oper -> .)
+    RPAREN          reduce using rule 75 (capture_id_oper -> .)
+
+    capture_id_oper                shift and go to state 103
+
+state 79
+
+    (74) id_or_cte -> cte .
+
+    TIMES           reduce using rule 74 (id_or_cte -> cte .)
+    DIVIDE          reduce using rule 74 (id_or_cte -> cte .)
+    PLUS            reduce using rule 74 (id_or_cte -> cte .)
+    MINUS           reduce using rule 74 (id_or_cte -> cte .)
+    GT              reduce using rule 74 (id_or_cte -> cte .)
+    LT              reduce using rule 74 (id_or_cte -> cte .)
+    NEQ             reduce using rule 74 (id_or_cte -> cte .)
+    EQ              reduce using rule 74 (id_or_cte -> cte .)
+    SEMI            reduce using rule 74 (id_or_cte -> cte .)
+    COMMA           reduce using rule 74 (id_or_cte -> cte .)
+    RPAREN          reduce using rule 74 (id_or_cte -> cte .)
+
+
+state 80
+
+    (81) cte -> CTE_INT . capture_cte_int
+    (83) capture_cte_int -> .
+
+    TIMES           reduce using rule 83 (capture_cte_int -> .)
+    DIVIDE          reduce using rule 83 (capture_cte_int -> .)
+    PLUS            reduce using rule 83 (capture_cte_int -> .)
+    MINUS           reduce using rule 83 (capture_cte_int -> .)
+    GT              reduce using rule 83 (capture_cte_int -> .)
+    LT              reduce using rule 83 (capture_cte_int -> .)
+    NEQ             reduce using rule 83 (capture_cte_int -> .)
+    EQ              reduce using rule 83 (capture_cte_int -> .)
+    SEMI            reduce using rule 83 (capture_cte_int -> .)
+    COMMA           reduce using rule 83 (capture_cte_int -> .)
+    RPAREN          reduce using rule 83 (capture_cte_int -> .)
+
+    capture_cte_int                shift and go to state 104
+
+state 81
+
+    (82) cte -> CTE_FLOAT . capture_cte_float
+    (84) capture_cte_float -> .
+
+    TIMES           reduce using rule 84 (capture_cte_float -> .)
+    DIVIDE          reduce using rule 84 (capture_cte_float -> .)
+    PLUS            reduce using rule 84 (capture_cte_float -> .)
+    MINUS           reduce using rule 84 (capture_cte_float -> .)
+    GT              reduce using rule 84 (capture_cte_float -> .)
+    LT              reduce using rule 84 (capture_cte_float -> .)
+    NEQ             reduce using rule 84 (capture_cte_float -> .)
+    EQ              reduce using rule 84 (capture_cte_float -> .)
+    SEMI            reduce using rule 84 (capture_cte_float -> .)
+    COMMA           reduce using rule 84 (capture_cte_float -> .)
+    RPAREN          reduce using rule 84 (capture_cte_float -> .)
+
+    capture_cte_float              shift and go to state 105
+
+state 82
+
+    (45) assign -> ID ASSIGN . expresion SEMI
+    (46) expresion -> . exp relations_or_not
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
+
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
+
+    expresion                      shift and go to state 106
+    exp                            shift and go to state 69
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
+
+state 83
+
+    (76) llamada -> ID LPAREN . expresion_or_not RPAREN
+    (77) expresion_or_not -> . expresion expresion_loop
+    (78) expresion_or_not -> . empty
+    (46) expresion -> . exp relations_or_not
+    (102) empty -> .
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
+
+    RPAREN          reduce using rule 102 (empty -> .)
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
+
+    expresion_or_not               shift and go to state 107
+    expresion                      shift and go to state 108
+    empty                          shift and go to state 109
+    exp                            shift and go to state 69
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
+
+state 84
+
+    (85) condition -> IF LPAREN . expresion RPAREN mark_if body else_or_not SEMI mark_end_if
+    (46) expresion -> . exp relations_or_not
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
+
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
+
+    expresion                      shift and go to state 110
+    exp                            shift and go to state 69
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
+
+state 85
+
+    (91) cycle -> WHILE mark_while . LPAREN expresion RPAREN skip_while DO body SEMI return_while
+
+    LPAREN          shift and go to state 111
+
+
+state 86
+
+    (95) print -> PRINT LPAREN . expresion_or_string RPAREN SEMI
+    (96) expresion_or_string -> . expresion print_expr list_objs
+    (97) expresion_or_string -> . CTE_STRING print_str list_objs
+    (46) expresion -> . exp relations_or_not
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
+
+    CTE_STRING      shift and go to state 114
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
+
+    expresion_or_string            shift and go to state 112
+    expresion                      shift and go to state 113
+    exp                            shift and go to state 69
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
+
+state 87
+
+    (28) ids -> ID capture_id . COLON type capture_type ids_loop
+
+    COLON           shift and go to state 115
+
+
+state 88
+
+    (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN . LBRACE vars_or_not body RBRACE end_func SEMI
+
+    LBRACE          shift and go to state 116
+
+
+state 89
 
     (42) statement -> LBRACKET statement_loop RBRACKET .
 
     LBRACKET        reduce using rule 42 (statement -> LBRACKET statement_loop RBRACKET .)
+    RETURN          reduce using rule 42 (statement -> LBRACKET statement_loop RBRACKET .)
     ID              reduce using rule 42 (statement -> LBRACKET statement_loop RBRACKET .)
     IF              reduce using rule 42 (statement -> LBRACKET statement_loop RBRACKET .)
     WHILE           reduce using rule 42 (statement -> LBRACKET statement_loop RBRACKET .)
@@ -1122,337 +1407,381 @@ state 74
     RBRACKET        reduce using rule 42 (statement -> LBRACKET statement_loop RBRACKET .)
 
 
-state 75
-
-    (71) id_or_cte -> ID . capture_id_oper
-    (74) llamada -> ID . LPAREN expresion_or_not RPAREN
-    (73) capture_id_oper -> .
-
-    LPAREN          shift and go to state 68
-    TIMES           reduce using rule 73 (capture_id_oper -> .)
-    DIVIDE          reduce using rule 73 (capture_id_oper -> .)
-    PLUS            reduce using rule 73 (capture_id_oper -> .)
-    MINUS           reduce using rule 73 (capture_id_oper -> .)
-    GT              reduce using rule 73 (capture_id_oper -> .)
-    LT              reduce using rule 73 (capture_id_oper -> .)
-    NEQ             reduce using rule 73 (capture_id_oper -> .)
-    EQ              reduce using rule 73 (capture_id_oper -> .)
-    SEMI            reduce using rule 73 (capture_id_oper -> .)
-    COMMA           reduce using rule 73 (capture_id_oper -> .)
-    RPAREN          reduce using rule 73 (capture_id_oper -> .)
-
-    capture_id_oper                shift and go to state 99
-
-state 76
-
-    (43) assign -> ID ASSIGN expresion . SEMI
-
-    SEMI            shift and go to state 100
-
-
-state 77
-
-    (44) expresion -> exp . relations_or_not
-    (45) relations_or_not -> . GT capture_relation exp check_relation
-    (46) relations_or_not -> . LT capture_relation exp check_relation
-    (47) relations_or_not -> . NEQ capture_relation exp check_relation
-    (48) relations_or_not -> . EQ capture_relation exp check_relation
-    (49) relations_or_not -> . empty
-    (100) empty -> .
-
-    GT              shift and go to state 102
-    LT              shift and go to state 103
-    NEQ             shift and go to state 104
-    EQ              shift and go to state 105
-    SEMI            reduce using rule 100 (empty -> .)
-    COMMA           reduce using rule 100 (empty -> .)
-    RPAREN          reduce using rule 100 (empty -> .)
-
-    relations_or_not               shift and go to state 101
-    empty                          shift and go to state 106
-
-state 78
-
-    (52) exp -> term . check_plus_minus more_terms
-    (53) check_plus_minus -> .
-
-    PLUS            reduce using rule 53 (check_plus_minus -> .)
-    MINUS           reduce using rule 53 (check_plus_minus -> .)
-    GT              reduce using rule 53 (check_plus_minus -> .)
-    LT              reduce using rule 53 (check_plus_minus -> .)
-    NEQ             reduce using rule 53 (check_plus_minus -> .)
-    EQ              reduce using rule 53 (check_plus_minus -> .)
-    SEMI            reduce using rule 53 (check_plus_minus -> .)
-    COMMA           reduce using rule 53 (check_plus_minus -> .)
-    RPAREN          reduce using rule 53 (check_plus_minus -> .)
-
-    check_plus_minus               shift and go to state 107
-
-state 79
-
-    (58) term -> factor . check_mult_div more_factors
-    (59) check_mult_div -> .
-
-    TIMES           reduce using rule 59 (check_mult_div -> .)
-    DIVIDE          reduce using rule 59 (check_mult_div -> .)
-    PLUS            reduce using rule 59 (check_mult_div -> .)
-    MINUS           reduce using rule 59 (check_mult_div -> .)
-    GT              reduce using rule 59 (check_mult_div -> .)
-    LT              reduce using rule 59 (check_mult_div -> .)
-    NEQ             reduce using rule 59 (check_mult_div -> .)
-    EQ              reduce using rule 59 (check_mult_div -> .)
-    SEMI            reduce using rule 59 (check_mult_div -> .)
-    COMMA           reduce using rule 59 (check_mult_div -> .)
-    RPAREN          reduce using rule 59 (check_mult_div -> .)
-
-    check_mult_div                 shift and go to state 108
-
-state 80
-
-    (70) factor -> factor_type .
-
-    TIMES           reduce using rule 70 (factor -> factor_type .)
-    DIVIDE          reduce using rule 70 (factor -> factor_type .)
-    PLUS            reduce using rule 70 (factor -> factor_type .)
-    MINUS           reduce using rule 70 (factor -> factor_type .)
-    GT              reduce using rule 70 (factor -> factor_type .)
-    LT              reduce using rule 70 (factor -> factor_type .)
-    NEQ             reduce using rule 70 (factor -> factor_type .)
-    EQ              reduce using rule 70 (factor -> factor_type .)
-    SEMI            reduce using rule 70 (factor -> factor_type .)
-    COMMA           reduce using rule 70 (factor -> factor_type .)
-    RPAREN          reduce using rule 70 (factor -> factor_type .)
-
-
-state 81
-
-    (63) factor_type -> LPAREN . begin_paren expresion RPAREN end_paren
-    (68) begin_paren -> .
-
-    LPAREN          reduce using rule 68 (begin_paren -> .)
-    PLUS            reduce using rule 68 (begin_paren -> .)
-    MINUS           reduce using rule 68 (begin_paren -> .)
-    ID              reduce using rule 68 (begin_paren -> .)
-    CTE_INT         reduce using rule 68 (begin_paren -> .)
-    CTE_FLOAT       reduce using rule 68 (begin_paren -> .)
-
-    begin_paren                    shift and go to state 109
-
-state 82
-
-    (64) factor_type -> PLUS . id_or_cte
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
-
-    ID              shift and go to state 111
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
-
-    id_or_cte                      shift and go to state 110
-    cte                            shift and go to state 86
-
-state 83
-
-    (66) factor_type -> id_or_cte .
-
-    TIMES           reduce using rule 66 (factor_type -> id_or_cte .)
-    DIVIDE          reduce using rule 66 (factor_type -> id_or_cte .)
-    PLUS            reduce using rule 66 (factor_type -> id_or_cte .)
-    MINUS           reduce using rule 66 (factor_type -> id_or_cte .)
-    GT              reduce using rule 66 (factor_type -> id_or_cte .)
-    LT              reduce using rule 66 (factor_type -> id_or_cte .)
-    NEQ             reduce using rule 66 (factor_type -> id_or_cte .)
-    EQ              reduce using rule 66 (factor_type -> id_or_cte .)
-    SEMI            reduce using rule 66 (factor_type -> id_or_cte .)
-    COMMA           reduce using rule 66 (factor_type -> id_or_cte .)
-    RPAREN          reduce using rule 66 (factor_type -> id_or_cte .)
-
-
-state 84
-
-    (65) factor_type -> MINUS . id_or_cte
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
-
-    ID              shift and go to state 111
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
-
-    id_or_cte                      shift and go to state 112
-    cte                            shift and go to state 86
-
-state 85
-
-    (67) factor_type -> llamada .
-
-    TIMES           reduce using rule 67 (factor_type -> llamada .)
-    DIVIDE          reduce using rule 67 (factor_type -> llamada .)
-    PLUS            reduce using rule 67 (factor_type -> llamada .)
-    MINUS           reduce using rule 67 (factor_type -> llamada .)
-    GT              reduce using rule 67 (factor_type -> llamada .)
-    LT              reduce using rule 67 (factor_type -> llamada .)
-    NEQ             reduce using rule 67 (factor_type -> llamada .)
-    EQ              reduce using rule 67 (factor_type -> llamada .)
-    SEMI            reduce using rule 67 (factor_type -> llamada .)
-    COMMA           reduce using rule 67 (factor_type -> llamada .)
-    RPAREN          reduce using rule 67 (factor_type -> llamada .)
-
-
-state 86
-
-    (72) id_or_cte -> cte .
-
-    TIMES           reduce using rule 72 (id_or_cte -> cte .)
-    DIVIDE          reduce using rule 72 (id_or_cte -> cte .)
-    PLUS            reduce using rule 72 (id_or_cte -> cte .)
-    MINUS           reduce using rule 72 (id_or_cte -> cte .)
-    GT              reduce using rule 72 (id_or_cte -> cte .)
-    LT              reduce using rule 72 (id_or_cte -> cte .)
-    NEQ             reduce using rule 72 (id_or_cte -> cte .)
-    EQ              reduce using rule 72 (id_or_cte -> cte .)
-    SEMI            reduce using rule 72 (id_or_cte -> cte .)
-    COMMA           reduce using rule 72 (id_or_cte -> cte .)
-    RPAREN          reduce using rule 72 (id_or_cte -> cte .)
-
-
-state 87
-
-    (79) cte -> CTE_INT . capture_cte_int
-    (81) capture_cte_int -> .
-
-    TIMES           reduce using rule 81 (capture_cte_int -> .)
-    DIVIDE          reduce using rule 81 (capture_cte_int -> .)
-    PLUS            reduce using rule 81 (capture_cte_int -> .)
-    MINUS           reduce using rule 81 (capture_cte_int -> .)
-    GT              reduce using rule 81 (capture_cte_int -> .)
-    LT              reduce using rule 81 (capture_cte_int -> .)
-    NEQ             reduce using rule 81 (capture_cte_int -> .)
-    EQ              reduce using rule 81 (capture_cte_int -> .)
-    SEMI            reduce using rule 81 (capture_cte_int -> .)
-    COMMA           reduce using rule 81 (capture_cte_int -> .)
-    RPAREN          reduce using rule 81 (capture_cte_int -> .)
-
-    capture_cte_int                shift and go to state 113
-
-state 88
-
-    (80) cte -> CTE_FLOAT . capture_cte_float
-    (82) capture_cte_float -> .
-
-    TIMES           reduce using rule 82 (capture_cte_float -> .)
-    DIVIDE          reduce using rule 82 (capture_cte_float -> .)
-    PLUS            reduce using rule 82 (capture_cte_float -> .)
-    MINUS           reduce using rule 82 (capture_cte_float -> .)
-    GT              reduce using rule 82 (capture_cte_float -> .)
-    LT              reduce using rule 82 (capture_cte_float -> .)
-    NEQ             reduce using rule 82 (capture_cte_float -> .)
-    EQ              reduce using rule 82 (capture_cte_float -> .)
-    SEMI            reduce using rule 82 (capture_cte_float -> .)
-    COMMA           reduce using rule 82 (capture_cte_float -> .)
-    RPAREN          reduce using rule 82 (capture_cte_float -> .)
-
-    capture_cte_float              shift and go to state 114
-
-state 89
-
-    (74) llamada -> ID LPAREN expresion_or_not . RPAREN
-
-    RPAREN          shift and go to state 115
-
-
 state 90
 
-    (75) expresion_or_not -> expresion . expresion_loop
-    (77) expresion_loop -> . COMMA expresion expresion_loop
-    (78) expresion_loop -> . empty
-    (100) empty -> .
+    (43) statement -> RETURN expresion SEMI . end_return
+    (44) end_return -> .
 
-    COMMA           shift and go to state 117
-    RPAREN          reduce using rule 100 (empty -> .)
+    LBRACKET        reduce using rule 44 (end_return -> .)
+    RETURN          reduce using rule 44 (end_return -> .)
+    ID              reduce using rule 44 (end_return -> .)
+    IF              reduce using rule 44 (end_return -> .)
+    WHILE           reduce using rule 44 (end_return -> .)
+    PRINT           reduce using rule 44 (end_return -> .)
+    RBRACE          reduce using rule 44 (end_return -> .)
+    RBRACKET        reduce using rule 44 (end_return -> .)
 
-    expresion_loop                 shift and go to state 116
-    empty                          shift and go to state 118
+    end_return                     shift and go to state 117
 
 state 91
 
-    (76) expresion_or_not -> empty .
+    (46) expresion -> exp relations_or_not .
 
-    RPAREN          reduce using rule 76 (expresion_or_not -> empty .)
+    SEMI            reduce using rule 46 (expresion -> exp relations_or_not .)
+    COMMA           reduce using rule 46 (expresion -> exp relations_or_not .)
+    RPAREN          reduce using rule 46 (expresion -> exp relations_or_not .)
 
 
 state 92
 
-    (83) condition -> IF LPAREN expresion . RPAREN mark_if body else_or_not SEMI mark_end_if
+    (47) relations_or_not -> GT . capture_relation exp check_relation
+    (52) capture_relation -> .
 
-    RPAREN          shift and go to state 119
+    LPAREN          reduce using rule 52 (capture_relation -> .)
+    PLUS            reduce using rule 52 (capture_relation -> .)
+    MINUS           reduce using rule 52 (capture_relation -> .)
+    ID              reduce using rule 52 (capture_relation -> .)
+    CTE_INT         reduce using rule 52 (capture_relation -> .)
+    CTE_FLOAT       reduce using rule 52 (capture_relation -> .)
 
+    capture_relation               shift and go to state 118
 
 state 93
 
-    (89) cycle -> WHILE mark_while LPAREN . expresion RPAREN skip_while DO body SEMI return_while
-    (44) expresion -> . exp relations_or_not
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (48) relations_or_not -> LT . capture_relation exp check_relation
+    (52) capture_relation -> .
 
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    LPAREN          reduce using rule 52 (capture_relation -> .)
+    PLUS            reduce using rule 52 (capture_relation -> .)
+    MINUS           reduce using rule 52 (capture_relation -> .)
+    ID              reduce using rule 52 (capture_relation -> .)
+    CTE_INT         reduce using rule 52 (capture_relation -> .)
+    CTE_FLOAT       reduce using rule 52 (capture_relation -> .)
 
-    expresion                      shift and go to state 120
-    exp                            shift and go to state 77
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
+    capture_relation               shift and go to state 119
 
 state 94
 
-    (93) print -> PRINT LPAREN expresion_or_string . RPAREN SEMI
+    (49) relations_or_not -> NEQ . capture_relation exp check_relation
+    (52) capture_relation -> .
 
-    RPAREN          shift and go to state 121
+    LPAREN          reduce using rule 52 (capture_relation -> .)
+    PLUS            reduce using rule 52 (capture_relation -> .)
+    MINUS           reduce using rule 52 (capture_relation -> .)
+    ID              reduce using rule 52 (capture_relation -> .)
+    CTE_INT         reduce using rule 52 (capture_relation -> .)
+    CTE_FLOAT       reduce using rule 52 (capture_relation -> .)
 
+    capture_relation               shift and go to state 120
 
 state 95
 
-    (94) expresion_or_string -> expresion . print_expr list_objs
-    (96) print_expr -> .
+    (50) relations_or_not -> EQ . capture_relation exp check_relation
+    (52) capture_relation -> .
 
-    COMMA           reduce using rule 96 (print_expr -> .)
-    RPAREN          reduce using rule 96 (print_expr -> .)
+    LPAREN          reduce using rule 52 (capture_relation -> .)
+    PLUS            reduce using rule 52 (capture_relation -> .)
+    MINUS           reduce using rule 52 (capture_relation -> .)
+    ID              reduce using rule 52 (capture_relation -> .)
+    CTE_INT         reduce using rule 52 (capture_relation -> .)
+    CTE_FLOAT       reduce using rule 52 (capture_relation -> .)
 
-    print_expr                     shift and go to state 122
+    capture_relation               shift and go to state 121
 
 state 96
 
-    (95) expresion_or_string -> CTE_STRING . print_str list_objs
-    (97) print_str -> .
+    (51) relations_or_not -> empty .
 
-    COMMA           reduce using rule 97 (print_str -> .)
-    RPAREN          reduce using rule 97 (print_str -> .)
+    SEMI            reduce using rule 51 (relations_or_not -> empty .)
+    COMMA           reduce using rule 51 (relations_or_not -> empty .)
+    RPAREN          reduce using rule 51 (relations_or_not -> empty .)
 
-    print_str                      shift and go to state 123
 
 state 97
+
+    (54) exp -> term check_plus_minus . more_terms
+    (56) more_terms -> . PLUS capture_Oper exp
+    (57) more_terms -> . MINUS capture_Oper exp
+    (58) more_terms -> . empty
+    (102) empty -> .
+
+    PLUS            shift and go to state 123
+    MINUS           shift and go to state 124
+    GT              reduce using rule 102 (empty -> .)
+    LT              reduce using rule 102 (empty -> .)
+    NEQ             reduce using rule 102 (empty -> .)
+    EQ              reduce using rule 102 (empty -> .)
+    SEMI            reduce using rule 102 (empty -> .)
+    COMMA           reduce using rule 102 (empty -> .)
+    RPAREN          reduce using rule 102 (empty -> .)
+
+    more_terms                     shift and go to state 122
+    empty                          shift and go to state 125
+
+state 98
+
+    (60) term -> factor check_mult_div . more_factors
+    (62) more_factors -> . TIMES capture_Oper term
+    (63) more_factors -> . DIVIDE capture_Oper term
+    (64) more_factors -> . empty
+    (102) empty -> .
+
+    TIMES           shift and go to state 127
+    DIVIDE          shift and go to state 128
+    PLUS            reduce using rule 102 (empty -> .)
+    MINUS           reduce using rule 102 (empty -> .)
+    GT              reduce using rule 102 (empty -> .)
+    LT              reduce using rule 102 (empty -> .)
+    NEQ             reduce using rule 102 (empty -> .)
+    EQ              reduce using rule 102 (empty -> .)
+    SEMI            reduce using rule 102 (empty -> .)
+    COMMA           reduce using rule 102 (empty -> .)
+    RPAREN          reduce using rule 102 (empty -> .)
+
+    more_factors                   shift and go to state 126
+    empty                          shift and go to state 129
+
+state 99
+
+    (65) factor_type -> LPAREN begin_paren . expresion RPAREN end_paren
+    (46) expresion -> . exp relations_or_not
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
+
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
+
+    expresion                      shift and go to state 130
+    exp                            shift and go to state 69
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
+
+state 100
+
+    (66) factor_type -> PLUS id_or_cte .
+
+    TIMES           reduce using rule 66 (factor_type -> PLUS id_or_cte .)
+    DIVIDE          reduce using rule 66 (factor_type -> PLUS id_or_cte .)
+    PLUS            reduce using rule 66 (factor_type -> PLUS id_or_cte .)
+    MINUS           reduce using rule 66 (factor_type -> PLUS id_or_cte .)
+    GT              reduce using rule 66 (factor_type -> PLUS id_or_cte .)
+    LT              reduce using rule 66 (factor_type -> PLUS id_or_cte .)
+    NEQ             reduce using rule 66 (factor_type -> PLUS id_or_cte .)
+    EQ              reduce using rule 66 (factor_type -> PLUS id_or_cte .)
+    SEMI            reduce using rule 66 (factor_type -> PLUS id_or_cte .)
+    COMMA           reduce using rule 66 (factor_type -> PLUS id_or_cte .)
+    RPAREN          reduce using rule 66 (factor_type -> PLUS id_or_cte .)
+
+
+state 101
+
+    (73) id_or_cte -> ID . capture_id_oper
+    (75) capture_id_oper -> .
+
+    TIMES           reduce using rule 75 (capture_id_oper -> .)
+    DIVIDE          reduce using rule 75 (capture_id_oper -> .)
+    PLUS            reduce using rule 75 (capture_id_oper -> .)
+    MINUS           reduce using rule 75 (capture_id_oper -> .)
+    GT              reduce using rule 75 (capture_id_oper -> .)
+    LT              reduce using rule 75 (capture_id_oper -> .)
+    NEQ             reduce using rule 75 (capture_id_oper -> .)
+    EQ              reduce using rule 75 (capture_id_oper -> .)
+    SEMI            reduce using rule 75 (capture_id_oper -> .)
+    COMMA           reduce using rule 75 (capture_id_oper -> .)
+    RPAREN          reduce using rule 75 (capture_id_oper -> .)
+
+    capture_id_oper                shift and go to state 103
+
+state 102
+
+    (67) factor_type -> MINUS id_or_cte .
+
+    TIMES           reduce using rule 67 (factor_type -> MINUS id_or_cte .)
+    DIVIDE          reduce using rule 67 (factor_type -> MINUS id_or_cte .)
+    PLUS            reduce using rule 67 (factor_type -> MINUS id_or_cte .)
+    MINUS           reduce using rule 67 (factor_type -> MINUS id_or_cte .)
+    GT              reduce using rule 67 (factor_type -> MINUS id_or_cte .)
+    LT              reduce using rule 67 (factor_type -> MINUS id_or_cte .)
+    NEQ             reduce using rule 67 (factor_type -> MINUS id_or_cte .)
+    EQ              reduce using rule 67 (factor_type -> MINUS id_or_cte .)
+    SEMI            reduce using rule 67 (factor_type -> MINUS id_or_cte .)
+    COMMA           reduce using rule 67 (factor_type -> MINUS id_or_cte .)
+    RPAREN          reduce using rule 67 (factor_type -> MINUS id_or_cte .)
+
+
+state 103
+
+    (73) id_or_cte -> ID capture_id_oper .
+
+    TIMES           reduce using rule 73 (id_or_cte -> ID capture_id_oper .)
+    DIVIDE          reduce using rule 73 (id_or_cte -> ID capture_id_oper .)
+    PLUS            reduce using rule 73 (id_or_cte -> ID capture_id_oper .)
+    MINUS           reduce using rule 73 (id_or_cte -> ID capture_id_oper .)
+    GT              reduce using rule 73 (id_or_cte -> ID capture_id_oper .)
+    LT              reduce using rule 73 (id_or_cte -> ID capture_id_oper .)
+    NEQ             reduce using rule 73 (id_or_cte -> ID capture_id_oper .)
+    EQ              reduce using rule 73 (id_or_cte -> ID capture_id_oper .)
+    SEMI            reduce using rule 73 (id_or_cte -> ID capture_id_oper .)
+    COMMA           reduce using rule 73 (id_or_cte -> ID capture_id_oper .)
+    RPAREN          reduce using rule 73 (id_or_cte -> ID capture_id_oper .)
+
+
+state 104
+
+    (81) cte -> CTE_INT capture_cte_int .
+
+    TIMES           reduce using rule 81 (cte -> CTE_INT capture_cte_int .)
+    DIVIDE          reduce using rule 81 (cte -> CTE_INT capture_cte_int .)
+    PLUS            reduce using rule 81 (cte -> CTE_INT capture_cte_int .)
+    MINUS           reduce using rule 81 (cte -> CTE_INT capture_cte_int .)
+    GT              reduce using rule 81 (cte -> CTE_INT capture_cte_int .)
+    LT              reduce using rule 81 (cte -> CTE_INT capture_cte_int .)
+    NEQ             reduce using rule 81 (cte -> CTE_INT capture_cte_int .)
+    EQ              reduce using rule 81 (cte -> CTE_INT capture_cte_int .)
+    SEMI            reduce using rule 81 (cte -> CTE_INT capture_cte_int .)
+    COMMA           reduce using rule 81 (cte -> CTE_INT capture_cte_int .)
+    RPAREN          reduce using rule 81 (cte -> CTE_INT capture_cte_int .)
+
+
+state 105
+
+    (82) cte -> CTE_FLOAT capture_cte_float .
+
+    TIMES           reduce using rule 82 (cte -> CTE_FLOAT capture_cte_float .)
+    DIVIDE          reduce using rule 82 (cte -> CTE_FLOAT capture_cte_float .)
+    PLUS            reduce using rule 82 (cte -> CTE_FLOAT capture_cte_float .)
+    MINUS           reduce using rule 82 (cte -> CTE_FLOAT capture_cte_float .)
+    GT              reduce using rule 82 (cte -> CTE_FLOAT capture_cte_float .)
+    LT              reduce using rule 82 (cte -> CTE_FLOAT capture_cte_float .)
+    NEQ             reduce using rule 82 (cte -> CTE_FLOAT capture_cte_float .)
+    EQ              reduce using rule 82 (cte -> CTE_FLOAT capture_cte_float .)
+    SEMI            reduce using rule 82 (cte -> CTE_FLOAT capture_cte_float .)
+    COMMA           reduce using rule 82 (cte -> CTE_FLOAT capture_cte_float .)
+    RPAREN          reduce using rule 82 (cte -> CTE_FLOAT capture_cte_float .)
+
+
+state 106
+
+    (45) assign -> ID ASSIGN expresion . SEMI
+
+    SEMI            shift and go to state 131
+
+
+state 107
+
+    (76) llamada -> ID LPAREN expresion_or_not . RPAREN
+
+    RPAREN          shift and go to state 132
+
+
+state 108
+
+    (77) expresion_or_not -> expresion . expresion_loop
+    (79) expresion_loop -> . COMMA expresion expresion_loop
+    (80) expresion_loop -> . empty
+    (102) empty -> .
+
+    COMMA           shift and go to state 134
+    RPAREN          reduce using rule 102 (empty -> .)
+
+    expresion_loop                 shift and go to state 133
+    empty                          shift and go to state 135
+
+state 109
+
+    (78) expresion_or_not -> empty .
+
+    RPAREN          reduce using rule 78 (expresion_or_not -> empty .)
+
+
+state 110
+
+    (85) condition -> IF LPAREN expresion . RPAREN mark_if body else_or_not SEMI mark_end_if
+
+    RPAREN          shift and go to state 136
+
+
+state 111
+
+    (91) cycle -> WHILE mark_while LPAREN . expresion RPAREN skip_while DO body SEMI return_while
+    (46) expresion -> . exp relations_or_not
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
+
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
+
+    expresion                      shift and go to state 137
+    exp                            shift and go to state 69
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
+
+state 112
+
+    (95) print -> PRINT LPAREN expresion_or_string . RPAREN SEMI
+
+    RPAREN          shift and go to state 138
+
+
+state 113
+
+    (96) expresion_or_string -> expresion . print_expr list_objs
+    (98) print_expr -> .
+
+    COMMA           reduce using rule 98 (print_expr -> .)
+    RPAREN          reduce using rule 98 (print_expr -> .)
+
+    print_expr                     shift and go to state 139
+
+state 114
+
+    (97) expresion_or_string -> CTE_STRING . print_str list_objs
+    (99) print_str -> .
+
+    COMMA           reduce using rule 99 (print_str -> .)
+    RPAREN          reduce using rule 99 (print_str -> .)
+
+    print_str                      shift and go to state 140
+
+state 115
 
     (28) ids -> ID capture_id COLON . type capture_type ids_loop
     (17) type -> . INT capture_type
@@ -1461,407 +1790,413 @@ state 97
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
 
-    type                           shift and go to state 124
+    type                           shift and go to state 141
 
-state 98
+state 116
 
     (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE . vars_or_not body RBRACE end_func SEMI
     (32) vars_or_not -> . vars
     (33) vars_or_not -> . empty
     (9) vars -> . VAR dec_var
-    (100) empty -> .
+    (102) empty -> .
 
     VAR             shift and go to state 10
-    LBRACE          reduce using rule 100 (empty -> .)
-
-    vars_or_not                    shift and go to state 125
-    vars                           shift and go to state 126
-    empty                          shift and go to state 127
-
-state 99
-
-    (71) id_or_cte -> ID capture_id_oper .
-
-    TIMES           reduce using rule 71 (id_or_cte -> ID capture_id_oper .)
-    DIVIDE          reduce using rule 71 (id_or_cte -> ID capture_id_oper .)
-    PLUS            reduce using rule 71 (id_or_cte -> ID capture_id_oper .)
-    MINUS           reduce using rule 71 (id_or_cte -> ID capture_id_oper .)
-    GT              reduce using rule 71 (id_or_cte -> ID capture_id_oper .)
-    LT              reduce using rule 71 (id_or_cte -> ID capture_id_oper .)
-    NEQ             reduce using rule 71 (id_or_cte -> ID capture_id_oper .)
-    EQ              reduce using rule 71 (id_or_cte -> ID capture_id_oper .)
-    SEMI            reduce using rule 71 (id_or_cte -> ID capture_id_oper .)
-    COMMA           reduce using rule 71 (id_or_cte -> ID capture_id_oper .)
-    RPAREN          reduce using rule 71 (id_or_cte -> ID capture_id_oper .)
-
-
-state 100
-
-    (43) assign -> ID ASSIGN expresion SEMI .
-
-    LBRACKET        reduce using rule 43 (assign -> ID ASSIGN expresion SEMI .)
-    ID              reduce using rule 43 (assign -> ID ASSIGN expresion SEMI .)
-    IF              reduce using rule 43 (assign -> ID ASSIGN expresion SEMI .)
-    WHILE           reduce using rule 43 (assign -> ID ASSIGN expresion SEMI .)
-    PRINT           reduce using rule 43 (assign -> ID ASSIGN expresion SEMI .)
-    RBRACE          reduce using rule 43 (assign -> ID ASSIGN expresion SEMI .)
-    RBRACKET        reduce using rule 43 (assign -> ID ASSIGN expresion SEMI .)
-
-
-state 101
-
-    (44) expresion -> exp relations_or_not .
-
-    SEMI            reduce using rule 44 (expresion -> exp relations_or_not .)
-    COMMA           reduce using rule 44 (expresion -> exp relations_or_not .)
-    RPAREN          reduce using rule 44 (expresion -> exp relations_or_not .)
-
-
-state 102
-
-    (45) relations_or_not -> GT . capture_relation exp check_relation
-    (50) capture_relation -> .
-
-    LPAREN          reduce using rule 50 (capture_relation -> .)
-    PLUS            reduce using rule 50 (capture_relation -> .)
-    MINUS           reduce using rule 50 (capture_relation -> .)
-    ID              reduce using rule 50 (capture_relation -> .)
-    CTE_INT         reduce using rule 50 (capture_relation -> .)
-    CTE_FLOAT       reduce using rule 50 (capture_relation -> .)
-
-    capture_relation               shift and go to state 128
-
-state 103
-
-    (46) relations_or_not -> LT . capture_relation exp check_relation
-    (50) capture_relation -> .
-
-    LPAREN          reduce using rule 50 (capture_relation -> .)
-    PLUS            reduce using rule 50 (capture_relation -> .)
-    MINUS           reduce using rule 50 (capture_relation -> .)
-    ID              reduce using rule 50 (capture_relation -> .)
-    CTE_INT         reduce using rule 50 (capture_relation -> .)
-    CTE_FLOAT       reduce using rule 50 (capture_relation -> .)
-
-    capture_relation               shift and go to state 129
-
-state 104
-
-    (47) relations_or_not -> NEQ . capture_relation exp check_relation
-    (50) capture_relation -> .
-
-    LPAREN          reduce using rule 50 (capture_relation -> .)
-    PLUS            reduce using rule 50 (capture_relation -> .)
-    MINUS           reduce using rule 50 (capture_relation -> .)
-    ID              reduce using rule 50 (capture_relation -> .)
-    CTE_INT         reduce using rule 50 (capture_relation -> .)
-    CTE_FLOAT       reduce using rule 50 (capture_relation -> .)
-
-    capture_relation               shift and go to state 130
-
-state 105
-
-    (48) relations_or_not -> EQ . capture_relation exp check_relation
-    (50) capture_relation -> .
-
-    LPAREN          reduce using rule 50 (capture_relation -> .)
-    PLUS            reduce using rule 50 (capture_relation -> .)
-    MINUS           reduce using rule 50 (capture_relation -> .)
-    ID              reduce using rule 50 (capture_relation -> .)
-    CTE_INT         reduce using rule 50 (capture_relation -> .)
-    CTE_FLOAT       reduce using rule 50 (capture_relation -> .)
-
-    capture_relation               shift and go to state 131
-
-state 106
-
-    (49) relations_or_not -> empty .
-
-    SEMI            reduce using rule 49 (relations_or_not -> empty .)
-    COMMA           reduce using rule 49 (relations_or_not -> empty .)
-    RPAREN          reduce using rule 49 (relations_or_not -> empty .)
-
-
-state 107
-
-    (52) exp -> term check_plus_minus . more_terms
-    (54) more_terms -> . PLUS capture_Oper exp
-    (55) more_terms -> . MINUS capture_Oper exp
-    (56) more_terms -> . empty
-    (100) empty -> .
-
-    PLUS            shift and go to state 133
-    MINUS           shift and go to state 134
-    GT              reduce using rule 100 (empty -> .)
-    LT              reduce using rule 100 (empty -> .)
-    NEQ             reduce using rule 100 (empty -> .)
-    EQ              reduce using rule 100 (empty -> .)
-    SEMI            reduce using rule 100 (empty -> .)
-    COMMA           reduce using rule 100 (empty -> .)
-    RPAREN          reduce using rule 100 (empty -> .)
-
-    more_terms                     shift and go to state 132
-    empty                          shift and go to state 135
-
-state 108
-
-    (58) term -> factor check_mult_div . more_factors
-    (60) more_factors -> . TIMES capture_Oper term
-    (61) more_factors -> . DIVIDE capture_Oper term
-    (62) more_factors -> . empty
-    (100) empty -> .
-
-    TIMES           shift and go to state 137
-    DIVIDE          shift and go to state 138
-    PLUS            reduce using rule 100 (empty -> .)
-    MINUS           reduce using rule 100 (empty -> .)
-    GT              reduce using rule 100 (empty -> .)
-    LT              reduce using rule 100 (empty -> .)
-    NEQ             reduce using rule 100 (empty -> .)
-    EQ              reduce using rule 100 (empty -> .)
-    SEMI            reduce using rule 100 (empty -> .)
-    COMMA           reduce using rule 100 (empty -> .)
-    RPAREN          reduce using rule 100 (empty -> .)
-
-    more_factors                   shift and go to state 136
-    empty                          shift and go to state 139
-
-state 109
-
-    (63) factor_type -> LPAREN begin_paren . expresion RPAREN end_paren
-    (44) expresion -> . exp relations_or_not
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
-
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
-
-    expresion                      shift and go to state 140
-    exp                            shift and go to state 77
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
-
-state 110
-
-    (64) factor_type -> PLUS id_or_cte .
-
-    TIMES           reduce using rule 64 (factor_type -> PLUS id_or_cte .)
-    DIVIDE          reduce using rule 64 (factor_type -> PLUS id_or_cte .)
-    PLUS            reduce using rule 64 (factor_type -> PLUS id_or_cte .)
-    MINUS           reduce using rule 64 (factor_type -> PLUS id_or_cte .)
-    GT              reduce using rule 64 (factor_type -> PLUS id_or_cte .)
-    LT              reduce using rule 64 (factor_type -> PLUS id_or_cte .)
-    NEQ             reduce using rule 64 (factor_type -> PLUS id_or_cte .)
-    EQ              reduce using rule 64 (factor_type -> PLUS id_or_cte .)
-    SEMI            reduce using rule 64 (factor_type -> PLUS id_or_cte .)
-    COMMA           reduce using rule 64 (factor_type -> PLUS id_or_cte .)
-    RPAREN          reduce using rule 64 (factor_type -> PLUS id_or_cte .)
-
-
-state 111
-
-    (71) id_or_cte -> ID . capture_id_oper
-    (73) capture_id_oper -> .
-
-    TIMES           reduce using rule 73 (capture_id_oper -> .)
-    DIVIDE          reduce using rule 73 (capture_id_oper -> .)
-    PLUS            reduce using rule 73 (capture_id_oper -> .)
-    MINUS           reduce using rule 73 (capture_id_oper -> .)
-    GT              reduce using rule 73 (capture_id_oper -> .)
-    LT              reduce using rule 73 (capture_id_oper -> .)
-    NEQ             reduce using rule 73 (capture_id_oper -> .)
-    EQ              reduce using rule 73 (capture_id_oper -> .)
-    SEMI            reduce using rule 73 (capture_id_oper -> .)
-    COMMA           reduce using rule 73 (capture_id_oper -> .)
-    RPAREN          reduce using rule 73 (capture_id_oper -> .)
-
-    capture_id_oper                shift and go to state 99
-
-state 112
-
-    (65) factor_type -> MINUS id_or_cte .
-
-    TIMES           reduce using rule 65 (factor_type -> MINUS id_or_cte .)
-    DIVIDE          reduce using rule 65 (factor_type -> MINUS id_or_cte .)
-    PLUS            reduce using rule 65 (factor_type -> MINUS id_or_cte .)
-    MINUS           reduce using rule 65 (factor_type -> MINUS id_or_cte .)
-    GT              reduce using rule 65 (factor_type -> MINUS id_or_cte .)
-    LT              reduce using rule 65 (factor_type -> MINUS id_or_cte .)
-    NEQ             reduce using rule 65 (factor_type -> MINUS id_or_cte .)
-    EQ              reduce using rule 65 (factor_type -> MINUS id_or_cte .)
-    SEMI            reduce using rule 65 (factor_type -> MINUS id_or_cte .)
-    COMMA           reduce using rule 65 (factor_type -> MINUS id_or_cte .)
-    RPAREN          reduce using rule 65 (factor_type -> MINUS id_or_cte .)
-
-
-state 113
-
-    (79) cte -> CTE_INT capture_cte_int .
-
-    TIMES           reduce using rule 79 (cte -> CTE_INT capture_cte_int .)
-    DIVIDE          reduce using rule 79 (cte -> CTE_INT capture_cte_int .)
-    PLUS            reduce using rule 79 (cte -> CTE_INT capture_cte_int .)
-    MINUS           reduce using rule 79 (cte -> CTE_INT capture_cte_int .)
-    GT              reduce using rule 79 (cte -> CTE_INT capture_cte_int .)
-    LT              reduce using rule 79 (cte -> CTE_INT capture_cte_int .)
-    NEQ             reduce using rule 79 (cte -> CTE_INT capture_cte_int .)
-    EQ              reduce using rule 79 (cte -> CTE_INT capture_cte_int .)
-    SEMI            reduce using rule 79 (cte -> CTE_INT capture_cte_int .)
-    COMMA           reduce using rule 79 (cte -> CTE_INT capture_cte_int .)
-    RPAREN          reduce using rule 79 (cte -> CTE_INT capture_cte_int .)
-
-
-state 114
-
-    (80) cte -> CTE_FLOAT capture_cte_float .
-
-    TIMES           reduce using rule 80 (cte -> CTE_FLOAT capture_cte_float .)
-    DIVIDE          reduce using rule 80 (cte -> CTE_FLOAT capture_cte_float .)
-    PLUS            reduce using rule 80 (cte -> CTE_FLOAT capture_cte_float .)
-    MINUS           reduce using rule 80 (cte -> CTE_FLOAT capture_cte_float .)
-    GT              reduce using rule 80 (cte -> CTE_FLOAT capture_cte_float .)
-    LT              reduce using rule 80 (cte -> CTE_FLOAT capture_cte_float .)
-    NEQ             reduce using rule 80 (cte -> CTE_FLOAT capture_cte_float .)
-    EQ              reduce using rule 80 (cte -> CTE_FLOAT capture_cte_float .)
-    SEMI            reduce using rule 80 (cte -> CTE_FLOAT capture_cte_float .)
-    COMMA           reduce using rule 80 (cte -> CTE_FLOAT capture_cte_float .)
-    RPAREN          reduce using rule 80 (cte -> CTE_FLOAT capture_cte_float .)
-
-
-state 115
-
-    (74) llamada -> ID LPAREN expresion_or_not RPAREN .
-
-    SEMI            reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-    TIMES           reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-    DIVIDE          reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-    PLUS            reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-    MINUS           reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-    GT              reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-    LT              reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-    NEQ             reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-    EQ              reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-    COMMA           reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-    RPAREN          reduce using rule 74 (llamada -> ID LPAREN expresion_or_not RPAREN .)
-
-
-state 116
-
-    (75) expresion_or_not -> expresion expresion_loop .
-
-    RPAREN          reduce using rule 75 (expresion_or_not -> expresion expresion_loop .)
-
+    LBRACE          reduce using rule 102 (empty -> .)
+
+    vars_or_not                    shift and go to state 142
+    vars                           shift and go to state 143
+    empty                          shift and go to state 144
 
 state 117
 
-    (77) expresion_loop -> COMMA . expresion expresion_loop
-    (44) expresion -> . exp relations_or_not
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (43) statement -> RETURN expresion SEMI end_return .
 
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    LBRACKET        reduce using rule 43 (statement -> RETURN expresion SEMI end_return .)
+    RETURN          reduce using rule 43 (statement -> RETURN expresion SEMI end_return .)
+    ID              reduce using rule 43 (statement -> RETURN expresion SEMI end_return .)
+    IF              reduce using rule 43 (statement -> RETURN expresion SEMI end_return .)
+    WHILE           reduce using rule 43 (statement -> RETURN expresion SEMI end_return .)
+    PRINT           reduce using rule 43 (statement -> RETURN expresion SEMI end_return .)
+    RBRACE          reduce using rule 43 (statement -> RETURN expresion SEMI end_return .)
+    RBRACKET        reduce using rule 43 (statement -> RETURN expresion SEMI end_return .)
 
-    expresion                      shift and go to state 141
-    exp                            shift and go to state 77
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
 
 state 118
 
-    (78) expresion_loop -> empty .
+    (47) relations_or_not -> GT capture_relation . exp check_relation
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
 
-    RPAREN          reduce using rule 78 (expresion_loop -> empty .)
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
 
+    exp                            shift and go to state 145
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
 
 state 119
 
-    (83) condition -> IF LPAREN expresion RPAREN . mark_if body else_or_not SEMI mark_end_if
-    (84) mark_if -> .
+    (48) relations_or_not -> LT capture_relation . exp check_relation
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
 
-    LBRACE          reduce using rule 84 (mark_if -> .)
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
 
-    mark_if                        shift and go to state 142
+    exp                            shift and go to state 146
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
 
 state 120
 
-    (89) cycle -> WHILE mark_while LPAREN expresion . RPAREN skip_while DO body SEMI return_while
+    (49) relations_or_not -> NEQ capture_relation . exp check_relation
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
 
-    RPAREN          shift and go to state 143
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
 
+    exp                            shift and go to state 147
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
 
 state 121
 
-    (93) print -> PRINT LPAREN expresion_or_string RPAREN . SEMI
+    (50) relations_or_not -> EQ capture_relation . exp check_relation
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
 
-    SEMI            shift and go to state 144
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
 
+    exp                            shift and go to state 148
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
 
 state 122
 
-    (94) expresion_or_string -> expresion print_expr . list_objs
-    (98) list_objs -> . COMMA expresion_or_string
-    (99) list_objs -> . empty
-    (100) empty -> .
+    (54) exp -> term check_plus_minus more_terms .
 
-    COMMA           shift and go to state 146
-    RPAREN          reduce using rule 100 (empty -> .)
+    GT              reduce using rule 54 (exp -> term check_plus_minus more_terms .)
+    LT              reduce using rule 54 (exp -> term check_plus_minus more_terms .)
+    NEQ             reduce using rule 54 (exp -> term check_plus_minus more_terms .)
+    EQ              reduce using rule 54 (exp -> term check_plus_minus more_terms .)
+    SEMI            reduce using rule 54 (exp -> term check_plus_minus more_terms .)
+    COMMA           reduce using rule 54 (exp -> term check_plus_minus more_terms .)
+    RPAREN          reduce using rule 54 (exp -> term check_plus_minus more_terms .)
 
-    list_objs                      shift and go to state 145
-    empty                          shift and go to state 147
 
 state 123
 
-    (95) expresion_or_string -> CTE_STRING print_str . list_objs
-    (98) list_objs -> . COMMA expresion_or_string
-    (99) list_objs -> . empty
-    (100) empty -> .
+    (56) more_terms -> PLUS . capture_Oper exp
+    (59) capture_Oper -> .
 
-    COMMA           shift and go to state 146
-    RPAREN          reduce using rule 100 (empty -> .)
+    LPAREN          reduce using rule 59 (capture_Oper -> .)
+    PLUS            reduce using rule 59 (capture_Oper -> .)
+    MINUS           reduce using rule 59 (capture_Oper -> .)
+    ID              reduce using rule 59 (capture_Oper -> .)
+    CTE_INT         reduce using rule 59 (capture_Oper -> .)
+    CTE_FLOAT       reduce using rule 59 (capture_Oper -> .)
 
-    list_objs                      shift and go to state 148
-    empty                          shift and go to state 147
+    capture_Oper                   shift and go to state 149
 
 state 124
+
+    (57) more_terms -> MINUS . capture_Oper exp
+    (59) capture_Oper -> .
+
+    LPAREN          reduce using rule 59 (capture_Oper -> .)
+    PLUS            reduce using rule 59 (capture_Oper -> .)
+    MINUS           reduce using rule 59 (capture_Oper -> .)
+    ID              reduce using rule 59 (capture_Oper -> .)
+    CTE_INT         reduce using rule 59 (capture_Oper -> .)
+    CTE_FLOAT       reduce using rule 59 (capture_Oper -> .)
+
+    capture_Oper                   shift and go to state 150
+
+state 125
+
+    (58) more_terms -> empty .
+
+    GT              reduce using rule 58 (more_terms -> empty .)
+    LT              reduce using rule 58 (more_terms -> empty .)
+    NEQ             reduce using rule 58 (more_terms -> empty .)
+    EQ              reduce using rule 58 (more_terms -> empty .)
+    SEMI            reduce using rule 58 (more_terms -> empty .)
+    COMMA           reduce using rule 58 (more_terms -> empty .)
+    RPAREN          reduce using rule 58 (more_terms -> empty .)
+
+
+state 126
+
+    (60) term -> factor check_mult_div more_factors .
+
+    PLUS            reduce using rule 60 (term -> factor check_mult_div more_factors .)
+    MINUS           reduce using rule 60 (term -> factor check_mult_div more_factors .)
+    GT              reduce using rule 60 (term -> factor check_mult_div more_factors .)
+    LT              reduce using rule 60 (term -> factor check_mult_div more_factors .)
+    NEQ             reduce using rule 60 (term -> factor check_mult_div more_factors .)
+    EQ              reduce using rule 60 (term -> factor check_mult_div more_factors .)
+    SEMI            reduce using rule 60 (term -> factor check_mult_div more_factors .)
+    COMMA           reduce using rule 60 (term -> factor check_mult_div more_factors .)
+    RPAREN          reduce using rule 60 (term -> factor check_mult_div more_factors .)
+
+
+state 127
+
+    (62) more_factors -> TIMES . capture_Oper term
+    (59) capture_Oper -> .
+
+    LPAREN          reduce using rule 59 (capture_Oper -> .)
+    PLUS            reduce using rule 59 (capture_Oper -> .)
+    MINUS           reduce using rule 59 (capture_Oper -> .)
+    ID              reduce using rule 59 (capture_Oper -> .)
+    CTE_INT         reduce using rule 59 (capture_Oper -> .)
+    CTE_FLOAT       reduce using rule 59 (capture_Oper -> .)
+
+    capture_Oper                   shift and go to state 151
+
+state 128
+
+    (63) more_factors -> DIVIDE . capture_Oper term
+    (59) capture_Oper -> .
+
+    LPAREN          reduce using rule 59 (capture_Oper -> .)
+    PLUS            reduce using rule 59 (capture_Oper -> .)
+    MINUS           reduce using rule 59 (capture_Oper -> .)
+    ID              reduce using rule 59 (capture_Oper -> .)
+    CTE_INT         reduce using rule 59 (capture_Oper -> .)
+    CTE_FLOAT       reduce using rule 59 (capture_Oper -> .)
+
+    capture_Oper                   shift and go to state 152
+
+state 129
+
+    (64) more_factors -> empty .
+
+    PLUS            reduce using rule 64 (more_factors -> empty .)
+    MINUS           reduce using rule 64 (more_factors -> empty .)
+    GT              reduce using rule 64 (more_factors -> empty .)
+    LT              reduce using rule 64 (more_factors -> empty .)
+    NEQ             reduce using rule 64 (more_factors -> empty .)
+    EQ              reduce using rule 64 (more_factors -> empty .)
+    SEMI            reduce using rule 64 (more_factors -> empty .)
+    COMMA           reduce using rule 64 (more_factors -> empty .)
+    RPAREN          reduce using rule 64 (more_factors -> empty .)
+
+
+state 130
+
+    (65) factor_type -> LPAREN begin_paren expresion . RPAREN end_paren
+
+    RPAREN          shift and go to state 153
+
+
+state 131
+
+    (45) assign -> ID ASSIGN expresion SEMI .
+
+    LBRACKET        reduce using rule 45 (assign -> ID ASSIGN expresion SEMI .)
+    RETURN          reduce using rule 45 (assign -> ID ASSIGN expresion SEMI .)
+    ID              reduce using rule 45 (assign -> ID ASSIGN expresion SEMI .)
+    IF              reduce using rule 45 (assign -> ID ASSIGN expresion SEMI .)
+    WHILE           reduce using rule 45 (assign -> ID ASSIGN expresion SEMI .)
+    PRINT           reduce using rule 45 (assign -> ID ASSIGN expresion SEMI .)
+    RBRACE          reduce using rule 45 (assign -> ID ASSIGN expresion SEMI .)
+    RBRACKET        reduce using rule 45 (assign -> ID ASSIGN expresion SEMI .)
+
+
+state 132
+
+    (76) llamada -> ID LPAREN expresion_or_not RPAREN .
+
+    SEMI            reduce using rule 76 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    TIMES           reduce using rule 76 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    DIVIDE          reduce using rule 76 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    PLUS            reduce using rule 76 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    MINUS           reduce using rule 76 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    GT              reduce using rule 76 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    LT              reduce using rule 76 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    NEQ             reduce using rule 76 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    EQ              reduce using rule 76 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    COMMA           reduce using rule 76 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+    RPAREN          reduce using rule 76 (llamada -> ID LPAREN expresion_or_not RPAREN .)
+
+
+state 133
+
+    (77) expresion_or_not -> expresion expresion_loop .
+
+    RPAREN          reduce using rule 77 (expresion_or_not -> expresion expresion_loop .)
+
+
+state 134
+
+    (79) expresion_loop -> COMMA . expresion expresion_loop
+    (46) expresion -> . exp relations_or_not
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
+
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
+
+    expresion                      shift and go to state 154
+    exp                            shift and go to state 69
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
+
+state 135
+
+    (80) expresion_loop -> empty .
+
+    RPAREN          reduce using rule 80 (expresion_loop -> empty .)
+
+
+state 136
+
+    (85) condition -> IF LPAREN expresion RPAREN . mark_if body else_or_not SEMI mark_end_if
+    (86) mark_if -> .
+
+    LBRACE          reduce using rule 86 (mark_if -> .)
+
+    mark_if                        shift and go to state 155
+
+state 137
+
+    (91) cycle -> WHILE mark_while LPAREN expresion . RPAREN skip_while DO body SEMI return_while
+
+    RPAREN          shift and go to state 156
+
+
+state 138
+
+    (95) print -> PRINT LPAREN expresion_or_string RPAREN . SEMI
+
+    SEMI            shift and go to state 157
+
+
+state 139
+
+    (96) expresion_or_string -> expresion print_expr . list_objs
+    (100) list_objs -> . COMMA expresion_or_string
+    (101) list_objs -> . empty
+    (102) empty -> .
+
+    COMMA           shift and go to state 159
+    RPAREN          reduce using rule 102 (empty -> .)
+
+    list_objs                      shift and go to state 158
+    empty                          shift and go to state 160
+
+state 140
+
+    (97) expresion_or_string -> CTE_STRING print_str . list_objs
+    (100) list_objs -> . COMMA expresion_or_string
+    (101) list_objs -> . empty
+    (102) empty -> .
+
+    COMMA           shift and go to state 159
+    RPAREN          reduce using rule 102 (empty -> .)
+
+    list_objs                      shift and go to state 161
+    empty                          shift and go to state 160
+
+state 141
 
     (28) ids -> ID capture_id COLON type . capture_type ids_loop
     (19) capture_type -> .
@@ -1869,845 +2204,600 @@ state 124
     COMMA           reduce using rule 19 (capture_type -> .)
     RPAREN          reduce using rule 19 (capture_type -> .)
 
-    capture_type                   shift and go to state 149
+    capture_type                   shift and go to state 162
 
-state 125
+state 142
 
     (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not . body RBRACE end_func SEMI
     (34) body -> . LBRACE statement_loop RBRACE
 
     LBRACE          shift and go to state 40
 
-    body                           shift and go to state 150
+    body                           shift and go to state 163
 
-state 126
+state 143
 
     (32) vars_or_not -> vars .
 
     LBRACE          reduce using rule 32 (vars_or_not -> vars .)
 
 
-state 127
+state 144
 
     (33) vars_or_not -> empty .
 
     LBRACE          reduce using rule 33 (vars_or_not -> empty .)
 
 
-state 128
+state 145
 
-    (45) relations_or_not -> GT capture_relation . exp check_relation
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (47) relations_or_not -> GT capture_relation exp . check_relation
+    (53) check_relation -> .
 
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    SEMI            reduce using rule 53 (check_relation -> .)
+    COMMA           reduce using rule 53 (check_relation -> .)
+    RPAREN          reduce using rule 53 (check_relation -> .)
 
-    exp                            shift and go to state 151
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
+    check_relation                 shift and go to state 164
 
-state 129
+state 146
 
-    (46) relations_or_not -> LT capture_relation . exp check_relation
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (48) relations_or_not -> LT capture_relation exp . check_relation
+    (53) check_relation -> .
 
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    SEMI            reduce using rule 53 (check_relation -> .)
+    COMMA           reduce using rule 53 (check_relation -> .)
+    RPAREN          reduce using rule 53 (check_relation -> .)
 
-    exp                            shift and go to state 152
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
+    check_relation                 shift and go to state 165
 
-state 130
+state 147
 
-    (47) relations_or_not -> NEQ capture_relation . exp check_relation
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (49) relations_or_not -> NEQ capture_relation exp . check_relation
+    (53) check_relation -> .
 
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    SEMI            reduce using rule 53 (check_relation -> .)
+    COMMA           reduce using rule 53 (check_relation -> .)
+    RPAREN          reduce using rule 53 (check_relation -> .)
 
-    exp                            shift and go to state 153
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
+    check_relation                 shift and go to state 166
 
-state 131
+state 148
 
-    (48) relations_or_not -> EQ capture_relation . exp check_relation
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (50) relations_or_not -> EQ capture_relation exp . check_relation
+    (53) check_relation -> .
 
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    SEMI            reduce using rule 53 (check_relation -> .)
+    COMMA           reduce using rule 53 (check_relation -> .)
+    RPAREN          reduce using rule 53 (check_relation -> .)
 
-    exp                            shift and go to state 154
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
+    check_relation                 shift and go to state 167
 
-state 132
+state 149
 
-    (52) exp -> term check_plus_minus more_terms .
+    (56) more_terms -> PLUS capture_Oper . exp
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
 
-    GT              reduce using rule 52 (exp -> term check_plus_minus more_terms .)
-    LT              reduce using rule 52 (exp -> term check_plus_minus more_terms .)
-    NEQ             reduce using rule 52 (exp -> term check_plus_minus more_terms .)
-    EQ              reduce using rule 52 (exp -> term check_plus_minus more_terms .)
-    SEMI            reduce using rule 52 (exp -> term check_plus_minus more_terms .)
-    COMMA           reduce using rule 52 (exp -> term check_plus_minus more_terms .)
-    RPAREN          reduce using rule 52 (exp -> term check_plus_minus more_terms .)
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
 
+    exp                            shift and go to state 168
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
 
-state 133
+state 150
 
-    (54) more_terms -> PLUS . capture_Oper exp
-    (57) capture_Oper -> .
+    (57) more_terms -> MINUS capture_Oper . exp
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
 
-    LPAREN          reduce using rule 57 (capture_Oper -> .)
-    PLUS            reduce using rule 57 (capture_Oper -> .)
-    MINUS           reduce using rule 57 (capture_Oper -> .)
-    ID              reduce using rule 57 (capture_Oper -> .)
-    CTE_INT         reduce using rule 57 (capture_Oper -> .)
-    CTE_FLOAT       reduce using rule 57 (capture_Oper -> .)
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
 
-    capture_Oper                   shift and go to state 155
+    exp                            shift and go to state 169
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
 
-state 134
+state 151
 
-    (55) more_terms -> MINUS . capture_Oper exp
-    (57) capture_Oper -> .
+    (62) more_factors -> TIMES capture_Oper . term
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
 
-    LPAREN          reduce using rule 57 (capture_Oper -> .)
-    PLUS            reduce using rule 57 (capture_Oper -> .)
-    MINUS           reduce using rule 57 (capture_Oper -> .)
-    ID              reduce using rule 57 (capture_Oper -> .)
-    CTE_INT         reduce using rule 57 (capture_Oper -> .)
-    CTE_FLOAT       reduce using rule 57 (capture_Oper -> .)
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
 
-    capture_Oper                   shift and go to state 156
+    term                           shift and go to state 170
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
 
-state 135
+state 152
 
-    (56) more_terms -> empty .
+    (63) more_factors -> DIVIDE capture_Oper . term
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
 
-    GT              reduce using rule 56 (more_terms -> empty .)
-    LT              reduce using rule 56 (more_terms -> empty .)
-    NEQ             reduce using rule 56 (more_terms -> empty .)
-    EQ              reduce using rule 56 (more_terms -> empty .)
-    SEMI            reduce using rule 56 (more_terms -> empty .)
-    COMMA           reduce using rule 56 (more_terms -> empty .)
-    RPAREN          reduce using rule 56 (more_terms -> empty .)
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
 
+    term                           shift and go to state 171
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
 
-state 136
+state 153
 
-    (58) term -> factor check_mult_div more_factors .
+    (65) factor_type -> LPAREN begin_paren expresion RPAREN . end_paren
+    (71) end_paren -> .
 
-    PLUS            reduce using rule 58 (term -> factor check_mult_div more_factors .)
-    MINUS           reduce using rule 58 (term -> factor check_mult_div more_factors .)
-    GT              reduce using rule 58 (term -> factor check_mult_div more_factors .)
-    LT              reduce using rule 58 (term -> factor check_mult_div more_factors .)
-    NEQ             reduce using rule 58 (term -> factor check_mult_div more_factors .)
-    EQ              reduce using rule 58 (term -> factor check_mult_div more_factors .)
-    SEMI            reduce using rule 58 (term -> factor check_mult_div more_factors .)
-    COMMA           reduce using rule 58 (term -> factor check_mult_div more_factors .)
-    RPAREN          reduce using rule 58 (term -> factor check_mult_div more_factors .)
+    TIMES           reduce using rule 71 (end_paren -> .)
+    DIVIDE          reduce using rule 71 (end_paren -> .)
+    PLUS            reduce using rule 71 (end_paren -> .)
+    MINUS           reduce using rule 71 (end_paren -> .)
+    GT              reduce using rule 71 (end_paren -> .)
+    LT              reduce using rule 71 (end_paren -> .)
+    NEQ             reduce using rule 71 (end_paren -> .)
+    EQ              reduce using rule 71 (end_paren -> .)
+    SEMI            reduce using rule 71 (end_paren -> .)
+    COMMA           reduce using rule 71 (end_paren -> .)
+    RPAREN          reduce using rule 71 (end_paren -> .)
 
+    end_paren                      shift and go to state 172
 
-state 137
+state 154
 
-    (60) more_factors -> TIMES . capture_Oper term
-    (57) capture_Oper -> .
+    (79) expresion_loop -> COMMA expresion . expresion_loop
+    (79) expresion_loop -> . COMMA expresion expresion_loop
+    (80) expresion_loop -> . empty
+    (102) empty -> .
 
-    LPAREN          reduce using rule 57 (capture_Oper -> .)
-    PLUS            reduce using rule 57 (capture_Oper -> .)
-    MINUS           reduce using rule 57 (capture_Oper -> .)
-    ID              reduce using rule 57 (capture_Oper -> .)
-    CTE_INT         reduce using rule 57 (capture_Oper -> .)
-    CTE_FLOAT       reduce using rule 57 (capture_Oper -> .)
+    COMMA           shift and go to state 134
+    RPAREN          reduce using rule 102 (empty -> .)
 
-    capture_Oper                   shift and go to state 157
+    expresion_loop                 shift and go to state 173
+    empty                          shift and go to state 135
 
-state 138
+state 155
 
-    (61) more_factors -> DIVIDE . capture_Oper term
-    (57) capture_Oper -> .
-
-    LPAREN          reduce using rule 57 (capture_Oper -> .)
-    PLUS            reduce using rule 57 (capture_Oper -> .)
-    MINUS           reduce using rule 57 (capture_Oper -> .)
-    ID              reduce using rule 57 (capture_Oper -> .)
-    CTE_INT         reduce using rule 57 (capture_Oper -> .)
-    CTE_FLOAT       reduce using rule 57 (capture_Oper -> .)
-
-    capture_Oper                   shift and go to state 158
-
-state 139
-
-    (62) more_factors -> empty .
-
-    PLUS            reduce using rule 62 (more_factors -> empty .)
-    MINUS           reduce using rule 62 (more_factors -> empty .)
-    GT              reduce using rule 62 (more_factors -> empty .)
-    LT              reduce using rule 62 (more_factors -> empty .)
-    NEQ             reduce using rule 62 (more_factors -> empty .)
-    EQ              reduce using rule 62 (more_factors -> empty .)
-    SEMI            reduce using rule 62 (more_factors -> empty .)
-    COMMA           reduce using rule 62 (more_factors -> empty .)
-    RPAREN          reduce using rule 62 (more_factors -> empty .)
-
-
-state 140
-
-    (63) factor_type -> LPAREN begin_paren expresion . RPAREN end_paren
-
-    RPAREN          shift and go to state 159
-
-
-state 141
-
-    (77) expresion_loop -> COMMA expresion . expresion_loop
-    (77) expresion_loop -> . COMMA expresion expresion_loop
-    (78) expresion_loop -> . empty
-    (100) empty -> .
-
-    COMMA           shift and go to state 117
-    RPAREN          reduce using rule 100 (empty -> .)
-
-    expresion_loop                 shift and go to state 160
-    empty                          shift and go to state 118
-
-state 142
-
-    (83) condition -> IF LPAREN expresion RPAREN mark_if . body else_or_not SEMI mark_end_if
+    (85) condition -> IF LPAREN expresion RPAREN mark_if . body else_or_not SEMI mark_end_if
     (34) body -> . LBRACE statement_loop RBRACE
 
     LBRACE          shift and go to state 40
 
-    body                           shift and go to state 161
-
-state 143
-
-    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN . skip_while DO body SEMI return_while
-    (91) skip_while -> .
-
-    DO              reduce using rule 91 (skip_while -> .)
-
-    skip_while                     shift and go to state 162
-
-state 144
-
-    (93) print -> PRINT LPAREN expresion_or_string RPAREN SEMI .
-
-    LBRACKET        reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    ID              reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    IF              reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    WHILE           reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    PRINT           reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    RBRACE          reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-    RBRACKET        reduce using rule 93 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
-
-
-state 145
-
-    (94) expresion_or_string -> expresion print_expr list_objs .
-
-    RPAREN          reduce using rule 94 (expresion_or_string -> expresion print_expr list_objs .)
-
-
-state 146
-
-    (98) list_objs -> COMMA . expresion_or_string
-    (94) expresion_or_string -> . expresion print_expr list_objs
-    (95) expresion_or_string -> . CTE_STRING print_str list_objs
-    (44) expresion -> . exp relations_or_not
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
-
-    CTE_STRING      shift and go to state 96
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
-
-    expresion_or_string            shift and go to state 163
-    expresion                      shift and go to state 95
-    exp                            shift and go to state 77
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
-
-state 147
-
-    (99) list_objs -> empty .
-
-    RPAREN          reduce using rule 99 (list_objs -> empty .)
-
-
-state 148
-
-    (95) expresion_or_string -> CTE_STRING print_str list_objs .
-
-    RPAREN          reduce using rule 95 (expresion_or_string -> CTE_STRING print_str list_objs .)
-
-
-state 149
-
-    (28) ids -> ID capture_id COLON type capture_type . ids_loop
-    (30) ids_loop -> . COMMA ids
-    (31) ids_loop -> . empty
-    (100) empty -> .
-
-    COMMA           shift and go to state 165
-    RPAREN          reduce using rule 100 (empty -> .)
-
-    ids_loop                       shift and go to state 164
-    empty                          shift and go to state 166
-
-state 150
-
-    (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body . RBRACE end_func SEMI
-
-    RBRACE          shift and go to state 167
-
-
-state 151
-
-    (45) relations_or_not -> GT capture_relation exp . check_relation
-    (51) check_relation -> .
-
-    SEMI            reduce using rule 51 (check_relation -> .)
-    COMMA           reduce using rule 51 (check_relation -> .)
-    RPAREN          reduce using rule 51 (check_relation -> .)
-
-    check_relation                 shift and go to state 168
-
-state 152
-
-    (46) relations_or_not -> LT capture_relation exp . check_relation
-    (51) check_relation -> .
-
-    SEMI            reduce using rule 51 (check_relation -> .)
-    COMMA           reduce using rule 51 (check_relation -> .)
-    RPAREN          reduce using rule 51 (check_relation -> .)
-
-    check_relation                 shift and go to state 169
-
-state 153
-
-    (47) relations_or_not -> NEQ capture_relation exp . check_relation
-    (51) check_relation -> .
-
-    SEMI            reduce using rule 51 (check_relation -> .)
-    COMMA           reduce using rule 51 (check_relation -> .)
-    RPAREN          reduce using rule 51 (check_relation -> .)
-
-    check_relation                 shift and go to state 170
-
-state 154
-
-    (48) relations_or_not -> EQ capture_relation exp . check_relation
-    (51) check_relation -> .
-
-    SEMI            reduce using rule 51 (check_relation -> .)
-    COMMA           reduce using rule 51 (check_relation -> .)
-    RPAREN          reduce using rule 51 (check_relation -> .)
-
-    check_relation                 shift and go to state 171
-
-state 155
-
-    (54) more_terms -> PLUS capture_Oper . exp
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
-
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
-
-    exp                            shift and go to state 172
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
+    body                           shift and go to state 174
 
 state 156
 
-    (55) more_terms -> MINUS capture_Oper . exp
-    (52) exp -> . term check_plus_minus more_terms
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (91) cycle -> WHILE mark_while LPAREN expresion RPAREN . skip_while DO body SEMI return_while
+    (93) skip_while -> .
 
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    DO              reduce using rule 93 (skip_while -> .)
 
-    exp                            shift and go to state 173
-    term                           shift and go to state 78
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
+    skip_while                     shift and go to state 175
 
 state 157
 
-    (60) more_factors -> TIMES capture_Oper . term
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (95) print -> PRINT LPAREN expresion_or_string RPAREN SEMI .
 
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    LBRACKET        reduce using rule 95 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    RETURN          reduce using rule 95 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    ID              reduce using rule 95 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    IF              reduce using rule 95 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    WHILE           reduce using rule 95 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    PRINT           reduce using rule 95 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    RBRACE          reduce using rule 95 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
+    RBRACKET        reduce using rule 95 (print -> PRINT LPAREN expresion_or_string RPAREN SEMI .)
 
-    term                           shift and go to state 174
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
 
 state 158
 
-    (61) more_factors -> DIVIDE capture_Oper . term
-    (58) term -> . factor check_mult_div more_factors
-    (70) factor -> . factor_type
-    (63) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
-    (64) factor_type -> . PLUS id_or_cte
-    (65) factor_type -> . MINUS id_or_cte
-    (66) factor_type -> . id_or_cte
-    (67) factor_type -> . llamada
-    (71) id_or_cte -> . ID capture_id_oper
-    (72) id_or_cte -> . cte
-    (74) llamada -> . ID LPAREN expresion_or_not RPAREN
-    (79) cte -> . CTE_INT capture_cte_int
-    (80) cte -> . CTE_FLOAT capture_cte_float
+    (96) expresion_or_string -> expresion print_expr list_objs .
 
-    LPAREN          shift and go to state 81
-    PLUS            shift and go to state 82
-    MINUS           shift and go to state 84
-    ID              shift and go to state 75
-    CTE_INT         shift and go to state 87
-    CTE_FLOAT       shift and go to state 88
+    RPAREN          reduce using rule 96 (expresion_or_string -> expresion print_expr list_objs .)
 
-    term                           shift and go to state 175
-    factor                         shift and go to state 79
-    factor_type                    shift and go to state 80
-    id_or_cte                      shift and go to state 83
-    llamada                        shift and go to state 85
-    cte                            shift and go to state 86
 
 state 159
 
-    (63) factor_type -> LPAREN begin_paren expresion RPAREN . end_paren
-    (69) end_paren -> .
+    (100) list_objs -> COMMA . expresion_or_string
+    (96) expresion_or_string -> . expresion print_expr list_objs
+    (97) expresion_or_string -> . CTE_STRING print_str list_objs
+    (46) expresion -> . exp relations_or_not
+    (54) exp -> . term check_plus_minus more_terms
+    (60) term -> . factor check_mult_div more_factors
+    (72) factor -> . factor_type
+    (65) factor_type -> . LPAREN begin_paren expresion RPAREN end_paren
+    (66) factor_type -> . PLUS id_or_cte
+    (67) factor_type -> . MINUS id_or_cte
+    (68) factor_type -> . id_or_cte
+    (69) factor_type -> . llamada
+    (73) id_or_cte -> . ID capture_id_oper
+    (74) id_or_cte -> . cte
+    (76) llamada -> . ID LPAREN expresion_or_not RPAREN
+    (81) cte -> . CTE_INT capture_cte_int
+    (82) cte -> . CTE_FLOAT capture_cte_float
 
-    TIMES           reduce using rule 69 (end_paren -> .)
-    DIVIDE          reduce using rule 69 (end_paren -> .)
-    PLUS            reduce using rule 69 (end_paren -> .)
-    MINUS           reduce using rule 69 (end_paren -> .)
-    GT              reduce using rule 69 (end_paren -> .)
-    LT              reduce using rule 69 (end_paren -> .)
-    NEQ             reduce using rule 69 (end_paren -> .)
-    EQ              reduce using rule 69 (end_paren -> .)
-    SEMI            reduce using rule 69 (end_paren -> .)
-    COMMA           reduce using rule 69 (end_paren -> .)
-    RPAREN          reduce using rule 69 (end_paren -> .)
+    CTE_STRING      shift and go to state 114
+    LPAREN          shift and go to state 73
+    PLUS            shift and go to state 74
+    MINUS           shift and go to state 76
+    ID              shift and go to state 78
+    CTE_INT         shift and go to state 80
+    CTE_FLOAT       shift and go to state 81
 
-    end_paren                      shift and go to state 176
+    expresion_or_string            shift and go to state 176
+    expresion                      shift and go to state 113
+    exp                            shift and go to state 69
+    term                           shift and go to state 70
+    factor                         shift and go to state 71
+    factor_type                    shift and go to state 72
+    id_or_cte                      shift and go to state 75
+    llamada                        shift and go to state 77
+    cte                            shift and go to state 79
 
 state 160
 
-    (77) expresion_loop -> COMMA expresion expresion_loop .
+    (101) list_objs -> empty .
 
-    RPAREN          reduce using rule 77 (expresion_loop -> COMMA expresion expresion_loop .)
+    RPAREN          reduce using rule 101 (list_objs -> empty .)
 
 
 state 161
 
-    (83) condition -> IF LPAREN expresion RPAREN mark_if body . else_or_not SEMI mark_end_if
-    (86) else_or_not -> . mark_else ELSE body
-    (87) else_or_not -> . empty
-    (88) mark_else -> .
-    (100) empty -> .
+    (97) expresion_or_string -> CTE_STRING print_str list_objs .
 
-    ELSE            reduce using rule 88 (mark_else -> .)
-    SEMI            reduce using rule 100 (empty -> .)
+    RPAREN          reduce using rule 97 (expresion_or_string -> CTE_STRING print_str list_objs .)
 
-    else_or_not                    shift and go to state 177
-    mark_else                      shift and go to state 178
-    empty                          shift and go to state 179
 
 state 162
 
-    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while . DO body SEMI return_while
+    (28) ids -> ID capture_id COLON type capture_type . ids_loop
+    (30) ids_loop -> . COMMA ids
+    (31) ids_loop -> . empty
+    (102) empty -> .
 
-    DO              shift and go to state 180
+    COMMA           shift and go to state 178
+    RPAREN          reduce using rule 102 (empty -> .)
 
+    ids_loop                       shift and go to state 177
+    empty                          shift and go to state 179
 
 state 163
 
-    (98) list_objs -> COMMA expresion_or_string .
+    (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body . RBRACE end_func SEMI
 
-    RPAREN          reduce using rule 98 (list_objs -> COMMA expresion_or_string .)
+    RBRACE          shift and go to state 180
 
 
 state 164
+
+    (47) relations_or_not -> GT capture_relation exp check_relation .
+
+    SEMI            reduce using rule 47 (relations_or_not -> GT capture_relation exp check_relation .)
+    COMMA           reduce using rule 47 (relations_or_not -> GT capture_relation exp check_relation .)
+    RPAREN          reduce using rule 47 (relations_or_not -> GT capture_relation exp check_relation .)
+
+
+state 165
+
+    (48) relations_or_not -> LT capture_relation exp check_relation .
+
+    SEMI            reduce using rule 48 (relations_or_not -> LT capture_relation exp check_relation .)
+    COMMA           reduce using rule 48 (relations_or_not -> LT capture_relation exp check_relation .)
+    RPAREN          reduce using rule 48 (relations_or_not -> LT capture_relation exp check_relation .)
+
+
+state 166
+
+    (49) relations_or_not -> NEQ capture_relation exp check_relation .
+
+    SEMI            reduce using rule 49 (relations_or_not -> NEQ capture_relation exp check_relation .)
+    COMMA           reduce using rule 49 (relations_or_not -> NEQ capture_relation exp check_relation .)
+    RPAREN          reduce using rule 49 (relations_or_not -> NEQ capture_relation exp check_relation .)
+
+
+state 167
+
+    (50) relations_or_not -> EQ capture_relation exp check_relation .
+
+    SEMI            reduce using rule 50 (relations_or_not -> EQ capture_relation exp check_relation .)
+    COMMA           reduce using rule 50 (relations_or_not -> EQ capture_relation exp check_relation .)
+    RPAREN          reduce using rule 50 (relations_or_not -> EQ capture_relation exp check_relation .)
+
+
+state 168
+
+    (56) more_terms -> PLUS capture_Oper exp .
+
+    GT              reduce using rule 56 (more_terms -> PLUS capture_Oper exp .)
+    LT              reduce using rule 56 (more_terms -> PLUS capture_Oper exp .)
+    NEQ             reduce using rule 56 (more_terms -> PLUS capture_Oper exp .)
+    EQ              reduce using rule 56 (more_terms -> PLUS capture_Oper exp .)
+    SEMI            reduce using rule 56 (more_terms -> PLUS capture_Oper exp .)
+    COMMA           reduce using rule 56 (more_terms -> PLUS capture_Oper exp .)
+    RPAREN          reduce using rule 56 (more_terms -> PLUS capture_Oper exp .)
+
+
+state 169
+
+    (57) more_terms -> MINUS capture_Oper exp .
+
+    GT              reduce using rule 57 (more_terms -> MINUS capture_Oper exp .)
+    LT              reduce using rule 57 (more_terms -> MINUS capture_Oper exp .)
+    NEQ             reduce using rule 57 (more_terms -> MINUS capture_Oper exp .)
+    EQ              reduce using rule 57 (more_terms -> MINUS capture_Oper exp .)
+    SEMI            reduce using rule 57 (more_terms -> MINUS capture_Oper exp .)
+    COMMA           reduce using rule 57 (more_terms -> MINUS capture_Oper exp .)
+    RPAREN          reduce using rule 57 (more_terms -> MINUS capture_Oper exp .)
+
+
+state 170
+
+    (62) more_factors -> TIMES capture_Oper term .
+
+    PLUS            reduce using rule 62 (more_factors -> TIMES capture_Oper term .)
+    MINUS           reduce using rule 62 (more_factors -> TIMES capture_Oper term .)
+    GT              reduce using rule 62 (more_factors -> TIMES capture_Oper term .)
+    LT              reduce using rule 62 (more_factors -> TIMES capture_Oper term .)
+    NEQ             reduce using rule 62 (more_factors -> TIMES capture_Oper term .)
+    EQ              reduce using rule 62 (more_factors -> TIMES capture_Oper term .)
+    SEMI            reduce using rule 62 (more_factors -> TIMES capture_Oper term .)
+    COMMA           reduce using rule 62 (more_factors -> TIMES capture_Oper term .)
+    RPAREN          reduce using rule 62 (more_factors -> TIMES capture_Oper term .)
+
+
+state 171
+
+    (63) more_factors -> DIVIDE capture_Oper term .
+
+    PLUS            reduce using rule 63 (more_factors -> DIVIDE capture_Oper term .)
+    MINUS           reduce using rule 63 (more_factors -> DIVIDE capture_Oper term .)
+    GT              reduce using rule 63 (more_factors -> DIVIDE capture_Oper term .)
+    LT              reduce using rule 63 (more_factors -> DIVIDE capture_Oper term .)
+    NEQ             reduce using rule 63 (more_factors -> DIVIDE capture_Oper term .)
+    EQ              reduce using rule 63 (more_factors -> DIVIDE capture_Oper term .)
+    SEMI            reduce using rule 63 (more_factors -> DIVIDE capture_Oper term .)
+    COMMA           reduce using rule 63 (more_factors -> DIVIDE capture_Oper term .)
+    RPAREN          reduce using rule 63 (more_factors -> DIVIDE capture_Oper term .)
+
+
+state 172
+
+    (65) factor_type -> LPAREN begin_paren expresion RPAREN end_paren .
+
+    TIMES           reduce using rule 65 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
+    DIVIDE          reduce using rule 65 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
+    PLUS            reduce using rule 65 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
+    MINUS           reduce using rule 65 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
+    GT              reduce using rule 65 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
+    LT              reduce using rule 65 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
+    NEQ             reduce using rule 65 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
+    EQ              reduce using rule 65 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
+    SEMI            reduce using rule 65 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
+    COMMA           reduce using rule 65 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
+    RPAREN          reduce using rule 65 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
+
+
+state 173
+
+    (79) expresion_loop -> COMMA expresion expresion_loop .
+
+    RPAREN          reduce using rule 79 (expresion_loop -> COMMA expresion expresion_loop .)
+
+
+state 174
+
+    (85) condition -> IF LPAREN expresion RPAREN mark_if body . else_or_not SEMI mark_end_if
+    (88) else_or_not -> . mark_else ELSE body
+    (89) else_or_not -> . empty
+    (90) mark_else -> .
+    (102) empty -> .
+
+    ELSE            reduce using rule 90 (mark_else -> .)
+    SEMI            reduce using rule 102 (empty -> .)
+
+    else_or_not                    shift and go to state 181
+    mark_else                      shift and go to state 182
+    empty                          shift and go to state 183
+
+state 175
+
+    (91) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while . DO body SEMI return_while
+
+    DO              shift and go to state 184
+
+
+state 176
+
+    (100) list_objs -> COMMA expresion_or_string .
+
+    RPAREN          reduce using rule 100 (list_objs -> COMMA expresion_or_string .)
+
+
+state 177
 
     (28) ids -> ID capture_id COLON type capture_type ids_loop .
 
     RPAREN          reduce using rule 28 (ids -> ID capture_id COLON type capture_type ids_loop .)
 
 
-state 165
+state 178
 
     (30) ids_loop -> COMMA . ids
     (28) ids -> . ID capture_id COLON type capture_type ids_loop
     (29) ids -> . empty
-    (100) empty -> .
+    (102) empty -> .
 
-    ID              shift and go to state 57
-    RPAREN          reduce using rule 100 (empty -> .)
+    ID              shift and go to state 58
+    RPAREN          reduce using rule 102 (empty -> .)
 
-    ids                            shift and go to state 181
-    empty                          shift and go to state 59
+    ids                            shift and go to state 185
+    empty                          shift and go to state 60
 
-state 166
+state 179
 
     (31) ids_loop -> empty .
 
     RPAREN          reduce using rule 31 (ids_loop -> empty .)
 
 
-state 167
+state 180
 
     (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE . end_func SEMI
     (21) end_func -> .
 
     SEMI            reduce using rule 21 (end_func -> .)
 
-    end_func                       shift and go to state 182
+    end_func                       shift and go to state 186
 
-state 168
+state 181
 
-    (45) relations_or_not -> GT capture_relation exp check_relation .
+    (85) condition -> IF LPAREN expresion RPAREN mark_if body else_or_not . SEMI mark_end_if
 
-    SEMI            reduce using rule 45 (relations_or_not -> GT capture_relation exp check_relation .)
-    COMMA           reduce using rule 45 (relations_or_not -> GT capture_relation exp check_relation .)
-    RPAREN          reduce using rule 45 (relations_or_not -> GT capture_relation exp check_relation .)
+    SEMI            shift and go to state 187
 
 
-state 169
+state 182
 
-    (46) relations_or_not -> LT capture_relation exp check_relation .
+    (88) else_or_not -> mark_else . ELSE body
 
-    SEMI            reduce using rule 46 (relations_or_not -> LT capture_relation exp check_relation .)
-    COMMA           reduce using rule 46 (relations_or_not -> LT capture_relation exp check_relation .)
-    RPAREN          reduce using rule 46 (relations_or_not -> LT capture_relation exp check_relation .)
+    ELSE            shift and go to state 188
 
 
-state 170
+state 183
 
-    (47) relations_or_not -> NEQ capture_relation exp check_relation .
+    (89) else_or_not -> empty .
 
-    SEMI            reduce using rule 47 (relations_or_not -> NEQ capture_relation exp check_relation .)
-    COMMA           reduce using rule 47 (relations_or_not -> NEQ capture_relation exp check_relation .)
-    RPAREN          reduce using rule 47 (relations_or_not -> NEQ capture_relation exp check_relation .)
+    SEMI            reduce using rule 89 (else_or_not -> empty .)
 
 
-state 171
+state 184
 
-    (48) relations_or_not -> EQ capture_relation exp check_relation .
-
-    SEMI            reduce using rule 48 (relations_or_not -> EQ capture_relation exp check_relation .)
-    COMMA           reduce using rule 48 (relations_or_not -> EQ capture_relation exp check_relation .)
-    RPAREN          reduce using rule 48 (relations_or_not -> EQ capture_relation exp check_relation .)
-
-
-state 172
-
-    (54) more_terms -> PLUS capture_Oper exp .
-
-    GT              reduce using rule 54 (more_terms -> PLUS capture_Oper exp .)
-    LT              reduce using rule 54 (more_terms -> PLUS capture_Oper exp .)
-    NEQ             reduce using rule 54 (more_terms -> PLUS capture_Oper exp .)
-    EQ              reduce using rule 54 (more_terms -> PLUS capture_Oper exp .)
-    SEMI            reduce using rule 54 (more_terms -> PLUS capture_Oper exp .)
-    COMMA           reduce using rule 54 (more_terms -> PLUS capture_Oper exp .)
-    RPAREN          reduce using rule 54 (more_terms -> PLUS capture_Oper exp .)
-
-
-state 173
-
-    (55) more_terms -> MINUS capture_Oper exp .
-
-    GT              reduce using rule 55 (more_terms -> MINUS capture_Oper exp .)
-    LT              reduce using rule 55 (more_terms -> MINUS capture_Oper exp .)
-    NEQ             reduce using rule 55 (more_terms -> MINUS capture_Oper exp .)
-    EQ              reduce using rule 55 (more_terms -> MINUS capture_Oper exp .)
-    SEMI            reduce using rule 55 (more_terms -> MINUS capture_Oper exp .)
-    COMMA           reduce using rule 55 (more_terms -> MINUS capture_Oper exp .)
-    RPAREN          reduce using rule 55 (more_terms -> MINUS capture_Oper exp .)
-
-
-state 174
-
-    (60) more_factors -> TIMES capture_Oper term .
-
-    PLUS            reduce using rule 60 (more_factors -> TIMES capture_Oper term .)
-    MINUS           reduce using rule 60 (more_factors -> TIMES capture_Oper term .)
-    GT              reduce using rule 60 (more_factors -> TIMES capture_Oper term .)
-    LT              reduce using rule 60 (more_factors -> TIMES capture_Oper term .)
-    NEQ             reduce using rule 60 (more_factors -> TIMES capture_Oper term .)
-    EQ              reduce using rule 60 (more_factors -> TIMES capture_Oper term .)
-    SEMI            reduce using rule 60 (more_factors -> TIMES capture_Oper term .)
-    COMMA           reduce using rule 60 (more_factors -> TIMES capture_Oper term .)
-    RPAREN          reduce using rule 60 (more_factors -> TIMES capture_Oper term .)
-
-
-state 175
-
-    (61) more_factors -> DIVIDE capture_Oper term .
-
-    PLUS            reduce using rule 61 (more_factors -> DIVIDE capture_Oper term .)
-    MINUS           reduce using rule 61 (more_factors -> DIVIDE capture_Oper term .)
-    GT              reduce using rule 61 (more_factors -> DIVIDE capture_Oper term .)
-    LT              reduce using rule 61 (more_factors -> DIVIDE capture_Oper term .)
-    NEQ             reduce using rule 61 (more_factors -> DIVIDE capture_Oper term .)
-    EQ              reduce using rule 61 (more_factors -> DIVIDE capture_Oper term .)
-    SEMI            reduce using rule 61 (more_factors -> DIVIDE capture_Oper term .)
-    COMMA           reduce using rule 61 (more_factors -> DIVIDE capture_Oper term .)
-    RPAREN          reduce using rule 61 (more_factors -> DIVIDE capture_Oper term .)
-
-
-state 176
-
-    (63) factor_type -> LPAREN begin_paren expresion RPAREN end_paren .
-
-    TIMES           reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
-    DIVIDE          reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
-    PLUS            reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
-    MINUS           reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
-    GT              reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
-    LT              reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
-    NEQ             reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
-    EQ              reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
-    SEMI            reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
-    COMMA           reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
-    RPAREN          reduce using rule 63 (factor_type -> LPAREN begin_paren expresion RPAREN end_paren .)
-
-
-state 177
-
-    (83) condition -> IF LPAREN expresion RPAREN mark_if body else_or_not . SEMI mark_end_if
-
-    SEMI            shift and go to state 183
-
-
-state 178
-
-    (86) else_or_not -> mark_else . ELSE body
-
-    ELSE            shift and go to state 184
-
-
-state 179
-
-    (87) else_or_not -> empty .
-
-    SEMI            reduce using rule 87 (else_or_not -> empty .)
-
-
-state 180
-
-    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO . body SEMI return_while
+    (91) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO . body SEMI return_while
     (34) body -> . LBRACE statement_loop RBRACE
 
     LBRACE          shift and go to state 40
 
-    body                           shift and go to state 185
+    body                           shift and go to state 189
 
-state 181
+state 185
 
     (30) ids_loop -> COMMA ids .
 
     RPAREN          reduce using rule 30 (ids_loop -> COMMA ids .)
 
 
-state 182
+state 186
 
     (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func . SEMI
 
-    SEMI            shift and go to state 186
+    SEMI            shift and go to state 190
 
 
-state 183
+state 187
 
-    (83) condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI . mark_end_if
-    (85) mark_end_if -> .
+    (85) condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI . mark_end_if
+    (87) mark_end_if -> .
 
-    LBRACKET        reduce using rule 85 (mark_end_if -> .)
-    ID              reduce using rule 85 (mark_end_if -> .)
-    IF              reduce using rule 85 (mark_end_if -> .)
-    WHILE           reduce using rule 85 (mark_end_if -> .)
-    PRINT           reduce using rule 85 (mark_end_if -> .)
-    RBRACE          reduce using rule 85 (mark_end_if -> .)
-    RBRACKET        reduce using rule 85 (mark_end_if -> .)
+    LBRACKET        reduce using rule 87 (mark_end_if -> .)
+    RETURN          reduce using rule 87 (mark_end_if -> .)
+    ID              reduce using rule 87 (mark_end_if -> .)
+    IF              reduce using rule 87 (mark_end_if -> .)
+    WHILE           reduce using rule 87 (mark_end_if -> .)
+    PRINT           reduce using rule 87 (mark_end_if -> .)
+    RBRACE          reduce using rule 87 (mark_end_if -> .)
+    RBRACKET        reduce using rule 87 (mark_end_if -> .)
 
-    mark_end_if                    shift and go to state 187
+    mark_end_if                    shift and go to state 191
 
-state 184
+state 188
 
-    (86) else_or_not -> mark_else ELSE . body
+    (88) else_or_not -> mark_else ELSE . body
     (34) body -> . LBRACE statement_loop RBRACE
 
     LBRACE          shift and go to state 40
 
-    body                           shift and go to state 188
+    body                           shift and go to state 192
 
-state 185
+state 189
 
-    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body . SEMI return_while
+    (91) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body . SEMI return_while
 
-    SEMI            shift and go to state 189
+    SEMI            shift and go to state 193
 
 
-state 186
+state 190
 
     (20) funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI .
 
@@ -2717,50 +2807,53 @@ state 186
     MAIN            reduce using rule 20 (funcs -> void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI .)
 
 
-state 187
+state 191
 
-    (83) condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .
+    (85) condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .
 
-    LBRACKET        reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
-    ID              reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
-    IF              reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
-    WHILE           reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
-    PRINT           reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
-    RBRACE          reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
-    RBRACKET        reduce using rule 83 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
-
-
-state 188
-
-    (86) else_or_not -> mark_else ELSE body .
-
-    SEMI            reduce using rule 86 (else_or_not -> mark_else ELSE body .)
+    LBRACKET        reduce using rule 85 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    RETURN          reduce using rule 85 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    ID              reduce using rule 85 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    IF              reduce using rule 85 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    WHILE           reduce using rule 85 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    PRINT           reduce using rule 85 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    RBRACE          reduce using rule 85 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
+    RBRACKET        reduce using rule 85 (condition -> IF LPAREN expresion RPAREN mark_if body else_or_not SEMI mark_end_if .)
 
 
-state 189
+state 192
 
-    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI . return_while
-    (92) return_while -> .
+    (88) else_or_not -> mark_else ELSE body .
 
-    LBRACKET        reduce using rule 92 (return_while -> .)
-    ID              reduce using rule 92 (return_while -> .)
-    IF              reduce using rule 92 (return_while -> .)
-    WHILE           reduce using rule 92 (return_while -> .)
-    PRINT           reduce using rule 92 (return_while -> .)
-    RBRACE          reduce using rule 92 (return_while -> .)
-    RBRACKET        reduce using rule 92 (return_while -> .)
+    SEMI            reduce using rule 88 (else_or_not -> mark_else ELSE body .)
 
-    return_while                   shift and go to state 190
 
-state 190
+state 193
 
-    (89) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .
+    (91) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI . return_while
+    (94) return_while -> .
 
-    LBRACKET        reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
-    ID              reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
-    IF              reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
-    WHILE           reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
-    PRINT           reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
-    RBRACE          reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
-    RBRACKET        reduce using rule 89 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    LBRACKET        reduce using rule 94 (return_while -> .)
+    RETURN          reduce using rule 94 (return_while -> .)
+    ID              reduce using rule 94 (return_while -> .)
+    IF              reduce using rule 94 (return_while -> .)
+    WHILE           reduce using rule 94 (return_while -> .)
+    PRINT           reduce using rule 94 (return_while -> .)
+    RBRACE          reduce using rule 94 (return_while -> .)
+    RBRACKET        reduce using rule 94 (return_while -> .)
+
+    return_while                   shift and go to state 194
+
+state 194
+
+    (91) cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .
+
+    LBRACKET        reduce using rule 91 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    RETURN          reduce using rule 91 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    ID              reduce using rule 91 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    IF              reduce using rule 91 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    WHILE           reduce using rule 91 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    PRINT           reduce using rule 91 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    RBRACE          reduce using rule 91 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
+    RBRACKET        reduce using rule 91 (cycle -> WHILE mark_while LPAREN expresion RPAREN skip_while DO body SEMI return_while .)
 
