@@ -238,8 +238,8 @@ program test;
 var a,b,c,d : int;
     f, e : float;
 
-    void suma(a: float, y: int){
-        var res : float;
+    void suma(a: int, y: int){
+        var res : int;
         {
             res = a + y;
         }
@@ -281,15 +281,51 @@ var a,b: int;
         }
     }; 
 
+    void imprimir(a: int, b:int){
+        {
+            print(suma(a,b));
+        }
+    };
+
 main
 {
     a = 1;
     b = 2;
-    print(suma(a,b));
+    imprimir(a,b);
+}
+end
+'''
+codigo12 = '''
+program programa;
+var a, b, c : int;
+
+main
+{
+    a = 5;
+    b = 3;
+
+    print("Valores iniciales:");
+    print(a, b);
+
+    c = a + b;
+    print(c);
+
+    if (c < 10) {
+        print("c es menor que 10");
+    } else {
+        print("c es mayor o igual a 10");
+    };
+
+    while (b < 10) do {
+        b = b + 2;
+        print(b);
+    };
+
+    print("Fin del programa");
 }
 end
 '''
 
 # Ejecutar pruebas
-for codigo in [codigo11]:
+for codigo in [codigo12]:
     probar_codigo(codigo)

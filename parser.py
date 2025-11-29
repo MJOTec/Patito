@@ -21,11 +21,13 @@ def p_set_global_scope(p):
     global_name = list(p.parser.dir_func.funciones.keys())[0]
     p.parser.nombre_funcion = global_name
     p.parser.current_var_table = p.parser.dir_func.funciones[global_name]["tabla_variables"]
+    p.parser.Quad.quads[0] = ["GoTo", None, None, p.parser.Quad.counter]
 
 
 def p_create_dir(p):
     "create_dir : "
     p.parser.dir_func = DirectorioFunciones(p.parser.memoria)
+    p.parser.Quad.generate("GoTo", None, None, None)
 
 def p_fill_dir(p):
     "fill_dir : "
@@ -34,13 +36,14 @@ def p_fill_dir(p):
 
 def p_clean_memory(p):
     "clean_memory :"
-    p.parser.Quad.show()
-    # Borrar referencias globales
-    p.parser.dir_func = None
-    p.parser.current_var_table = None
-    p.parser.current_type = None
-    p.parser.nombre_funcion = None
-    p.parser.id_list.clear()
+    #p.parser.Quad.show()
+    #p.parser.memoria.dump()
+    #p.parser.dir_func.dump()
+
+    #exportar objeto
+    export_obj(p.parser,"program.obj")
+
+
 
 
 def p_var_or_not(p):
@@ -53,8 +56,20 @@ def p_vars(p):
     pass
 
 def p_dec_var(p):
-    'dec_var : list_id COLON type SEMI dec_var_opt'
+    'dec_var : list_id COLON type create_vars SEMI dec_var_opt'
     pass
+
+def p_create_vars(p):
+    'create_vars : '
+    tipo = p.parser.current_type
+    func = p.parser.nombre_funcion
+
+    tabla = p.parser.dir_func.funciones[func]["tabla_variables"]
+    for nombre in p.parser.id_list:
+        tabla.agregar_variable(nombre, tipo)
+
+    # Limpiar la lista para la próxima declaración
+    p.parser.id_list.clear()
 
 def p_dec_var_opt(p):
     '''dec_var_opt : dec_var
@@ -85,21 +100,12 @@ def p_capture_type(p):
     "capture_type :"
     p.parser.current_type = p[-1]
 
-    # Agregar todas las variables que estaban en espera
-    for nombre_var in p.parser.id_list:
-        p.parser.dir_func.funciones[p.parser.nombre_funcion]["tabla_variables"].agregar_variable(nombre_var, p.parser.current_type)
-        
-
-    # Limpiar la lista para la próxima declaración
-    p.parser.id_list.clear()
-
 def p_funcs(p):
     'funcs : void_or_type ID create_func LPAREN ids RPAREN LBRACE vars_or_not body RBRACE end_func SEMI'
     pass
 
 def p_end_func(p):
     'end_func :'
-    p.parser.dir_func.funciones[p.parser.nombre_funcion]["tabla_variables"] = None
     p.parser.current_var_table = None
     p.parser.Quad.generate("EndFunc", None, None, None)
 
@@ -107,6 +113,7 @@ def p_create_func(p):
     'create_func :'
     p.parser.nombre_funcion = p[-1]
     p.parser.dir_func.agregar_funcion(p.parser.nombre_funcion,p.parser.current_type,"local")
+    p.parser.dir_func.funciones[p.parser.nombre_funcion]["cuadruplo_inicio"] = p.parser.Quad.counter
 
 def p_void_or_type(p):
     '''void_or_type : VOID func_type
@@ -125,10 +132,20 @@ def p_funcs_or_not(p):
 
 
 def p_ids(p):
-    '''ids : ID capture_id COLON type capture_type ids_loop
+    '''ids : ID capture_id COLON type create_params ids_loop
            | empty'''
     pass
 
+def p_create_param(p):
+    'create_params : '
+    tipo = p.parser.current_type
+    func = p.parser.nombre_funcion
+
+    for nombre in p.parser.id_list:
+        p.parser.dir_func.agregar_parametro(func, nombre, tipo)
+
+    # Limpiar la lista para la próxima declaración
+    p.parser.id_list.clear()
 
 def p_ids_loop(p):
     '''ids_loop : COMMA ids
@@ -164,7 +181,7 @@ def p_end_return(p):
     'end_return :'
     func = p.parser.nombre_funcion
     tipo_funcion = p.parser.dir_func.funciones[func]["tipo_retorno"]
-    #dir_retorno = p.parser.dir_func.funciones[func]["dir_retorno"]
+    dir_retorno = p.parser.dir_func.funciones[func]["dir_retorno"]
 
     result = p.parser.PilaO.pop()
     result_type = p.parser.PTypes.pop()
@@ -176,7 +193,7 @@ def p_end_return(p):
         raise TypeError(f"Tipo de retorno incorrecto: se esperaba {tipo_funcion}, se obtuvo {result_type}")
 
     # Generar el cuádruplo
-    p.parser.Quad.generate("RETURN", result, None, None)
+    p.parser.Quad.generate("RETURN", result, None, dir_retorno)
 
 def p_assign(p):
     'assign : ID ASSIGN expresion SEMI'
@@ -332,20 +349,77 @@ def p_capture_id_oper(p):
 
 
 def p_llamada(p):
-    'llamada : ID LPAREN expresion_or_not RPAREN'
+    'llamada : ID create_era save_call_name LPAREN expresion_or_not RPAREN finish_call'
     pass
 
+def p_save_call_name(p):
+    'save_call_name :'
+    p.parser.nombre_funcion_llamada = p[-2]
+    p.parser.param_counter = 0
+
+def p_finish_call(p):
+    'finish_call :'
+    func = p.parser.nombre_funcion_llamada
+    func_info = p.parser.dir_func.obtener_funcion(func)
+
+    # Validar número de argumentos
+    if p.parser.param_counter != len(func_info["parametros"]):
+        raise TypeError(f"Número incorrecto de argumentos en llamada a {func}")
+
+    # Crear GOSUB
+    start = func_info["cuadruplo_inicio"]
+    p.parser.Quad.generate("GOSUB", func, None, start)
+
+    # Manejar retorno si no es void
+    if func_info["tipo_retorno"] != "void":
+        ret_dir = func_info["dir_retorno"]
+        tipo_ret = func_info["tipo_retorno"]
+
+        temp = p.parser.temp_list.next(tipo_ret)
+        p.parser.Quad.generate("=", ret_dir, None, temp)
+
+        # Push resultado de la función como cualquier temporal normal
+        p.parser.PilaO.append(temp)
+        p.parser.PTypes.append(tipo_ret)
+
+def p_create_era(p):
+    'create_era :'
+    p.parser.Quad.generate("Era", None, None, p[-1])
+
 def p_expresion_or_not(p):
-    '''expresion_or_not : expresion expresion_loop
+    '''expresion_or_not : expresion handle_param expresion_loop
                         | empty
     '''
     pass
 
 def p_expresion_loop(p):
-    '''expresion_loop : COMMA expresion expresion_loop
+    '''expresion_loop : COMMA expresion handle_param expresion_loop
                         | empty
     '''
     pass
+
+def p_handle_param(p):
+    'handle_param :'
+    func = p.parser.nombre_funcion_llamada
+    func_info = p.parser.dir_func.obtener_funcion(func)
+
+    # Verificar que no excede el número de parámetros
+    if p.parser.param_counter >= len(func_info["parametros"]):
+        raise TypeError(f"Demasiados argumentos en llamada a {func}")
+
+    # Revisar tipos
+    arg = p.parser.PilaO.pop()
+    arg_type = p.parser.PTypes.pop()
+
+    expected_type = func_info["parametros"][p.parser.param_counter]
+
+    if arg_type != expected_type:
+        raise TypeError(f"Argumento {p.parser.param_counter+1} incorrecto: se esperaba {expected_type}, se obtuvo {arg_type}")
+
+    # Crear cuadruplo PARAM
+    p.parser.Quad.generate("PARAM", arg, None, p.parser.param_counter)
+
+    p.parser.param_counter += 1
 
 def p_cte(p):
     '''cte : CTE_INT capture_cte_int
@@ -389,7 +463,7 @@ def p_mark_if(p):
     result = p.parser.PilaO.pop()
 
     # 3. Crear GotoF <expr>, _, ?
-    p.parser.Quad.generate("GotoF", result, None, None)
+    p.parser.Quad.generate("GoToF", result, None, None)
 
     # 4. Guardar el índice del cuádruplo pendiente
     p.parser.PJumps.append(p.parser.Quad.counter - 1)
@@ -414,7 +488,7 @@ def p_else_or_not(p):
 
 def p_mark_else(p):
     'mark_else : '
-    p.parser.Quad.generate("Goto", None, None, None)
+    p.parser.Quad.generate("GoTo", None, None, None)
     false = p.parser.PJumps.pop()
     p.parser.PJumps.append(p.parser.Quad.counter - 1)
     op, left, right, _ = p.parser.Quad.quads[false]
@@ -435,7 +509,7 @@ def p_skip_while(p):
     if exp_type != "bool":
         raise TypeError("Type mismatch: while condition must be bool")
     result = p.parser.PilaO.pop()
-    p.parser.Quad.generate("GotoF", result, None, None)
+    p.parser.Quad.generate("GoToF", result, None, None)
     p.parser.PJumps.append(p.parser.Quad.counter-1)
 
 def p_return_while(p):
@@ -485,6 +559,28 @@ def p_error(p):
         raise SyntaxError("Error de sintaxis al final del archivo")
 
 
+
+def export_obj(parser, filename):
+    data = {
+        "funciones": {},
+        "constantes": parser.constantes.constantes,
+        "cuadruplos": parser.Quad.get_all()
+    }
+
+    for nombre, f in parser.dir_func.funciones.items():
+        data["funciones"][nombre] = {
+            "tipo_retorno": f["tipo_retorno"],
+            "dir_retorno": f["dir_retorno"],
+            "cuadruplo_inicio": f["cuadruplo_inicio"],
+            "parametros": f["parametros"],
+            "variables": f["tabla_variables"].variables  # ← SERIALLIZABLE
+        }
+
+    import json
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=4)
+
+
 def create_parser(memoria):
     parser = yacc.yacc()
 
@@ -497,6 +593,8 @@ def create_parser(memoria):
     parser.current_type = None
     parser.current_var_table = None
     parser.dir_func = None
+    parser.param_counter = 0
+    parser.nombre_funcion_llamada = None
     parser.nombre_funcion = None
     parser.id_list = []
 

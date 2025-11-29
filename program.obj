@@ -1,0 +1,186 @@
+{
+    "funciones": {
+        "programa": {
+            "tipo_retorno": "PROGRAM",
+            "dir_retorno": null,
+            "cuadruplo_inicio": null,
+            "parametros": [],
+            "variables": {
+                "a": {
+                    "tipo": "int",
+                    "direccion": 1000
+                },
+                "b": {
+                    "tipo": "int",
+                    "direccion": 1001
+                },
+                "c": {
+                    "tipo": "int",
+                    "direccion": 1002
+                }
+            }
+        }
+    },
+    "constantes": {
+        "5": {
+            "tipo": "int",
+            "direccion": 8000
+        },
+        "3": {
+            "tipo": "int",
+            "direccion": 8001
+        },
+        "Valores iniciales:": {
+            "tipo": "string",
+            "direccion": 10000
+        },
+        "10": {
+            "tipo": "int",
+            "direccion": 8002
+        },
+        "c es menor que 10": {
+            "tipo": "string",
+            "direccion": 10001
+        },
+        "c es mayor o igual a 10": {
+            "tipo": "string",
+            "direccion": 10002
+        },
+        "2": {
+            "tipo": "int",
+            "direccion": 8003
+        },
+        "Fin del programa": {
+            "tipo": "string",
+            "direccion": 10003
+        }
+    },
+    "cuadruplos": [
+        [
+            "GoTo",
+            null,
+            null,
+            1
+        ],
+        [
+            "=",
+            8000,
+            null,
+            1000
+        ],
+        [
+            "=",
+            8001,
+            null,
+            1001
+        ],
+        [
+            "PRINT",
+            null,
+            null,
+            10000
+        ],
+        [
+            "PRINT",
+            null,
+            null,
+            1000
+        ],
+        [
+            "PRINT",
+            null,
+            null,
+            1001
+        ],
+        [
+            "+",
+            1000,
+            1001,
+            5000
+        ],
+        [
+            "=",
+            5000,
+            null,
+            1002
+        ],
+        [
+            "PRINT",
+            null,
+            null,
+            1002
+        ],
+        [
+            "<",
+            1002,
+            8002,
+            7000
+        ],
+        [
+            "GoToF",
+            7000,
+            null,
+            13
+        ],
+        [
+            "PRINT",
+            null,
+            null,
+            10001
+        ],
+        [
+            "GoTo",
+            null,
+            null,
+            14
+        ],
+        [
+            "PRINT",
+            null,
+            null,
+            10002
+        ],
+        [
+            "<",
+            1001,
+            8002,
+            7001
+        ],
+        [
+            "GoToF",
+            7001,
+            null,
+            20
+        ],
+        [
+            "+",
+            1001,
+            8003,
+            5001
+        ],
+        [
+            "=",
+            5001,
+            null,
+            1001
+        ],
+        [
+            "PRINT",
+            null,
+            null,
+            1001
+        ],
+        [
+            "GoTo",
+            null,
+            null,
+            14
+        ],
+        [
+            "PRINT",
+            null,
+            null,
+            10003
+        ]
+    ]
+}

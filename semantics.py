@@ -33,23 +33,28 @@ class DirectorioFunciones:
     def __init__(self, memory_manager):
         self.funciones = {}
         self.memory = memory_manager
-        self.direccion = None
 
     def agregar_funcion(self, nombre, tipo_retorno, scope):
         if nombre in self.funciones:
             raise ValueError(f"Error: función '{nombre}' ya declarada.")
 
+        if tipo_retorno not in ["void", "PROGRAM"]:
+            dir_retorno = self.memory.write("global", tipo_retorno, nombre)
+        else:
+            dir_retorno = None
+
+        cuadruplo_inicio = None
+
         self.funciones[nombre] = {
             "tipo_retorno": tipo_retorno,
             "parametros": [],
-            "tabla_variables": TablaVariables(self.memory, scope)
+            "tabla_variables": TablaVariables(self.memory, scope),
+            "dir_retorno": dir_retorno,
+            "cuadruplo_inicio": cuadruplo_inicio
         }
 
     def agregar_parametro(self, nombre_funcion, nombre_param, tipo_param):
-        self.funciones[nombre_funcion]["parametros"].append({
-            "nombre": nombre_param,
-            "tipo": tipo_param
-        })
+        self.funciones[nombre_funcion]["parametros"].append(tipo_param)
         self.funciones[nombre_funcion]["tabla_variables"].agregar_variable(nombre_param, tipo_param)
     
     def obtener_funcion(self, nombre):
@@ -61,6 +66,37 @@ class DirectorioFunciones:
         if nombre_funcion not in self.funciones:
             raise ValueError(f"Error: función '{nombre_funcion}' no declarada.")
         return self.funciones[nombre_funcion]["tipo_retorno"]
+
+    def dump(self):
+        print("\n=== DUMP: Directorio de Funciones ===")
+
+        for nombre, funcion in self.funciones.items():
+            print(f"\nFunción: {nombre}")
+            print(f"  Tipo de retorno: {funcion['tipo_retorno']}")
+            print(f"  Dirección retorno: {funcion['dir_retorno']}")
+            print(f"  Cuádruplo inicio: {funcion['cuadruplo_inicio']}")
+
+            # ------ Parámetros ------
+            print("  Parámetros:")
+            if not funcion["parametros"]:
+                print("    (ninguno)")
+            else:
+                for i, p in enumerate(funcion["parametros"]):
+                    print(f"    {i}: {funcion["parametros"][i]}")
+
+            # ------ Variables ------
+            print("  Variables:")
+            tabla_vars = funcion.get("tabla_variables")
+
+            if tabla_vars is None or not hasattr(tabla_vars, "variables"):
+                print("    (sin tabla de variables)")
+            elif not tabla_vars.variables:
+                print("    (ninguna)")
+            else:
+                for var, info in tabla_vars.variables.items():
+                    print(f"    {var}: tipo={info['tipo']}, dir={info['direccion']}")
+
+        print("==============================\n")
 
 
     
