@@ -21,7 +21,12 @@ def p_set_global_scope(p):
     global_name = list(p.parser.dir_func.funciones.keys())[0]
     p.parser.nombre_funcion = global_name
     p.parser.current_var_table = p.parser.dir_func.funciones[global_name]["tabla_variables"]
+
+    # El GoTo del quad 0 salta al inicio del main
     p.parser.Quad.quads[0] = ["GoTo", None, None, p.parser.Quad.counter]
+
+    # Crear contexto local para temporales y (si quisieras) locales de main
+    p.parser.memoria.push_context()
 
 
 def p_create_dir(p):
@@ -36,9 +41,16 @@ def p_fill_dir(p):
 
 def p_clean_memory(p):
     "clean_memory :"
-    #p.parser.Quad.show()
-    #p.parser.memoria.dump()
-    #p.parser.dir_func.dump()
+    p.parser.Quad.show()
+    p.parser.memoria.dump()
+    p.parser.dir_func.dump()
+
+    # Cerrar contexto de main si quedó alguno
+    if p.parser.memoria.call_stack:
+        p.parser.memoria.pop_context()
+
+    # exportar objeto
+    export_obj(p.parser,"program.obj")
 
     #exportar objeto
     export_obj(p.parser,"program.obj")
@@ -109,11 +121,20 @@ def p_end_func(p):
     p.parser.current_var_table = None
     p.parser.Quad.generate("EndFunc", None, None, None)
 
+    # Sacar el contexto local de la función
+    p.parser.memoria.pop_context()
+
+
 def p_create_func(p):
     'create_func :'
+    # Nuevo contexto de memoria local para esta función
+    p.parser.memoria.push_context()
+
     p.parser.nombre_funcion = p[-1]
-    p.parser.dir_func.agregar_funcion(p.parser.nombre_funcion,p.parser.current_type,"local")
+    # La tabla de variables de esta función usará scope "local"
+    p.parser.dir_func.agregar_funcion(p.parser.nombre_funcion, p.parser.current_type, "local")
     p.parser.dir_func.funciones[p.parser.nombre_funcion]["cuadruplo_inicio"] = p.parser.Quad.counter
+
 
 def p_void_or_type(p):
     '''void_or_type : VOID func_type
@@ -248,12 +269,11 @@ def p_check_relation(p):
 
 
 def p_exp(p):
-    'exp : term check_plus_minus more_terms'
+    'exp : term more_terms'
     pass
 
-def p_check_plus_minus(p):
-    'check_plus_minus :'
-
+def p_do_plus_minus(p):
+    'do_plus_minus :'
     if p.parser.Poper and p.parser.Poper[-1] in ['+', '-']:
         right_operand = p.parser.PilaO.pop()
         right_type = p.parser.PTypes.pop()
@@ -263,16 +283,16 @@ def p_check_plus_minus(p):
         result_type = cubo_semantico[operator][left_type][right_type]
         if result_type != 'error':
             result = p.parser.temp_list.next(result_type)
-            p.parser.Quad.generate(operator,left_operand,right_operand,result)
+            p.parser.Quad.generate(operator, left_operand, right_operand, result)
             p.parser.PilaO.append(result)
             p.parser.PTypes.append(result_type)
         else:
-            raise TypeError("Tipo no válido")
+            raise TypeError("Tipo no válido en suma/resta")
 
 
 def p_more_terms(p):
-    '''more_terms : PLUS capture_Oper exp
-                  | MINUS capture_Oper exp
+    '''more_terms : PLUS capture_Oper term do_plus_minus more_terms
+                  | MINUS capture_Oper term do_plus_minus more_terms
                   | empty'''
     pass
 
@@ -281,11 +301,12 @@ def p_capture_Oper(p):
     p.parser.Poper.append(p[-1])
 
 def p_term(p):
-    'term : factor check_mult_div more_factors'
+    'term : factor more_factors'
     pass
 
-def p_check_mult_div(p):
-    'check_mult_div :'
+
+def p_do_mult_div(p):
+    'do_mult_div :'
     if p.parser.Poper and p.parser.Poper[-1] in ['*', '/']:
         right_operand = p.parser.PilaO.pop()
         right_type = p.parser.PTypes.pop()
@@ -295,26 +316,45 @@ def p_check_mult_div(p):
         result_type = cubo_semantico[operator][left_type][right_type]
         if result_type != 'error':
             result = p.parser.temp_list.next(result_type)
-            p.parser.Quad.generate(operator,left_operand,right_operand,result)
+            p.parser.Quad.generate(operator, left_operand, right_operand, result)
             p.parser.PilaO.append(result)
             p.parser.PTypes.append(result_type)
         else:
-            raise TypeError("Tipo no válido")
+            raise TypeError("Tipo no válido en mult/div")
 
 
 def p_more_factors(p):
-    '''more_factors : TIMES capture_Oper term
-                    | DIVIDE capture_Oper term
+    '''more_factors : TIMES capture_Oper factor do_mult_div more_factors
+                    | DIVIDE capture_Oper factor do_mult_div more_factors
                     | empty'''
     pass
 
 def p_factor_type(p):
     '''factor_type : LPAREN begin_paren expresion RPAREN end_paren
-              | PLUS id_or_cte
-              | MINUS id_or_cte
-              | id_or_cte
-              | llamada'''
+                   | PLUS unary_sign
+                   | MINUS unary_sign
+                   | id_or_cte
+                   | llamada'''
     pass
+
+
+def p_unary_sign(p):
+    'unary_sign : id_or_cte'
+    # El operando ya quedó en PilaO por id_or_cte
+    # Checar si venía un signo negativo justo antes (p[-1] == '-')
+    if p[-1] == '-':
+        val = p.parser.PilaO.pop()
+        tipo_val = p.parser.PTypes.pop()
+
+        # TEMPORAL del MISMO TIPO
+        temp = p.parser.temp_list.next(tipo_val)
+
+        # Generar cuadruplo de negación unaria
+        p.parser.Quad.generate("NEG", val, None, temp)
+
+        # Push temporal ya negado a la pila
+        p.parser.PilaO.append(temp)
+        p.parser.PTypes.append(tipo_val)
 
 def p_begin_paren(p):
     'begin_paren :'
@@ -338,14 +378,28 @@ def p_capture_id_oper(p):
     'capture_id_oper :'
     nombre = p[-1]
 
-    # Obtener dirección y tipo desde la tabla
-    tabla = p.parser.dir_func.obtener_funcion(p.parser.nombre_funcion)["tabla_variables"]
-    direccion = tabla.get_address(nombre)
-    tipo = tabla.get_type(nombre)
+    # 1. Intentar obtener variable local
+    try:
+        tabla_local = p.parser.dir_func.obtener_funcion(p.parser.nombre_funcion)["tabla_variables"]
+        direccion = tabla_local.get_address(nombre)
+        tipo = tabla_local.get_type(nombre)
+    
+    except:
+        # 2. Buscar la función global por su tipo_retorno "PROGRAM"
+        nombre_global = next(
+            n for n, info in p.parser.dir_func.funciones.items()
+            if info["tipo_retorno"] == "PROGRAM"
+        )
 
-    # Push dirección
+        tabla_global = p.parser.dir_func.obtener_funcion(nombre_global)["tabla_variables"]
+        direccion = tabla_global.get_address(nombre)
+        tipo = tabla_global.get_type(nombre)
+
+    # Finalmente push a las pilas
     p.parser.PilaO.append(direccion)
     p.parser.PTypes.append(tipo)
+
+
 
 
 def p_llamada(p):
@@ -400,26 +454,33 @@ def p_expresion_loop(p):
 
 def p_handle_param(p):
     'handle_param :'
+    
     func = p.parser.nombre_funcion_llamada
     func_info = p.parser.dir_func.obtener_funcion(func)
 
-    # Verificar que no excede el número de parámetros
+    # Verificar que no excede
     if p.parser.param_counter >= len(func_info["parametros"]):
         raise TypeError(f"Demasiados argumentos en llamada a {func}")
 
-    # Revisar tipos
+    # Sacar el argumento
     arg = p.parser.PilaO.pop()
     arg_type = p.parser.PTypes.pop()
 
     expected_type = func_info["parametros"][p.parser.param_counter]
-
     if arg_type != expected_type:
         raise TypeError(f"Argumento {p.parser.param_counter+1} incorrecto: se esperaba {expected_type}, se obtuvo {arg_type}")
 
-    # Crear cuadruplo PARAM
-    p.parser.Quad.generate("PARAM", arg, None, p.parser.param_counter)
+    # Obtener el nombre correcto del parámetro
+    param_name = func_info["parametros_nombres"][p.parser.param_counter]
+
+    # Obtener su dirección real de la tabla de variables
+    param_dir = func_info["tabla_variables"].get_address(param_name)
+
+    # Crear el cuádruplo PARAM hacia esa dirección
+    p.parser.Quad.generate("PARAM", arg, None, param_dir)
 
     p.parser.param_counter += 1
+
 
 def p_cte(p):
     '''cte : CTE_INT capture_cte_int

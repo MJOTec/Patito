@@ -24,35 +24,21 @@ def crear_parser_nuevo():
 
 def probar_codigo(codigo):
     print("\n==============================")
-    print("Probando código: \n")
+    print("Probando código:\n")
     print(codigo.strip())
     print("==============================")
 
-    # Crear lexer y parser limpios para este código
+    # Crear lexer y parser limpios
     lexer, parser = crear_parser_nuevo()
 
-    buffer = io.StringIO()
-    sys_stdout_original = sys.stdout
-    sys.stdout = buffer
-
     try:
-        result = parser.parse(codigo, lexer=lexer)
+        parser.parse(codigo, lexer=lexer)
+        print("\nResultado: Análisis completado correctamente.")
     except Exception as e:
-        buffer.write(f"\nExcepción durante el análisis: {e}\n")
-    finally:
-        sys.stdout = sys_stdout_original
-
-    salida_parser = buffer.getvalue()
-
-    if salida_parser.strip():
-        print(salida_parser.strip())
-
-    if "Error" in salida_parser or "error" in salida_parser:
-        print("Resultado: Error detectado durante el análisis.")
-    else:
-        print("Resultado: Análisis completado correctamente.")
+        print(f"\nError durante el análisis:\n   {e}")
 
     print("==============================\n")
+
 
 
 # Casos de prueba
@@ -326,6 +312,98 @@ main
 end
 '''
 
+codigo13 = """
+Program prueba;
+var a, b: int;
+
+int suma(x: int, y: int){
+    {
+        return x+y;
+    }
+};
+
+main {
+    a = 3;
+    b = 4;
+    print(suma(a,b) + suma(2,5));
+}
+end
+
+"""
+
+factorialRecursivo = """
+Program prueba;
+var n, res: int;
+
+int fact(x: int){
+    var temp: int;
+    {
+        if (x < 2) {
+            return 1;
+        }
+        else {
+            temp = x - 1;
+            return x * fact(temp);
+        };
+    }
+};
+
+main {
+    n = 5;
+    res = fact(n);
+    print(res);
+}
+end
+
+"""
+
+fibonacciRecursivo = """
+Program prueba;
+var n, res: int;
+
+int fib(x: int){
+    var a, b: int;
+    {
+        if (x < 2) {
+            return x;
+        }
+        else {
+            a = x - 1;
+            b = x - 2;
+            return fib(a) + fib(b);
+        };
+    }
+};
+
+main {
+    n = 6;
+    res = fib(n);
+    print(res);
+}
+end
+
+"""
+
+negativo_simple = """
+Program prueba;
+var x, y : int;
+
+int resta(x: int){
+    {
+        return (x - y);
+    }
+};
+
+
+main {
+    y = 3;
+    x = 5;
+    print(resta(x));
+}
+end
+"""
+
+
 # Ejecutar pruebas
-for codigo in [codigo12]:
+for codigo in [negativo_simple]:
     probar_codigo(codigo)

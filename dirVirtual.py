@@ -1,58 +1,130 @@
-class MemoryManager:
-    def __init__(self):
-        # Segmentos por tipo semántico
-        self.segments = {
-            "global":   { "int":{}, "float":{}},
-            "local":    { "int":{}, "float":{}},
-            "temp":     { "int":{}, "float":{}, "bool":{}},
-            "const":    { "int":{}, "float":{}, "string":{} },
-        } 
+# memory_manager.py
 
-        # Offset inicial para cada segmento
-        self.offset = {
-            "global":  { "int":1000, "float":2000},
-            "local":   { "int":3000, "float":4000},
-            "temp":    { "int":5000, "float":6000, "bool":7000},
-            "const":   { "int":8000, "float":9000, "string":10000 },
+# =========================
+# GLOBAL + CONSTANT MEMORY
+# =========================
+
+class GlobalMemory:
+    def __init__(self):
+        self.segments = {
+            "global": { "int": {}, "float": {} },
+            "const":  { "int": {}, "float": {}, "string": {} }
         }
 
-    # WRITE: asigna dirección automática y guarda valor
-    def write(self, scope, tipo, valor):
+        self.offset = {
+            "global": { "int": 1000, "float": 2000 },
+            "const":  { "int": 8000, "float": 9000, "string": 10000 }
+        }
+
+    def write(self, scope, tipo, valor=None):
         direccion = self.offset[scope][tipo]
-
-        # Guarda valor en su segmento
         self.segments[scope][tipo][direccion] = valor
-
-        # Incrementa offset para la siguiente dirección del mismo tipo
         self.offset[scope][tipo] += 1
-
         return direccion
 
-    # READ: obtiene valor con solo la dirección
     def read(self, direccion):
-        # Buscar en todos los segmentos y tipos
         for scope in self.segments:
             for tipo in self.segments[scope]:
                 if direccion in self.segments[scope][tipo]:
                     return self.segments[scope][tipo][direccion]
+        return None
+
+
+# =========================
+# LOCAL + TEMP MEMORY (STACK FRAME)
+# =========================
+
+class LocalMemory:
+    def __init__(self):
+        self.segments = {
+            "local": { "int": {}, "float": {} },
+            "temp":  { "int": {}, "float": {}, "bool": {} }
+        }
+
+        self.offset = {
+            "local": { "int": 3000, "float": 4000 },
+            "temp":  { "int": 5000, "float": 6000, "bool": 7000 }
+        }
+
+    def write(self, scope, tipo, valor=None):
+        direccion = self.offset[scope][tipo]
+        self.segments[scope][tipo][direccion] = valor
+        self.offset[scope][tipo] += 1
+        return direccion
+
+    def read(self, direccion):
+        for scope in self.segments:
+            for tipo in self.segments[scope]:
+                if direccion in self.segments[scope][tipo]:
+                    return self.segments[scope][tipo][direccion]
+        return None
+
+
+# =========================
+# MASTER MEMORY MANAGER
+# =========================
+
+class MemoryManager:
+    def __init__(self):
+        self.global_memory = GlobalMemory()
+        self.call_stack = []   # Stack de LocalMemory (1 por función)
+
+    # -------- CONTEXTOS --------
+
+    def push_context(self):
+        """Crear memoria local para una nueva función"""
+        self.call_stack.append(LocalMemory())
+
+    def pop_context(self):
+        """Eliminar memoria local al salir de función"""
+        if not self.call_stack:
+            raise RuntimeError("No hay contexto local para eliminar")
+        self.call_stack.pop()
+
+    # -------- WRITE --------
+
+    def write(self, scope, tipo, valor=None):
+        if scope in ["local", "temp"]:
+            if not self.call_stack:
+                raise RuntimeError("No hay contexto local activo")
+            return self.call_stack[-1].write(scope, tipo, valor)
+
+        if scope in ["global", "const"]:
+            return self.global_memory.write(scope, tipo, valor)
+
+        raise ValueError(f"Scope inválido: {scope}")
+
+    # -------- READ --------
+
+    def read(self, direccion):
+        # 1️⃣ intentar leer desde contexto local
+        if self.call_stack:
+            valor = self.call_stack[-1].read(direccion)
+            if valor is not None:
+                return valor
+
+        # 2️⃣ intentar leer desde memoria global/const
+        valor = self.global_memory.read(direccion)
+        if valor is not None:
+            return valor
+
         raise ValueError(f"Dirección {direccion} no encontrada")
-    
+
+    # -------- DEBUG --------
+
     def dump(self):
-        print("\n" + "="*50)
-        print("MEMORY DUMP (DEBUG) ")
-        print("="*50)
-
-        for scope, tipos in self.segments.items():
-            print(f"\n--- SEGMENTO: {scope.upper()} ---")
-
+        print("\n========== GLOBAL MEMORY ==========")
+        for scope, tipos in self.global_memory.segments.items():
+            print(f"\n[{scope.upper()}]")
             for tipo, tabla in tipos.items():
-                print(f"  Tipo: {tipo}")
+                print(f"  {tipo}: {tabla}")
 
-                if len(tabla) == 0:
-                    print("     (vacío)")
-                else:
-                    for direccion, valor in sorted(tabla.items()):
-                        print(f"     {direccion}: {valor}")
+        print("\n========== LOCAL STACK ==========")
+        for i, frame in enumerate(self.call_stack):
+            print(f"\n--- FRAME {i} ---")
+            for scope, tipos in frame.segments.items():
+                print(f"[{scope.upper()}]")
+                for tipo, tabla in tipos.items():
+                    print(f"  {tipo}: {tabla}")
 
-        print("="*50 + "\n")
-
+        print("=================================\n")

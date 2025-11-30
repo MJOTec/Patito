@@ -9,12 +9,14 @@ class TablaVariables:
         if nombre in self.variables:
             raise ValueError(f"Error: variable '{nombre}' ya declarada.")
 
-        direccion = self.memory.write(self.scope, tipo, nombre)
+        
+        direccion = self.memory.write(self.scope, tipo, None)
 
         self.variables[nombre] = {
             "tipo": tipo,
             "direccion": direccion
         }
+
 
     def obtener_variable(self, nombre):
         if nombre not in self.variables:
@@ -39,7 +41,7 @@ class DirectorioFunciones:
             raise ValueError(f"Error: función '{nombre}' ya declarada.")
 
         if tipo_retorno not in ["void", "PROGRAM"]:
-            dir_retorno = self.memory.write("global", tipo_retorno, nombre)
+            dir_retorno = self.memory.write("global", tipo_retorno, None)
         else:
             dir_retorno = None
 
@@ -48,14 +50,28 @@ class DirectorioFunciones:
         self.funciones[nombre] = {
             "tipo_retorno": tipo_retorno,
             "parametros": [],
+            "parametros_nombres": [], 
             "tabla_variables": TablaVariables(self.memory, scope),
             "dir_retorno": dir_retorno,
             "cuadruplo_inicio": cuadruplo_inicio
         }
 
     def agregar_parametro(self, nombre_funcion, nombre_param, tipo_param):
-        self.funciones[nombre_funcion]["parametros"].append(tipo_param)
-        self.funciones[nombre_funcion]["tabla_variables"].agregar_variable(nombre_param, tipo_param)
+        func = self.funciones[nombre_funcion]
+
+        # guardar tipo
+        func["parametros"].append(tipo_param)
+
+        # guardar nombre del parámetro
+        if "parametros_nombres" not in func:
+            func["parametros_nombres"] = []
+        func["parametros_nombres"].append(nombre_param)
+
+        # solo agregar a tabla de variables si NO existe
+        tabla = func["tabla_variables"]
+        if nombre_param not in tabla.variables:
+            tabla.agregar_variable(nombre_param, tipo_param)
+
     
     def obtener_funcion(self, nombre):
         if nombre not in self.funciones:
@@ -106,17 +122,23 @@ class Avail:
 
     def next(self, tipo):
         """Devuelve la dirección virtual para un temporal de tipo dado."""
+        # Esto va a fallar si NO hay contexto local activo,
+        # por eso hicimos push_context() en funciones y en main.
         return self.memory.write("temp", tipo, None)
     
     def dump(self):
         print("\n--- DUMP: Temporales en Memoria ---")
-        for tipo, tabla in self.memory.segments["temp"].items():
-            print(f"Tipo {tipo}:")
-            if not tabla:
-                print("   (vacío)")
-            else:
-                for direccion, valor in tabla.items():
-                    print(f"   Dir {direccion} -> {valor}")
+        if not self.memory.call_stack:
+            print("   (sin contextos locales)")
+        else:
+            frame = self.memory.call_stack[-1]  # frame actual
+            for tipo, tabla in frame.segments["temp"].items():
+                print(f"Tipo {tipo}:")
+                if not tabla:
+                    print("   (vacío)")
+                else:
+                    for direccion, valor in tabla.items():
+                        print(f"   Dir {direccion} -> {valor}")
         print("-----------------------------------\n")
 
 class TablaConstantes:
