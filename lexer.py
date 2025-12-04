@@ -3,7 +3,7 @@ import ply.lex as lex
 tokens = [
     'ID', 'CTE_INT', 'CTE_FLOAT', 'CTE_STRING',
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 
-    'ASSIGN', 'GT', 'LT', 'NEQ', 'EQ',
+    'ASSIGN', 'GT', 'LT', 'LE', 'GE','NEQ', 'EQ',
     'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE',
     'LBRACKET', 'RBRACKET',   
     'SEMI', 'COMMA', 'COLON'
@@ -34,6 +34,8 @@ t_DIVIDE    = r'/'
 
 t_NEQ       = r'!='
 t_EQ        = r'=='
+t_GE        = r'>='
+t_LE        = r'<='
 t_GT        = r'>'
 t_LT        = r'<'
 

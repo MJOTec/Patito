@@ -1,9 +1,6 @@
-import io
-import sys
 import importlib
 import lexer as lexer_module
 import parser as parser_module
-from semantics import Avail, QuadManager, TablaConstantes
 from dirVirtual import MemoryManager
 
 
@@ -42,293 +39,135 @@ def probar_codigo(codigo):
 
 
 # Casos de prueba
-codigo1 = """
+caso1 = """
 Program prueba;
-var n,j,t: int;
-p: float;
-main { 
-    print(n,j);
-}
-end
-"""
-
-codigo2 = """
-Program prueba;
-var n: int;
-void hola (){{}}; 
-int papa (){{}}; 
-main { 
-    print(n);
-}
-end
-"""
-
-codigo3 = """
-Program prueba;
-var n: int;
-void hola (x:int, j:int){{}}; 
-main { 
-    print(n);
-}
-end
-"""
-
-codigo4 = """
-Program prueba;
-var n: int;
-void hola (x:int, x:int){{}}; 
-main { 
-    print(n);
-}
-end
-"""
-
-codigo5 = """
-Program prueba;
-var n,z: int ;
-float Division (z:float, y:float){
-    {
-    resultado = z/y;
-    }
-};
-main { 
-    print(n);
-}
-end
-"""
-
-codigo6 = """
-Program papa;
-var n,z: int ;
-float Division (z:int, y:float){
-    {
-    resultado = z+y;
-    }
-};
-float Mate (){
-    {
-    resultado = 5;
-    }
-};
-main { 
-    print(2);
-}
-end
-"""
-
-codigo7 = """
-Program prueba;
-var n,j,t: int;
-main { 
-    print((t*j/(t+n))*j);
-}
-end
-"""
-
-codigo8 = """
-Program prueba;
-var x,y: int;
-main { 
-    x = 5*y;
-    print(x);
-    print("hello world",y);
-}
-end
-"""
-
-codigo9 = """
-Program prueba;
-var x,y: int;
-main { 
-    x = (5*y*6+y)>y;
-}
-end
-"""
-
-codigoif = """
-Program prueba;
-var x,y: int;
-main { 
-    if (x > y){
-        print("x es mayor que y");
-    };
-    print(x);
-}
-end
-"""
-
-codigo_if_else = """
-Program prueba;
-var A,B,C,D: int;
-main { 
-    if (A+B>D){
-        if(A<B){
-            A=0;
-            B=B+D;
-        }
-    }
-}
-end
-"""
-
-codelse= """
-Program prueba;
-var x : int;
-main {
-    if(x>1){
-        print("X es mayor que 1");
-    }
-    else{
-        print("X es menor que 1");
-    };
-    print("Se acabo el programa");
-}
-end
-"""
-
-codewhile= """
-Program prueba;
-var x : int;
-main {
-    while(x>1)
-    do{
-        x = x + 1;
-    };
-}
-end
-"""
-
-codeLoopIf = """
-Program prueba;
-var a,b,c,d : int;
-main {
-    if(a+b>d){
-        if(a<b){
-            a = 0;
-            b = b+d;
-        }
-        else{
-            c = a+b;
-        };
-    }
-    else{
-        a = b+c;
-    };
-    d = b+a*c;
-}
-end
-"""
-
-codigo10 = '''
-program test;
-var a,b,c,d : int;
-    f, e : float;
-
-    void suma(a: int, y: int){
-        var res : int;
-        {
-            res = a + y;
-        }
-    }; 
-
-    void resta(uno: int, dos: int){
-        var res : int;
-        {
-            res = uno - dos;
-        }
-    }; 
-main
-{
-    if(a < b){
-        a = b;
-        a = 2;
-        while (a > b) do {
-        print(c);
-        };
-        print("hola", "papa", 1 + 2);
-    } else {
-        b = 1;
-    };
-    print(a);
-    suma(a,b);
-}
-end
-'''
-
-codigo11 = '''
-program test;
-var a,b: int;
-
-    int suma(a: int, y: int){
-        var res : int;
-        {
-            res = a + y;
-            return res;
-        }
-    }; 
-
-    void imprimir(a: int, b:int){
-        {
-            print(suma(a,b));
-        }
-    };
-
-main
-{
-    a = 1;
-    b = 2;
-    imprimir(a,b);
-}
-end
-'''
-codigo12 = '''
-program programa;
-var a, b, c : int;
-
-main
-{
-    a = 5;
-    b = 3;
-
-    print("Valores iniciales:");
-    print(a, b);
-
-    c = a + b;
-    print(c);
-
-    if (c < 10) {
-        print("c es menor que 10");
-    } else {
-        print("c es mayor o igual a 10");
-    };
-
-    while (b < 10) do {
-        b = b + 2;
-        print(b);
-    };
-
-    print("Fin del programa");
-}
-end
-'''
-
-codigo13 = """
-Program prueba;
-var a, b: int;
-
-int suma(x: int, y: int){
-    {
-        return x+y;
-    }
-};
+var a, b, c, d, suma : int;
 
 main {
     a = 3;
-    b = 4;
-    print(suma(a,b) + suma(2,5));
+    b = 7;
+    c = 2;
+    d = 8;
+
+    suma = a + b + c + d;
+
+    print(suma);
 }
 end
+"""
 
+caso2 = """
+Program prueba;
+var x, y : int;
+
+main {
+    x = 1;
+    y = 0;
+
+    while (x < 5) do {
+        y = y + (x * 2);
+        x = x + 1;
+    };
+
+    print(y);
+}
+end
+"""
+
+caso3 = """
+Program prueba;
+var r : int;
+
+int evaluar(x:int){
+    var t : int;
+    {
+        if (x > 10) {
+            return x * 2;
+        }
+        else {
+            t = x + 5;
+            return t;
+        };
+    }
+};
+
+main {
+    r = evaluar(8);
+    print(r);
+}
+end
+"""
+
+caso4 = """
+Program prueba;
+var n, res : int;
+
+int cuenta(x:int){
+    {
+        if (x == 0) {
+            return 0;
+        }
+        else {
+            return cuenta(x - 1);
+        };
+    }
+};
+
+main {
+    n = 4;
+    res = cuenta(n);
+    print(res);
+}
+end
+"""
+
+caso5 = """
+Program prueba;
+var res : int;
+
+int sumaRec(x:int){
+    {
+        if (x < 1) {
+            return 0;
+        }
+        else {
+            return x + sumaRec(x - 1);
+        };
+    }
+};
+
+main {
+    res = sumaRec(5);
+    print(res);
+}
+end
+"""
+
+factorialIterativo = """
+Program prueba;
+var n, res : int;
+
+int factorial(x:int){
+    var i, acc : int;
+    {
+        acc = 1;
+        i = x;
+
+        while (i > 1) do {
+            acc = acc * i;
+            i = i - 1;
+        };
+
+        return acc;
+    }
+};
+
+main {
+    n = 5;
+    res = factorial(n);
+    print(res);
+}
+end
 """
 
 factorialRecursivo = """
@@ -357,6 +196,41 @@ end
 
 """
 
+fibonacciIterativo = """
+Program prueba;
+var n, res : int;
+
+int fib(x:int){
+    var a, b, i, temp : int;
+    {
+        if (x < 2) {
+            return x;
+        };
+
+        a = 0;
+        b = 1;
+        i = 2;
+
+        while (i <= x) do {
+            temp = a + b;
+            a = b;
+            b = temp;
+            i = i + 1;
+        };
+
+        return b;
+    }
+};
+
+main {
+    n = 6;
+    res = fib(n);
+    print(res);
+}
+end
+
+"""
+
 fibonacciRecursivo = """
 Program prueba;
 var n, res: int;
@@ -370,7 +244,7 @@ int fib(x: int){
         else {
             a = x - 1;
             b = x - 2;
-            return fib(a) + fib(b);
+            return fib(x-1) + fib(x-2);
         };
     }
 };
@@ -396,14 +270,12 @@ int resta(x: int){
 
 
 main {
-    y = 3;
-    x = 5;
+    x = -5;
+    y = +(4-x);
     print(resta(x));
 }
 end
 """
 
-
 # Ejecutar pruebas
-for codigo in [negativo_simple]:
-    probar_codigo(codigo)
+probar_codigo(caso1)

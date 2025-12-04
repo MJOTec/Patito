@@ -30,9 +30,8 @@ class GlobalMemory:
         return None
 
 
-# =========================
+
 # LOCAL + TEMP MEMORY (STACK FRAME)
-# =========================
 
 class LocalMemory:
     def __init__(self):
@@ -60,16 +59,14 @@ class LocalMemory:
         return None
 
 
-# =========================
 # MASTER MEMORY MANAGER
-# =========================
 
 class MemoryManager:
     def __init__(self):
         self.global_memory = GlobalMemory()
         self.call_stack = []   # Stack de LocalMemory (1 por función)
 
-    # -------- CONTEXTOS --------
+    #CONTEXTOS 
 
     def push_context(self):
         """Crear memoria local para una nueva función"""
@@ -81,7 +78,7 @@ class MemoryManager:
             raise RuntimeError("No hay contexto local para eliminar")
         self.call_stack.pop()
 
-    # -------- WRITE --------
+    # WRITE 
 
     def write(self, scope, tipo, valor=None):
         if scope in ["local", "temp"]:
@@ -94,23 +91,23 @@ class MemoryManager:
 
         raise ValueError(f"Scope inválido: {scope}")
 
-    # -------- READ --------
+    #READ 
 
     def read(self, direccion):
-        # 1️⃣ intentar leer desde contexto local
+        #intentar leer desde contexto local
         if self.call_stack:
             valor = self.call_stack[-1].read(direccion)
             if valor is not None:
                 return valor
 
-        # 2️⃣ intentar leer desde memoria global/const
+        # intentar leer desde memoria global/const
         valor = self.global_memory.read(direccion)
         if valor is not None:
             return valor
 
         raise ValueError(f"Dirección {direccion} no encontrada")
 
-    # -------- DEBUG --------
+    # DEBUG 
 
     def dump(self):
         print("\n========== GLOBAL MEMORY ==========")

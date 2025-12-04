@@ -3,9 +3,7 @@ from lexer import tokens
 from semantics import DirectorioFunciones, Avail, QuadManager, TablaConstantes
 from cubo_semantico import cubo_semantico
 
-# ----------------------------
 # REGLAS GRAMATICALES
-# ----------------------------
 
 def p_programa(p):
     'programa : PROGRAM create_dir ID fill_dir SEMI var_or_not funcs_or_not main_block END clean_memory'
@@ -41,9 +39,9 @@ def p_fill_dir(p):
 
 def p_clean_memory(p):
     "clean_memory :"
-    p.parser.Quad.show()
-    p.parser.memoria.dump()
-    p.parser.dir_func.dump()
+    #p.parser.Quad.show()
+    #p.parser.memoria.dump()
+    #p.parser.dir_func.dump()
 
     # Cerrar contexto de main si quedó alguno
     if p.parser.memoria.call_stack:
@@ -51,10 +49,6 @@ def p_clean_memory(p):
 
     # exportar objeto
     export_obj(p.parser,"program.obj")
-
-    #exportar objeto
-    export_obj(p.parser,"program.obj")
-
 
 
 
@@ -241,6 +235,8 @@ def p_expresion(p):
 def p_relations_or_not(p):
     '''relations_or_not : GT capture_relation exp check_relation
                         | LT capture_relation exp check_relation
+                        | LE capture_relation exp check_relation
+                        | GE capture_relation exp check_relation
                         | NEQ capture_relation exp check_relation
                         | EQ capture_relation exp check_relation
                         | empty'''
@@ -252,7 +248,7 @@ def p_capture_relation(p):
 
 def p_check_relation(p):
     'check_relation :'
-    if p.parser.Poper and p.parser.Poper[-1] in ['>', '<', '==', '!=']:
+    if p.parser.Poper and p.parser.Poper[-1] in ['>', '<', '==', '!=', '<=', '>=']:
             right_operand = p.parser.PilaO.pop()
             right_type = p.parser.PTypes.pop()
             left_operand = p.parser.PilaO.pop()
@@ -331,30 +327,22 @@ def p_more_factors(p):
 
 def p_factor_type(p):
     '''factor_type : LPAREN begin_paren expresion RPAREN end_paren
-                   | PLUS unary_sign
-                   | MINUS unary_sign
+                   | PLUS factor
+                   | MINUS factor
                    | id_or_cte
                    | llamada'''
-    pass
-
-
-def p_unary_sign(p):
-    'unary_sign : id_or_cte'
-    # El operando ya quedó en PilaO por id_or_cte
-    # Checar si venía un signo negativo justo antes (p[-1] == '-')
-    if p[-1] == '-':
+    # Caso: MINUS factor  (unario)
+    if p[1] == '-':
         val = p.parser.PilaO.pop()
-        tipo_val = p.parser.PTypes.pop()
+        tipo = p.parser.PTypes.pop()
 
-        # TEMPORAL del MISMO TIPO
-        temp = p.parser.temp_list.next(tipo_val)
-
-        # Generar cuadruplo de negación unaria
+        temp = p.parser.temp_list.next(tipo)
         p.parser.Quad.generate("NEG", val, None, temp)
 
-        # Push temporal ya negado a la pila
+        # Push del resultado negado
         p.parser.PilaO.append(temp)
-        p.parser.PTypes.append(tipo_val)
+        p.parser.PTypes.append(tipo)
+
 
 def p_begin_paren(p):
     'begin_paren :'
@@ -520,13 +508,13 @@ def p_mark_if(p):
     if exp_type != "bool":
         raise TypeError("Type mismatch: IF condition must be bool")
 
-    # 2. Sacar el resultado de la expresión
+    # Sacar el resultado de la expresión
     result = p.parser.PilaO.pop()
 
-    # 3. Crear GotoF <expr>, _, ?
+    # Crear GotoF <expr>, _, ?
     p.parser.Quad.generate("GoToF", result, None, None)
 
-    # 4. Guardar el índice del cuádruplo pendiente
+    # Guardar el índice del cuádruplo pendiente
     p.parser.PJumps.append(p.parser.Quad.counter - 1)
 
 
@@ -634,7 +622,7 @@ def export_obj(parser, filename):
             "dir_retorno": f["dir_retorno"],
             "cuadruplo_inicio": f["cuadruplo_inicio"],
             "parametros": f["parametros"],
-            "variables": f["tabla_variables"].variables  # ← SERIALLIZABLE
+            "variables": f["tabla_variables"].variables  
         }
 
     import json

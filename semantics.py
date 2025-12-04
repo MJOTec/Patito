@@ -1,4 +1,4 @@
-# --- Tabla de Variables ---
+#Tabla de Variables 
 class TablaVariables:
     def __init__(self, memory_manager, scope):
         self.variables = {}
@@ -92,7 +92,7 @@ class DirectorioFunciones:
             print(f"  Dirección retorno: {funcion['dir_retorno']}")
             print(f"  Cuádruplo inicio: {funcion['cuadruplo_inicio']}")
 
-            # ------ Parámetros ------
+            #  Parámetros 
             print("  Parámetros:")
             if not funcion["parametros"]:
                 print("    (ninguno)")
@@ -100,7 +100,7 @@ class DirectorioFunciones:
                 for i, p in enumerate(funcion["parametros"]):
                     print(f"    {i}: {funcion["parametros"][i]}")
 
-            # ------ Variables ------
+            #  Variables 
             print("  Variables:")
             tabla_vars = funcion.get("tabla_variables")
 
@@ -123,7 +123,7 @@ class Avail:
     def next(self, tipo):
         """Devuelve la dirección virtual para un temporal de tipo dado."""
         # Esto va a fallar si NO hay contexto local activo,
-        # por eso hicimos push_context() en funciones y en main.
+        # por eso se hace push_context() en funciones y en main.
         return self.memory.write("temp", tipo, None)
     
     def dump(self):

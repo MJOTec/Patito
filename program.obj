@@ -6,27 +6,25 @@
             "cuadruplo_inicio": null,
             "parametros": [],
             "variables": {
-                "x": {
+                "a": {
                     "tipo": "int",
                     "direccion": 1000
                 },
-                "y": {
+                "b": {
                     "tipo": "int",
                     "direccion": 1001
-                }
-            }
-        },
-        "resta": {
-            "tipo_retorno": "int",
-            "dir_retorno": 1002,
-            "cuadruplo_inicio": 1,
-            "parametros": [
-                "int"
-            ],
-            "variables": {
-                "x": {
+                },
+                "c": {
                     "tipo": "int",
-                    "direccion": 3000
+                    "direccion": 1002
+                },
+                "d": {
+                    "tipo": "int",
+                    "direccion": 1003
+                },
+                "suma": {
+                    "tipo": "int",
+                    "direccion": 1004
                 }
             }
         }
@@ -36,9 +34,17 @@
             "tipo": "int",
             "direccion": 8000
         },
-        "5": {
+        "7": {
             "tipo": "int",
             "direccion": 8001
+        },
+        "2": {
+            "tipo": "int",
+            "direccion": 8002
+        },
+        "8": {
+            "tipo": "int",
+            "direccion": 8003
         }
     },
     "cuadruplos": [
@@ -46,67 +52,61 @@
             "GoTo",
             null,
             null,
-            4
-        ],
-        [
-            "-",
-            3000,
-            1001,
-            5000
-        ],
-        [
-            "RETURN",
-            5000,
-            null,
-            1002
-        ],
-        [
-            "EndFunc",
-            null,
-            null,
-            null
+            1
         ],
         [
             "=",
             8000,
             null,
-            1001
+            1000
         ],
         [
             "=",
             8001,
             null,
-            1000
-        ],
-        [
-            "Era",
-            null,
-            null,
-            "resta"
-        ],
-        [
-            "PARAM",
-            1000,
-            null,
-            3000
-        ],
-        [
-            "GOSUB",
-            "resta",
-            null,
-            1
+            1001
         ],
         [
             "=",
-            1002,
+            8002,
             null,
+            1002
+        ],
+        [
+            "=",
+            8003,
+            null,
+            1003
+        ],
+        [
+            "+",
+            1000,
+            1001,
             5000
+        ],
+        [
+            "+",
+            5000,
+            1002,
+            5001
+        ],
+        [
+            "+",
+            5001,
+            1003,
+            5002
+        ],
+        [
+            "=",
+            5002,
+            null,
+            1004
         ],
         [
             "PRINT",
             null,
             null,
-            5000
+            1004
         ]
     ]
 }

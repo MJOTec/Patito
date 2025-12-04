@@ -55,16 +55,16 @@ class VM:
         while self.ip < len(self.quadruples):
             op, left, right, result = self.quadruples[self.ip]
 
-            # === ERA ===
+            # ERA 
             if op == "Era":
                 self.pending_ar = ActivationRecord()
 
-            # === PARAM ===
+            # PARAM 
             elif op == "PARAM":
                 val = self.get(left)
                 self.pending_ar.memory[result] = val
 
-            # === GOSUB ===
+            # GOSUB 
             elif op == "GOSUB":
                 self.return_ips.append(self.ip + 1)
                 self.call_stack.append(self.pending_ar)
@@ -72,14 +72,14 @@ class VM:
                 self.ip = result
                 continue
 
-            # === RETURN ===
+            # RETURN 
             elif op == "RETURN":
                 val = self.get(left)
                 self.global_memory[result] = val
                 self.ip += 1
                 continue
 
-            # === EndFunc ===
+            # EndFunc 
             elif op == "EndFunc":
                 self.call_stack.pop()
                 if not self.return_ips:
@@ -87,15 +87,15 @@ class VM:
                 self.ip = self.return_ips.pop()
                 continue
 
-            # === ASIGNACIÓN ===
+            # ASIGNACIÓN 
             elif op == "=":
                 self.set(result, self.get(left))
 
-            # === NEGACIÓN ===
+            #  NEGACIÓN 
             elif op == "NEG":
                 self.set(result, -self.get(left))
 
-            # === ARITMÉTICAS ===
+            #  ARITMÉTICAS 
             elif op == "+":
                 self.set(result, self.get(left) + self.get(right))
             elif op == "-":
@@ -105,7 +105,7 @@ class VM:
             elif op == "/":
                 self.set(result, self.get(left) / self.get(right))
 
-            # === RELACIONALES ===
+            # RELACIONALES 
             elif op == "<":
                 self.set(result, self.get(left) < self.get(right))
             elif op == ">":
@@ -114,8 +114,14 @@ class VM:
                 self.set(result, self.get(left) == self.get(right))
             elif op == "!=":
                 self.set(result, self.get(left) != self.get(right))
+            elif op == "<=":
+                self.set(result, self.get(left) <= self.get(right))
+            elif op == ">=":
+                self.set(result, self.get(left) >= self.get(right))
+          
+            
 
-            # === SALTOS ===
+            # SALTOS
             elif op == "GoTo":
                 self.ip = result
                 continue
@@ -125,7 +131,7 @@ class VM:
                     self.ip = result
                     continue
 
-            # === PRINT ===
+            # PRINT
             elif op == "PRINT":
                 val = self.get(result)
                 print(val)
